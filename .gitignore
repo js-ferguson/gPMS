@@ -3,6 +3,8 @@
 __pycache__/
 venv
 .vscode
+*.#*
+todo.org
 env.py
 #static/
 #media/
