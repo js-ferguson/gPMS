@@ -1,0 +1,48 @@
+body {
+  background-color: #514c34;
+  color: #fafafa;
+}
+
+.navbar {
+  background-color: #524f35;
+}
+
+.private-business {
+    width: 100%;
+    margin: auto;
+    margin-top: 20px;
+    background-image: url(../images/goanna.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+    height: 800px;
+}
+
+@mixin jumbo-button {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 50%;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-jb {
+    @include jumbo-button;
+    top: 40%;
+}
+
+.register-jb {
+    @include jumbo-button;
+    top: 60%;
+}

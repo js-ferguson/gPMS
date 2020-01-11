@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-01-10 Fri 08:38 -->
+<!-- 2020-01-10 Fri 21:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Goanna Patient Management System: Application Architecture</title>
@@ -247,40 +247,40 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgfb0b69e">1. Introduction</a></li>
-<li><a href="#org01560ec">2. Front-end</a>
+<li><a href="#orga92ae34">1. Introduction</a></li>
+<li><a href="#orgdd132c8">2. Front-end</a>
 <ul>
-<li><a href="#org5a518db">2.1. Welcome</a></li>
-<li><a href="#org9a5ad9e">2.2. Patients</a></li>
-<li><a href="#orgb805566">2.3. Practitioners</a></li>
+<li><a href="#orgd4e3c83">2.1. Welcome</a></li>
+<li><a href="#org47e9347">2.2. Patients</a></li>
+<li><a href="#orgfcaefc9">2.3. Practitioners</a></li>
 </ul>
 </li>
-<li><a href="#org9a68c55">3. Middleware</a>
+<li><a href="#orgcd889dc">3. Middleware</a>
 <ul>
-<li><a href="#orga5bfae2">3.1. Django applications</a>
+<li><a href="#orga03ff98">3.1. Django applications</a>
 <ul>
-<li><a href="#orga813266">3.1.1. Auth</a></li>
-<li><a href="#orgd706789">3.1.2. Accounts</a></li>
-<li><a href="#orgb14baa3">3.1.3. Clinics</a></li>
-<li><a href="#org071c7ca">3.1.4. Contacts</a></li>
-<li><a href="#orgcf04595">3.1.5. Scheduler</a></li>
-<li><a href="#org5ee5a59">3.1.6. Log</a></li>
-<li><a href="#orgea7730f">3.1.7. Welcome</a></li>
+<li><a href="#orge7752e3">3.1.1. django_auth</a></li>
+<li><a href="#org254e59b">3.1.2. accounts</a></li>
+<li><a href="#orgbf6eb69">3.1.3. Clinics</a></li>
+<li><a href="#orgd254184">3.1.4. Contacts</a></li>
+<li><a href="#orga331dc7">3.1.5. Scheduler</a></li>
+<li><a href="#orgda83d92">3.1.6. Log</a></li>
+<li><a href="#org46c5cc6">3.1.7. Welcome</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org30f335c">4. Back-end</a>
+<li><a href="#orgb45bb9c">4. Back-end</a>
 <ul>
-<li><a href="#orgaa588dd">4.1. Models</a></li>
+<li><a href="#orgf13d79d">4.1. Models</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfb0b69e" class="outline-2">
-<h2 id="orgfb0b69e"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orga92ae34" class="outline-2">
+<h2 id="orga92ae34"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The Goanna patient management system (gPMS) is an open source patient management system 
@@ -317,12 +317,12 @@ users of the site will be refered to as patients.
 </div>
 </div>
 
-<div id="outline-container-org01560ec" class="outline-2">
-<h2 id="org01560ec"><span class="section-number-2">2</span> Front-end</h2>
+<div id="outline-container-orgdd132c8" class="outline-2">
+<h2 id="orgdd132c8"><span class="section-number-2">2</span> Front-end</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org5a518db" class="outline-3">
-<h3 id="org5a518db"><span class="section-number-3">2.1</span> Welcome</h3>
+<div id="outline-container-orgd4e3c83" class="outline-3">
+<h3 id="orgd4e3c83"><span class="section-number-3">2.1</span> Welcome</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 when first encountering the site, a prospective user will find themselves at a landing page that describes the
@@ -343,8 +343,8 @@ their clinic. This is the clinic form
 </div>
 </div>
 
-<div id="outline-container-org9a5ad9e" class="outline-3">
-<h3 id="org9a5ad9e"><span class="section-number-3">2.2</span> Patients</h3>
+<div id="outline-container-org47e9347" class="outline-3">
+<h3 id="org47e9347"><span class="section-number-3">2.2</span> Patients</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Once registerd and logged in, a patient will automatically be directed to a page with a google map that shows
@@ -355,8 +355,8 @@ clinics they have visited in the past.
 </div>
 </div>
 
-<div id="outline-container-orgb805566" class="outline-3">
-<h3 id="orgb805566"><span class="section-number-3">2.3</span> Practitioners</h3>
+<div id="outline-container-orgfcaefc9" class="outline-3">
+<h3 id="orgfcaefc9"><span class="section-number-3">2.3</span> Practitioners</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 After registering their clinic, a practitioner will automatically be directed to their calendar view. This is
@@ -373,26 +373,130 @@ becomes available in the practitioners patient directory.
 </div>
 </div>
 
-<div id="outline-container-org9a68c55" class="outline-2">
-<h2 id="org9a68c55"><span class="section-number-2">3</span> Middleware</h2>
+<div id="outline-container-orgcd889dc" class="outline-2">
+<h2 id="orgcd889dc"><span class="section-number-2">3</span> Middleware</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orga5bfae2" class="outline-3">
-<h3 id="orga5bfae2"><span class="section-number-3">3.1</span> Django applications</h3>
+<div id="outline-container-orga03ff98" class="outline-3">
+<h3 id="orga03ff98"><span class="section-number-3">3.1</span> Django applications</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-orga813266" class="outline-4">
-<h4 id="orga813266"><span class="section-number-4">3.1.1</span> Auth</h4>
+<div id="outline-container-orge7752e3" class="outline-4">
+<h4 id="orge7752e3"><span class="section-number-4">3.1.1</span> django_auth</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
 This app is responsible for creation and authentication of users. It contains a custom user model that
-inherits from AbstractUser and contains models specific to authentication
+inherits from AbstractBaseUser as well as a custom user manager that inherits from BaseUserManager.
 </p>
 </div>
+
+<ol class="org-ol">
+<li><a id="org75139ca"></a>class CustomUserManager<br />
+<div class="outline-text-5" id="text-3-1-1-1">
+<p>
+Provides methods to manage user creation both in the admin panel and on the command line with 
+createsuperuser
+</p>
 </div>
 
-<div id="outline-container-orgd706789" class="outline-4">
-<h4 id="orgd706789"><span class="section-number-4">3.1.2</span> Accounts</h4>
+<ol class="org-ol">
+<li><a id="org43970c9"></a>Class Methods<br />
+<div class="outline-text-6" id="text-3-1-1-1-1">
+<p>
+create_user(self, email, password=None, is_active=True,
+           is_practitioner=False, is_admin=False, is_staff=False):
+</p>
+<ul class="org-ul">
+<li>Creates a user from the from the model defined in the class CustomUser.</li>
+</ul>
+
+<p>
+create_practitioner(self, email, password=None):
+</p>
+<ul class="org-ul">
+<li>Creates a user with the boolean is_practitioner set to True.</li>
+</ul>
+
+<p>
+create_superuser(self, email, password=None):
+</p>
+<ul class="org-ul">
+<li>Called by createsuperuser command line tool.</li>
+</ul>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org89e1ae4"></a>class CustomUser<br />
+<div class="outline-text-5" id="text-3-1-1-2">
+<p>
+Defines the custom user model used for authentication. The model is intentionally sparse, leaving 
+most user information to be handled by accounts models.
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org08da486"></a>Class Methods<br />
+<div class="outline-text-6" id="text-3-1-1-2-1">
+<p>
+__str__(self):
+</p>
+
+<ul class="org-ul">
+<li>Returns the users email address</li>
+</ul>
+
+<p>
+get_full_name(self):
+</p>
+
+<ul class="org-ul">
+<li>Returns the users full name</li>
+</ul>
+
+<p>
+get_short_name(self):
+</p>
+
+<ul class="org-ul">
+<li>Returns the users first name</li>
+</ul>
+
+<p>
+has_perm(self, perm, obj=None):
+</p>
+
+<ul class="org-ul">
+<li>Returns True if the user has the specified permission, where perm is in the format "&lt;app label&gt;.</li>
+</ul>
+<p>
+&lt;permission codename&gt;". (see documentation on permissions). If the user is inactive, this method 
+will always return False. For an active superuser, this method will always return True.
+If obj is passed in, this method won’t check for a permission for the model, but for this specific 
+object.
+</p>
+
+<p>
+has_module_perms(self, app_label):
+</p>
+
+<ul class="org-ul">
+<li>Returns True if the user has any permissions in the given package (the Django app label).</li>
+</ul>
+<p>
+If the user is inactive, this method will always return False. For an active superuser, this 
+method will always return True.
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org254e59b" class="outline-4">
+<h4 id="org254e59b"><span class="section-number-4">3.1.2</span> accounts</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 This app is responsible for taking data from the personal information forms and contains models with relation
@@ -401,8 +505,8 @@ field to the Auth models and clinic models
 </div>
 </div>
 
-<div id="outline-container-orgb14baa3" class="outline-4">
-<h4 id="orgb14baa3"><span class="section-number-4">3.1.3</span> Clinics</h4>
+<div id="outline-container-orgbf6eb69" class="outline-4">
+<h4 id="orgbf6eb69"><span class="section-number-4">3.1.3</span> Clinics</h4>
 <div class="outline-text-4" id="text-3-1-3">
 <p>
 This app is responsible for clinic management, including avalabile modalites, opening times, location,
@@ -412,8 +516,8 @@ models containing relevant clinic information and has relationships with both Au
 </div>
 </div>
 
-<div id="outline-container-org071c7ca" class="outline-4">
-<h4 id="org071c7ca"><span class="section-number-4">3.1.4</span> Contacts</h4>
+<div id="outline-container-orgd254184" class="outline-4">
+<h4 id="orgd254184"><span class="section-number-4">3.1.4</span> Contacts</h4>
 <div class="outline-text-4" id="text-3-1-4">
 <p>
 This is an app that handles patient contact information. It allows the practitioner to update a patients
@@ -422,8 +526,8 @@ details, add private notes, red flags etc.
 </div>
 </div>
 
-<div id="outline-container-orgcf04595" class="outline-4">
-<h4 id="orgcf04595"><span class="section-number-4">3.1.5</span> Scheduler</h4>
+<div id="outline-container-orga331dc7" class="outline-4">
+<h4 id="orga331dc7"><span class="section-number-4">3.1.5</span> Scheduler</h4>
 <div class="outline-text-4" id="text-3-1-5">
 <p>
 This is the calendaring app that gives a practitioner an overview of their schedule and allows them to
@@ -433,8 +537,8 @@ It contains it's own models with relationships to accounts and clinics.
 </div>
 </div>
 
-<div id="outline-container-org5ee5a59" class="outline-4">
-<h4 id="org5ee5a59"><span class="section-number-4">3.1.6</span> Log</h4>
+<div id="outline-container-orgda83d92" class="outline-4">
+<h4 id="orgda83d92"><span class="section-number-4">3.1.6</span> Log</h4>
 <div class="outline-text-4" id="text-3-1-6">
 <p>
 This is a log of appointments with timestamps tagged with the name of the user that created them.
@@ -442,8 +546,8 @@ This is a log of appointments with timestamps tagged with the name of the user t
 </div>
 </div>
 
-<div id="outline-container-orgea7730f" class="outline-4">
-<h4 id="orgea7730f"><span class="section-number-4">3.1.7</span> Welcome</h4>
+<div id="outline-container-org46c5cc6" class="outline-4">
+<h4 id="org46c5cc6"><span class="section-number-4">3.1.7</span> Welcome</h4>
 <div class="outline-text-4" id="text-3-1-7">
 <p>
 This app is responsible for providing the landing page and sign up forms.
@@ -453,18 +557,18 @@ This app is responsible for providing the landing page and sign up forms.
 </div>
 </div>
 
-<div id="outline-container-org30f335c" class="outline-2">
-<h2 id="org30f335c"><span class="section-number-2">4</span> Back-end</h2>
+<div id="outline-container-orgb45bb9c" class="outline-2">
+<h2 id="orgb45bb9c"><span class="section-number-2">4</span> Back-end</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgaa588dd" class="outline-3">
-<h3 id="orgaa588dd"><span class="section-number-3">4.1</span> Models</h3>
+<div id="outline-container-orgf13d79d" class="outline-3">
+<h3 id="orgf13d79d"><span class="section-number-3">4.1</span> Models</h3>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: James Ferguson</p>
-<p class="date">Created: 2020-01-10 Fri 08:38</p>
+<p class="date">Created: 2020-01-10 Fri 21:15</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

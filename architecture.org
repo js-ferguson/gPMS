@@ -1,4 +1,5 @@
 
+#+OPTIONS: ^:nil
 #+TITLE: The Goanna Patient Management System:
 #+TITLE: Application Architecture
 #+AUTHOR: James Ferguson 
@@ -24,7 +25,7 @@ users of the site will be refered to as patients.
 
 * Front-end 
 
-** Welcome
+** Home
 
 when first encountering the site, a prospective user will find themselves at a landing page that describes the
 service, it's main features and offers a sign up form. This is the registration form
@@ -58,11 +59,59 @@ becomes available in the practitioners patient directory.
 
 ** Django applications
 
-*** Auth  
+*** django_auth  
     This app is responsible for creation and authentication of users. It contains a custom user model that
-    inherits from AbstractUser and contains models specific to authentication
+    inherits from AbstractBaseUser as well as a custom user manager that inherits from BaseUserManager.
+    
+**** class CustomUserManager
+     Provides methods to manage user creation both in the admin panel and on the command line with 
+     createsuperuser
 
-*** Accounts
+***** Class Methods     
+      
+         create_user(self, email, password=None, is_active=True,
+                    is_practitioner=False, is_admin=False, is_staff=False):
+         - Creates a user from the from the model defined in the class CustomUser. 
+
+         create_practitioner(self, email, password=None):
+         - Creates a user with the boolean is_practitioner set to True.
+
+         create_superuser(self, email, password=None):
+         - Called by createsuperuser command line tool.
+
+**** class CustomUser
+     Defines the custom user model used for authentication. The model is intentionally sparse, leaving 
+     most user information to be handled by accounts models.
+
+***** Class Methods
+      
+         __str__(self):
+
+         - Returns the users email address
+
+         get_full_name(self):
+
+         - Returns the users full name
+
+         get_short_name(self):
+
+         - Returns the users first name
+
+         has_perm(self, perm, obj=None):
+
+         - Returns True if the user has the specified permission, where perm is in the format "<app label>.
+         <permission codename>". (see documentation on permissions). If the user is inactive, this method 
+         will always return False. For an active superuser, this method will always return True.
+         If obj is passed in, this method won’t check for a permission for the model, but for this specific 
+         object.
+         
+         has_module_perms(self, app_label):
+         
+         - Returns True if the user has any permissions in the given package (the Django app label).
+         If the user is inactive, this method will always return False. For an active superuser, this 
+         method will always return True.
+     
+*** accounts
     This app is responsible for taking data from the personal information forms and contains models with relation
     field to the Auth models and clinic models
 
