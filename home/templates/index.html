@@ -1,32 +1,23 @@
 <script src="static/js/home.js"></script>
 
 {% extends 'base.html' %}
-
+{% load static %}
+{% load bootstrap_tags %}
 {% block content %}
 
 <div class="row">
-    <div class="product-description">
-        <p>This is a product description</p>
+    <div class="private-business">
+        <div class="form">
+            <form>
+                <fieldset class="form-group">
+                    <legend>Sign up now!</legend>
+                    {% csrf_token %}
+                    {{ form | as_bootstrap}}
+                    <button type="submit" class="btn btn-primary">Create account</button>
+                </fieldset>
+            </form>
+        </div>
     </div>
-    <div class="private-business"></div>
-    
-    <a href="{% url 'login' %}">
-        <div class="login-jb">
-    <h1>Log in</h1>
-  <p>To book a time</p>
-</div>
-
-<a href="{% url 'register' %}">
-        <div class="register-jb">
-    <h1>Register</h1>
-  <p>Practitioner / Regular user</p>
-</div>
-
-
-<!--   <div class="register-jb">
-    <a href="{% url 'register' %}"><h1>Register</h1></a>
-    <p>Practitioner / Regular user</p>
-    </div> -->
 </div>
 {% endblock %}
 

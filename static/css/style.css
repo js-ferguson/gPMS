@@ -17,7 +17,7 @@ body {
   -webkit-filter: blur(8px);
   height: 800px; }
 
-.login-jb {
+.form {
   background-color: black;
   /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
@@ -33,7 +33,7 @@ body {
   width: 50%;
   padding: 20px;
   text-align: center;
-  top: 40%; }
+  top: 55%; }
 
 .register-jb {
   background-color: black;

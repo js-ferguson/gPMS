@@ -10,7 +10,7 @@ class CustomUserManager(BaseUserManager):
         if not password:
             raise ValueError("You must provide a password")
 
-        email=self.normalize_email(email)
+        email = self.normalize_email(email)
         user_obj = self.model(email=email)
         user_obj.set_password(password)
         user_obj.practitioner = is_practitioner
@@ -47,7 +47,6 @@ class CustomUser(AbstractBaseUser):
     admin = models.BooleanField(default=False)  # superuser
     staff = models.BooleanField(default=False)  # staff
     timestamp = models.DateTimeField(auto_now_add=True)
-    
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

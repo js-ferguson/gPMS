@@ -12,19 +12,21 @@ User = get_user_model()
 #     class Meta:
 #         model = User
 
+
 class UserAdminCreationForm(forms.ModelForm):
     """
     Admin form to allow creating new users
     """
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password Confirmation',
+                                widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ('email',)
 
     def clean_password2(self):
-        #Test that passwords match
+        # Test that passwords match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -32,7 +34,7 @@ class UserAdminCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        #Hash the password and save it
+        # Hash the password and save it
         user = super(UserAdminCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -49,7 +51,8 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'active', 'admin', 'superuser', 'practitioner',)
+        fields = ('email', 'password', 'active',
+                  'admin', 'practitioner',)
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -79,16 +82,12 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'password1', 'password2')}
-        ),
+         ),
     )
+
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
-    
+
 
 admin.site.register(User, UserAdmin)
-
-
-
-
-
