@@ -10,15 +10,27 @@ class CustomUserManager(BaseUserManager):
         if not password:
             raise ValueError("You must provide a password")
 
-        email = self.normalize_email(email)
-        user_obj = self.model(email=email)
-        user_obj.set_password(password)
-        user_obj.practitioner = is_practitioner
-        user_obj.admin = is_admin
-        user_obj.active = is_active
-        user_obj.staff = is_staff
-        user_obj.save(using=self._db)
-        return user_obj
+        user = self.model(
+            email=self.normalize_email(email),
+            practitioner=is_practitioner,
+            admin=is_admin,
+            staff=is_staff,
+            active=is_active,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+        # email = self.normalize_email(email)
+        # user_obj = self.model(email=email)
+        # user_obj.set_password(password)
+        # user_obj.practitioner = is_practitioner
+        # user_obj.admin = is_admin
+        # user_obj.active = is_active
+        # user_obj.staff = is_staff
+        # user_obj.save(using=self._db)
+        # return user_obj
 
     def create_practitioner(self, email, password=None):
         user = self.create_user(
@@ -40,6 +52,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
+    password2 = models.CharField(max_length=128)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     active = models.BooleanField(default=True)  # Able to login
