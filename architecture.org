@@ -118,7 +118,8 @@ becomes available in the practitioners patient directory.
 *** Clinics
     This app is responsible for clinic management, including avalabile modalites, opening times, location,
     clinic contact details. This information is initially provided by the clinic registration form. It includes
-    models containing relevant clinic information and has relationships with both Auth and Accounts models.
+    models containing relevant clinic information and has relationships with both CustomUser and Profile models.
+    Clinic is also responsible for providing a public listing of registered clinics with a profile on their practitioner.
 
 *** Contacts
     This is an app that handles patient contact information. It allows the practitioner to update a patients
