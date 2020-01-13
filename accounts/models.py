@@ -9,14 +9,17 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
     phone = PhoneNumberField()
-    email = models.EmailField()
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     consent = models.BooleanField()
+
+    def __str__(self):
+        return self.user.email
+
+    def save(self):
+        super().save()
 
 
 # @receiver(post_save, sender=User)

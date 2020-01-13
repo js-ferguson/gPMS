@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+{% block content %}
+<p>This is some user information
+    <ul>
+        <li>{{ user.email }}</li>
+        <li>{{ user.profile.phone }}</li>
+    </ul>
+
+</p>
+<form method="post" action="{% url 'create_profile' %}" class="accountform">
+    <fieldset class="form-group">
+    </fieldset>
+</form>
+{% endblock %}

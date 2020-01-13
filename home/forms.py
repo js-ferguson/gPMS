@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth import get_user_model
-#from django_auth.forms import 
+
 
 User = get_user_model()
 
@@ -14,9 +14,10 @@ class SignUpForm(ModelForm):
     password2 = forms.CharField(label='Password Confirmation',
                                 widget=forms.PasswordInput)
     first_name = forms.CharField(label='First Name', required=True)
-    last_name = forms.CharField(label='Last Name', required = True)
-    practitioner = forms.BooleanField(label='Are you signing up as a practitioner?')
-    
+    last_name = forms.CharField(label='Last Name', required=True)
+    practitioner = forms.BooleanField(
+        label='Are you signing up as a practitioner?',
+        required=False)
 
     class Meta:
         model = User

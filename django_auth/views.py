@@ -1,10 +1,31 @@
-from django.shortcuts import render
-from . import forms
+from django.shortcuts import redirect, reverse, render
+from django.contrib import auth, messages
+from .forms import UserLoginForm
+
+
+def logout(request):
+    """Log the user out"""
+    auth.logout(request)
+    messages.success(request, "You have been logged out")
+    return redirect(reverse('index'))
+
 
 def login(request):
-    return render(request, "login.html")
+    """Provide a login page"""
+    if request.method == 'POST':
+        login_form = UserLoginForm(request.POST)
 
-def register(request):
-    form = forms.SignUpForm
-    return render(request, "register.html", {"form": form})
-
+        if login_form.is_valid():
+            user = auth.authenticate(username=request.POST['email'],
+                                     password=request.POST['password'])
+            if user:
+                auth.login(user=user, request=request)
+                messages.success(request, 'You have been logged in')
+                return redirect('/profile/')
+            
+            else:
+                login_form.add_error(None,
+                "Your email address or password in incorrect")
+    else:
+        login_form = UserLoginForm()
+    return render(request, 'login.html', {'login_form': login_form})
