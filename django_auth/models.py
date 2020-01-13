@@ -22,15 +22,6 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-        # email = self.normalize_email(email)
-        # user_obj = self.model(email=email)
-        # user_obj.set_password(password)
-        # user_obj.practitioner = is_practitioner
-        # user_obj.admin = is_admin
-        # user_obj.active = is_active
-        # user_obj.staff = is_staff
-        # user_obj.save(using=self._db)
-        # return user_obj
 
     def create_practitioner(self, email, password=None):
         user = self.create_user(

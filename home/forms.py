@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.forms import ModelForm
 from django.contrib.auth import get_user_model
 #from django_auth.forms import 
@@ -7,27 +6,21 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-#class SignUpForm(ModelForm):
-
-#    password2 = forms.CharField(label='Confirm password', max_length=128,
-#                                widget=forms.PasswordInput())
-
-#    class Meta:
-#        model = User
-#        fields = ['first_name', 'last_name', 'email', 'password', 'password2',
-#                  'practitioner', ]
-
-class SignUpForm(forms.ModelForm):
+class SignUpForm(ModelForm):
     """
     Form to allow creating new users
     """
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password Confirmation',
                                 widget=forms.PasswordInput)
+    first_name = forms.CharField(label='First Name', required=True)
+    last_name = forms.CharField(label='Last Name', required = True)
+    practitioner = forms.BooleanField(label='Are you signing up as a practitioner?')
+    
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('first_name', 'last_name', 'email', 'practitioner')
 
     def clean_password2(self):
         # Test that passwords match
