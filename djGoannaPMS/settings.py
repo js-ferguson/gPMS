@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_auth',
     'home',
     'accounts',
+    'clinic',
     'phonenumber_field',
 ]
 

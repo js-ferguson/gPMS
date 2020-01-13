@@ -7,7 +7,8 @@ User = get_user_model()
 
 class Clinic(models.Model):
     practitioner = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128, required=True)
+    name = models.CharField(max_length=128, )
     phone = PhoneNumberField()
-    street = models.CharField(max_length=128, required=True)
-    city = models.CharField(max_length=128, required=True)
+    description = models.TextField(max_length=5000)
+    street = models.CharField(max_length=128, )
+    city = models.CharField(max_length=128, )

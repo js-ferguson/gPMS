@@ -9,6 +9,7 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    mods = models.ManyToManyField('Modalities')
     phone = PhoneNumberField()
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
@@ -20,6 +21,15 @@ class Profile(models.Model):
 
     def save(self):
         super().save()
+
+
+class Modalities(models.Model):
+    name = models.CharField(max_length=100)
+
+
+
+
+
 
 
 # @receiver(post_save, sender=User)
