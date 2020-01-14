@@ -3,8 +3,22 @@
 {% block content %}
 <p>This is some user information
     <ul>
-        <li>{{ user.email }}</li>
-        <li>{{ user.profile.phone }}</li>
+        <h2>{{ user.get_full_name }}</h2>
+        <p>{{ user.email }}</p>
+        <h3>Bio</h3>
+        <p>{{ user.profile.bio }}</p>
+        <h3>Available Therapies</h3>
+        {% for mod in mods %}
+        <div class="profile-mods">
+        <li>{{ mod }}</li>
+        </div>
+        {% endfor %}
+        <h3>Clinic Details</h3>
+        <h4>{{ user.clinic.name }}</h4>
+        <p>{{ user.clinic.description }}<p>
+        <p>{{ user.clinic.phone }}</p>
+        <p>{{ user.clinic.street }}</p>
+        <p>{{ user.clinic.city }}</p>
     </ul>
 
 </p>

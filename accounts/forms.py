@@ -10,4 +10,4 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('phone', 'personnummer', 'street', 'city', 'consent', )
+        fields = ('bio', 'mods', 'phone', 'personnummer', 'street', 'city', 'consent', )

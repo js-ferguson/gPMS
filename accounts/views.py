@@ -8,10 +8,19 @@ User = get_user_model()
 
 def profile(request):
     user = User.objects.get(email=request.user.email)
-    return render(request, 'profile.html', {'user': user})
+    mods = user.profile.mods
+    print(user.is_practitioner)
+
+    mod_list = []
+    for word in mods.split():
+        mod_list.append(word)
+    print(mod_list)
+
+    return render(request, 'profile.html', {'user': user, 'mods': mod_list})
 
 
 def create_profile(request):
+    user = User.objects.get(email=request.user.email)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -19,6 +28,10 @@ def create_profile(request):
             profile.user = request.user
 
             profile.save()
+            if user.is_practitioner:
+                messages.success(request, f'Now register your clinic')            
+                return redirect(reverse('register_clinic'))
+            
             messages.success(request, f'Thank you for updating your details')
             return redirect(reverse('profile'))
 

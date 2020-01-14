@@ -12,3 +12,10 @@ class Clinic(models.Model):
     description = models.TextField(max_length=5000)
     street = models.CharField(max_length=128, )
     city = models.CharField(max_length=128, )
+
+    def __str__(self):
+        return self.name
+
+    def save(self):
+        super().save()
+

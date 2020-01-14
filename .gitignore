@@ -6,6 +6,7 @@ venv
 *.#*
 todo.org
 env.py
-#static/
+static/.sass-cache
 #media/
 #*.png
+*.map

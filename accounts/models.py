@@ -9,7 +9,8 @@ User = get_user_model()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    mods = models.ManyToManyField('Modalities')
+    bio = models.TextField(max_length=5000)
+    mods = models.CharField(max_length=500)
     phone = PhoneNumberField()
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
@@ -19,13 +20,16 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+    def get_owner(self):
+        return self.user.name
+
     def save(self):
         super().save()
 
 
 class Modalities(models.Model):
-    name = models.CharField(max_length=100)
-
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='modalities')
+    mods = models.CharField(max_length=500)
 
 
 
