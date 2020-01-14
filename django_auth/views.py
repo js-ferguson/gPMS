@@ -21,6 +21,8 @@ def login(request):
             if user:
                 auth.login(user=user, request=request)
                 messages.success(request, 'You have been logged in')
+                if user.is_admin:
+                    return redirect('/admin/')
                 return redirect('/profile/')
             
             else:
