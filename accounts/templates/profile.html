@@ -8,12 +8,12 @@
         <h3>Bio</h3>
         <p>{{ user.profile.bio }}</p>
         <h3>Available Therapies</h3>
-        {% for mod in mods %}
         <div class="profile-mods">
-        <li>{{ mod }}</li>
+            {% for mod in mods %}
+            <li>{{ mod.name }}</li>
+            {% endfor %}
         </div>
-        {% endfor %}
-        <h3>Clinic Details</h3>
+        <h3>Clinics Detail</h3>
         <h4>{{ user.clinic.name }}</h4>
         <p>{{ user.clinic.description }}<p>
         <p>{{ user.clinic.phone }}</p>

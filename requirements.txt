@@ -12,6 +12,7 @@ mccabe==0.6.1
 parso==0.5.2
 phonenumbers==8.11.1
 pluggy==0.13.1
+psycopg2==2.8.4
 pycodestyle==2.5.0
 pyflakes==2.1.1
 python-jsonrpc-server==0.3.2

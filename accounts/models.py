@@ -7,10 +7,17 @@ from phonenumber_field.modelfields import PhoneNumberField
 User = get_user_model()
 
 
+class Modalities(models.Model):
+     name = models.CharField(max_length=50)
+
+     def __str__(self):
+         return self.name
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=5000)
-    mods = models.CharField(max_length=500)
+    mods = models.ManyToManyField(Modalities)
     phone = PhoneNumberField()
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
@@ -25,15 +32,7 @@ class Profile(models.Model):
 
     def save(self):
         super().save()
-
-
-class Modalities(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='modalities')
-    mods = models.CharField(max_length=500)
-
-
-
-
+ 
 
 
 # @receiver(post_save, sender=User)
