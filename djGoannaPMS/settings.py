@@ -137,6 +137,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+GOOGLE_MAPS_API_KEY = os.environ.get('MAPS_KEY')
+
 PHONENUMBER_DB_FORMAT = 'E164'
 
 AUTH_USER_MODEL = 'django_auth.CustomUser'

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from home.forms import SignUpForm
 from accounts.forms import ProfileForm
+from django.conf import settings
 
 User = get_user_model()
 
@@ -28,4 +29,5 @@ def index(request):
                           {"form": profile_form, "user": user})
     else:
         form = SignUpForm()
-    return render(request, "index.html", {"form": form})
+        api_key = settings.GOOGLE_MAPS_API_KEY
+    return render(request, "index.html", {"form": form, "api_key": api_key})

@@ -26,4 +26,3 @@ def register_clinic(request):
     #clinics = Clinic.objects.all()
  #   return render(request, 'profile.html', {'user': user})
 
-

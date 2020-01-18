@@ -1,17 +1,17 @@
 // ------------- Mixins -----------------
 
-@mixin jumbo-button {
+@mixin jumbo-frame {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
     color: white;
     font-weight: bold;
     border: 3px solid #f1f1f1;
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    //transform: translate(-50%, -50%);
     z-index: 2;
-    width: 50%;
+    width: 30%;
     padding: 20px;
     text-align: center;
     filter: None;
@@ -32,43 +32,23 @@ body {
     width: 100%;
     margin: auto;
     margin-top: 20px;
-    .image {
-        background-image: url(../images/goanna.jpg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        filter: blur(8px);
-        -webkit-filter: blur(8px);
-        height:00px;
-    }
     .form {
-        @include jumbo-button;
-        top: 55%;
+        @include jumbo-frame;
+        top: 10%;
+        left: 65%;
+        //float: right;
     }
-}
-
-@mixin jumbo-button {
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
-  font-weight: bold;
-  border: 3px solid #f1f1f1;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  width: 50%;
-  padding: 20px;
-  text-align: center;
-  filter: None;
-  -webkit-filter: None;
-
-}
-
-.register-jb {
-    @include jumbo-button;
-    top: 60%;
+    .welcome {
+        margin-top: 30px;
+        width: 50%;
+    }
+    #map {
+        height: 500px;
+        left: 0%;
+        top: 30%;
+        width: 50%;
+        //border: solid 1px black;
+    }
 }
 
 .profile-mods {

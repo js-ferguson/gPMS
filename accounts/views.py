@@ -9,25 +9,23 @@ User = get_user_model()
 
 
 def profile(request):
+    """
+    Displays the users profile
+    """
     user = User.objects.get(email=request.user.email)
-
     mods = user.profile.mods.all()
     matches = [val for val in user.profile.mods.all()]
     print(matches)
     for mod in mods:
         print(mod.name)
-    #mods = user.profile.mods
-    #print(user.is_practitioner)
-
-    #mod_list = []
-    #for word in mods.split():
-    #    mod_list.append(word)
-    #print(mod_list)
 
     return render(request, 'profile.html', {'user': user, 'mods': mods}) 
 
 
 def create_profile(request):
+    """
+    Provides a profile creation form for the user to add personal details to their profile.
+    """
     user = User.objects.get(email=request.user.email)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
@@ -43,17 +41,12 @@ def create_profile(request):
                 mod_list.append(word)
                 print("This is the list of mods: " + str(mod_list))
 
-            # def save_mods(mods):
-            #     for mod in mods:
-            #         m = Modalities(name=mod)
-            #         m.save()
-            #         user.profile.mods.add(m)
-            # save_mods(mod_list)
-            
             def add_modalities(mods):
+            # Takes a list of modalities from the user and tests each to see if it already
+            # exists in the modalities table. Adds the mod to the user if it exists, creates
+            # a new mod and adds it to the user if it doesn't
                 for mod in mods:
                     if Modalities.objects.filter(name=str(mod)).exists():
-                        #user.profile.mods.add(mod)
                         e = Modalities.objects.get(name=mod)
                         print(e)
                         user.profile.mods.add(e)
