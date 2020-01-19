@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'clinic',
     'phonenumber_field',
+    'django_google_maps',
 ]
 
 
@@ -90,7 +91,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'goannaPMS',
-        'USER': 'jimiwindmills',
+        'USER': os.environ.get("DB_USER"),
         'PASSWORD': os.environ.get("DB_PASS"),
         'HOST': 'localhost'
     }
