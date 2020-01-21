@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'accounts',
     'clinic',
     'phonenumber_field',
-    'django_google_maps',
 ]
 
 

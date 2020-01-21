@@ -33,3 +33,11 @@ def register_clinic(request):
     else:
         form = RegisterClinicForm()
     return render(request, 'register_clinic.html', {'form': form})
+
+
+def clinic_listing(request):
+    clinics = Clinic.objects.all()
+
+    for clinic in clinics:
+        print(clinic)
+    return render(request, 'clinic_listing.html', {'clinics': clinics}) 
