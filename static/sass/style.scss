@@ -20,8 +20,8 @@
 }
 
 body {
-  background-color: #514c34;
-  color: #fafafa;
+  background-color: #fafafa;
+  color: #000000;
 }
 
 .navbar {
@@ -53,4 +53,14 @@ body {
 
 .profile-mods {
     padding-left: 25px;
+}
+
+.listing-card {
+    background-color: #ffebcd;
+    padding: 15px;
+    border-radius: 5px;
+    li {
+        //padding-left: 15px;
+        list-style-position: inside;
+    }
 }

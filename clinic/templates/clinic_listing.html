@@ -3,8 +3,12 @@
 {% block content %}
 <p>This is some clinic information
     <ul>
+        {% for clinic in clinics %}
+        <div class="listing-card">
         <li>{{ clinic.name }}</li>
         <li>{{ clinic.phone }}</li>
+        </div>
+        {% endfor %}
     </ul>
 
 </p>
