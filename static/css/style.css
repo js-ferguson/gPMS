@@ -40,19 +40,22 @@ body {
 .profile-mods {
   padding-left: 25px; }
 
-.listing-frame {
-  margin-top: 100px;
-  width: 50%; }
-  .listing-frame .listing-card {
-    background-color: #ffebcd;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 15px; }
-    .listing-frame .listing-card li {
-      list-style-position: inside; }
-  .listing-frame #map {
+.listing-body {
+  width: 100%; }
+  .listing-body .listing-frame {
+    margin-top: 100px;
+    width: 40%;
+    display: inline-block; }
+    .listing-body .listing-frame .listing-card {
+      background-color: #ffebcd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px; }
+      .listing-body .listing-frame .listing-card li {
+        list-style-position: inside; }
+  .listing-body #listing-map {
     height: 500px;
-    left: 0%;
-    top: 30%;
-    width: 50%;
-    float: right; }
+    width: 30%;
+    display: inline-block; }
+
+/*# sourceMappingURL=style.css.map */

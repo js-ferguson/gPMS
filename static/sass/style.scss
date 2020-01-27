@@ -57,9 +57,11 @@ body {
 
 
 .listing-body {
+    width: 100%;
     .listing-frame {
         margin-top: 100px;
-        width: 50%;
+        width: 40%;
+        display: inline-block;
 
         .listing-card {
             background-color: #ffebcd;
@@ -72,11 +74,9 @@ body {
             }
         }
     }
-    #map {
+    #listing-map {
         height: 500px;
-        left: 0%;
-        top: 30%;
-        width: 50%;
-        float: right;
+        width: 30%;
+        display: inline-block;
     }
 }

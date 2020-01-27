@@ -4,18 +4,20 @@
 {% block content %}
 
 {{ latlng|json_script:"latlng-data" }}
-<div class="listing-frame">
-    <ul>
-        {% for clinic in clinics %}
-        <div class="listing-card">
-        <li>{{ clinic.name }}</li>
-        <li>{{ clinic.phone }}</li>
-        </div>
-        {% endfor %}
-    </ul>
-</div>
+<div class="listing-body">
+    <div class="listing-frame">
+        <ul>
+            {% for clinic in clinics %}
+            <div class="listing-card">
+                <li>{{ clinic.name }}</li>
+                <li>{{ clinic.phone }}</li>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
 
-<div id="map"></div>
+    <div id="listing-map"></div>
+</div>
 
 <script src="../static/js/maps.js"></script>
 {% endblock %}
