@@ -55,12 +55,28 @@ body {
     padding-left: 25px;
 }
 
-.listing-card {
-    background-color: #ffebcd;
-    padding: 15px;
-    border-radius: 5px;
-    li {
-        //padding-left: 15px;
-        list-style-position: inside;
+
+.listing-body {
+    .listing-frame {
+        margin-top: 100px;
+        width: 50%;
+
+        .listing-card {
+            background-color: #ffebcd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            li {
+                //padding-left: 15px;
+                list-style-position: inside;
+            }
+        }
+    }
+    #map {
+        height: 500px;
+        left: 0%;
+        top: 30%;
+        width: 50%;
+        float: right;
     }
 }

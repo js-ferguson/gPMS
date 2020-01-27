@@ -1,11 +1,13 @@
 var map;
 
-if (navigator.geolocation) {
+/*if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
-         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+         initialLocation = new google.maps.LatLng(position.coords.latitude,
+                                                  position.coords.longitude);
          map.setCenter(initialLocation);
      });
  }
+ */
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -14,13 +16,14 @@ function initMap() {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            initialLocation = new google.maps.LatLng(position.coords.latitude,
+                                                     position.coords.longitude);
             map.setCenter(initialLocation);
         }); 
 
     }
 }
 
-var latlng = JSON.parse(document.getElementById('latlng').textContext);
+var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
 console.log(latlng);

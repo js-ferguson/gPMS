@@ -40,9 +40,19 @@ body {
 .profile-mods {
   padding-left: 25px; }
 
-.listing-card {
-  background-color: #ffebcd;
-  padding: 15px;
-  border-radius: 5px; }
-  .listing-card li {
-    list-style-position: inside; }
+.listing-frame {
+  margin-top: 100px;
+  width: 50%; }
+  .listing-frame .listing-card {
+    background-color: #ffebcd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px; }
+    .listing-frame .listing-card li {
+      list-style-position: inside; }
+  .listing-frame #map {
+    height: 500px;
+    left: 0%;
+    top: 30%;
+    width: 50%;
+    float: right; }
