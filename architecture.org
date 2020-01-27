@@ -79,7 +79,7 @@ becomes available in the practitioners patient directory.
          create_superuser(self, email, password=None):
          - Called by createsuperuser command line tool.
 
-**** class CustomUser
+**** cass CustomUser
      Defines the custom user model used for authentication. The model is intentionally sparse, leaving 
      most user information to be handled by accounts models.
 

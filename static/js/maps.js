@@ -2,7 +2,7 @@ var map;
 
 if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function (position) {
-         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);y
+         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
          map.setCenter(initialLocation);
      });
  }
@@ -20,3 +20,7 @@ function initMap() {
 
     }
 }
+
+var latlng = JSON.parse(document.getElementById('latlng').textContext);
+
+console.log(latlng);

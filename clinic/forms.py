@@ -5,8 +5,10 @@ from .models import Clinic
 
 User = get_user_model()
 
+
 class RegisterClinicForm(ModelForm):
 
     class Meta:
         model = Clinic
-        fields = ('name', 'phone', 'description', 'street', 'city', )
+        fields = ('name', 'phone', 'description',
+                  'street', 'city', )

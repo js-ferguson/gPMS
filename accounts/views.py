@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .models import Modalities
 from .forms import ProfileForm
+from djGoannaPMS import settings
 
 
 User = get_user_model()
@@ -14,12 +15,15 @@ def profile(request):
     """
     user = User.objects.get(email=request.user.email)
     mods = user.profile.mods.all()
+    latlng = [user.clinic.lat, user.clinic.lng]
     matches = [val for val in user.profile.mods.all()]
     print(matches)
     for mod in mods:
         print(mod.name)
 
-    return render(request, 'profile.html', {'user': user, 'mods': mods}) 
+
+    api_key = settings.GOOGLE_MAPS_API_KEY
+    return render(request, 'profile.html', {'user': user, 'mods': mods, 'latlng': latlng, 'api_key': api_key}) 
 
 
 def create_profile(request):

@@ -7,6 +7,8 @@ User = get_user_model()
 
 class Clinic(models.Model):
     practitioner = models.OneToOneField(User, on_delete=models.CASCADE)
+    lat = models.FloatField(null=True, blank=True)
+    lng = models.FloatField(null=True, blank=True)
     name = models.CharField(max_length=128, )
     phone = PhoneNumberField()
     description = models.TextField(max_length=5000)
@@ -18,4 +20,3 @@ class Clinic(models.Model):
 
     def save(self):
         super().save()
-
