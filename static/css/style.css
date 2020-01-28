@@ -55,7 +55,5 @@ body {
         list-style-position: inside; }
   .listing-body #listing-map {
     height: 500px;
-    width: 500px;
+    width: 50%;
     display: inline-block; }
-
-/*# sourceMappingURL=style.css.map */
