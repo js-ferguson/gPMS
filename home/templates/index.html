@@ -3,6 +3,8 @@
 {% load static %}
 {% load bootstrap_tags %}
 {% block content %}
+{{ api_key|json_script:"api-key" }}
+
 
 <div class="row">
     <div class="private-business">
