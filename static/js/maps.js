@@ -8,6 +8,20 @@ function loadScript() {
 }
 
 var map;
+var clinicRef;
+
+function placeMarkers(latlng) {
+    for (i = 0; i <= latlng.length; i++) {
+        var obj = latlng[i];
+        for (var key in obj) {
+            var marker = new google.maps.Marker({
+                position: obj,
+               map: map,
+                title: 'Hello World!'
+            });
+        }
+    };
+}
 
 function mapSelector() {
     if (window.location.href.slice(22, -1) === "clinic_listing") {
@@ -16,6 +30,8 @@ function mapSelector() {
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
+        placeMarkers(latlng);
+
     } else {
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10
@@ -24,11 +40,13 @@ function mapSelector() {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude,
-                                                     position.coords.longitude);
+            var initialLocation = new google.maps.LatLng(position.coords.latitude,
+                                                         position.coords.longitude);
+            console.log(initialLocation.toString());
+            console.log(position);
             map.setCenter(initialLocation);
         }); 
-    }
+     }
 }
 
 

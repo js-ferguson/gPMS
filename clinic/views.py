@@ -58,5 +58,5 @@ def clinic_listing(request):
     return render(request, 'clinic_listing.html', {
         'clinics': clinics,
         'api_key': api_key,
-        'latlng': list_of_coords()
+        'latlng': list_of_coords(),
     })
