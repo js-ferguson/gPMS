@@ -1,6 +1,6 @@
-const apiKey = JSON.parse(document.getElementById('api-key').textContent); 
 
 function loadScript() {
+    const apiKey = JSON.parse(document.getElementById('api-key').textContent); 
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=mapSelector";
@@ -8,11 +8,11 @@ function loadScript() {
 }
 
 var map;
-var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
-console.log(latlng);
 
 function mapSelector() {
     if (window.location.href.slice(22, -1) === "clinic_listing") {
+        var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+        console.log(latlng);
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });

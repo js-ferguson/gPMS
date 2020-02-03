@@ -4,6 +4,8 @@
 {% block content %}
 
 {{ latlng|json_script:"latlng-data" }}
+{{ api_key|json_script:"api-key" }}
+
 
 <script src="../static/js/maps.js"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=clinicListing"

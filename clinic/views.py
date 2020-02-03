@@ -50,6 +50,7 @@ def clinic_listing(request):
         for clinic in clinics:
             if clinic.lat:
                 latlng.append({'lat': clinic.lat, 'lng': clinic.lng})
+                print(latlng)
         return latlng
 
     print(str(list_of_coords()))
