@@ -8,7 +8,6 @@ function loadScript() {
 }
 
 var map;
-var clinicRef;
 
 function placeMarkers(latlng) {
     for (i = 0; i <= latlng.length; i++) {
@@ -17,6 +16,7 @@ function placeMarkers(latlng) {
             var marker = new google.maps.Marker({
                 position: obj,
                 map: map,
+                title: latlng[i].name
             });
         }
     };
@@ -29,13 +29,20 @@ function mapSelector() {
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
+        setCurrentLocation();
         placeMarkers(latlng);
 
     } else {
+        latlng = JSON.parse(document.getElementById('latlng-data').textContent);
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10
         });
+        setCurrentLocation();
+        placeMarkers(latlng);
     }
+}
+
+function setCurrentLocation() {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {

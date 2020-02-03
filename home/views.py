@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import get_user_model
-from home.forms import SignUpForm
-from accounts.forms import ProfileForm
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, get_user_model, login
+from django.shortcuts import redirect, render
+
+from accounts.forms import ProfileForm
+from clinic.models import Clinic
+from home.forms import SignUpForm
 
 User = get_user_model()
-
 
 # from accounts.models import Clinic
 
@@ -23,11 +23,33 @@ def index(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-            messages.success(request, f'Your account has been created. Please update your details')
+            messages.success(
+                request,
+                f'Your account has been created. Please update your details')
             # return redirect('index')
-            return render(request, "create_profile.html",
-                          {"form": profile_form, "user": user})
+            return render(request, "create_profile.html", {
+                "form": profile_form,
+                "user": user
+            })
     else:
         form = SignUpForm()
         api_key = settings.GOOGLE_MAPS_API_KEY
-    return render(request, "index.html", {"form": form, "api_key": api_key})
+        clinics = Clinic.objects.all()
+
+        def list_of_clinics():
+            c_list = []
+            for clinic in clinics:
+                if clinic.lat:
+                    c_list.append({
+                        'lat': clinic.lat,
+                        'lng': clinic.lng,
+                        'name': clinic.name
+                    })
+            print(c_list)
+            return c_list
+
+    return render(request, "index.html", {
+        "form": form,
+        "api_key": api_key,
+        "c_list": list_of_clinics()
+    })

@@ -52,6 +52,7 @@ def clinic_listing(request):
                 latlng.append({
                     'lat': clinic.lat,
                     'lng': clinic.lng,
+                    'name': clinic.name,
                 })
                 print(latlng)
         return latlng
