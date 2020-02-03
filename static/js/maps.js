@@ -16,8 +16,7 @@ function placeMarkers(latlng) {
         for (var key in obj) {
             var marker = new google.maps.Marker({
                 position: obj,
-               map: map,
-                title: 'Hello World!'
+                map: map,
             });
         }
     };
@@ -39,7 +38,7 @@ function mapSelector() {
     }
 
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function(position) {
             var initialLocation = new google.maps.LatLng(position.coords.latitude,
                                                          position.coords.longitude);
             console.log(initialLocation.toString());
