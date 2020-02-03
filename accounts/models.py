@@ -4,6 +4,8 @@ from django.db import models
 # from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
+from clinic.models import Clinic
+
 User = get_user_model()
 
 
@@ -19,6 +21,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=5000)
     mods = models.ManyToManyField(Modalities)
     phone = PhoneNumberField()
+    clinics = models.ManyToManyField(Clinic)
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
     city = models.CharField(max_length=50)

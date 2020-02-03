@@ -1,11 +1,29 @@
+
 {% extends "base.html" %}
 {% load bootstrap_tags %}
 {% block content %}
-<p>This is some clinic information
-    <ul>
-        <li>{{ clinic.name }}</li>
-        <li>{{ clinic.phone }}</li>
-    </ul>
 
-</p>
+{{ latlng|json_script:"latlng-data" }}
+{{ api_key|json_script:"api-key" }}
+
+
+<script src="../static/js/maps.js"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=clinicListing"
+        async defer></script> -->
+
+<div class="listing-body">
+    <div class="listing-frame">
+        <ul>
+            {% for clinic in clinics %}
+            <div class="listing-card">
+                <li>{{ clinic.name }}</li>
+                <li>{{ clinic.phone }}</li>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="listing-map"></div>
+</div>
+
 {% endblock %}
