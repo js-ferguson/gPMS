@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.search import SearchQuery
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import Nominatim
 
@@ -58,6 +59,12 @@ def clinic_listing(request):
         return latlng
 
     print(str(list_of_coords()))
+
+    def search(term):
+        result = SearchQuery(term)
+        print(f'result for search {term}' + str(result))
+
+    search("joy")
 
     return render(request, 'clinic_listing.html', {
         'clinics': clinics,
