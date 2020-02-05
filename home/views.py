@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 
 from accounts.forms import ProfileForm
 from clinic.models import Clinic
+from forms import NavSearchForm
 from home.forms import SignUpForm
 
 User = get_user_model()
@@ -31,6 +32,16 @@ def index(request):
                 "form": profile_form,
                 "user": user
             })
+
+    #if request.method == 'GET':
+    #    search_form = NavSearchForm(request.GET)
+    #    if search_form.is_valid():
+    #        if "query" in request.GET:
+    #            query = request.GET['query'].strip()
+    #            print(query)
+    #            return render(request, "index.html",
+    #                          {'search_form': search_form})
+
     else:
         form = SignUpForm()
         api_key = settings.GOOGLE_MAPS_API_KEY
