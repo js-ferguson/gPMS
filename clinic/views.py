@@ -69,52 +69,34 @@ def clinic_listing(request):
 
 def search(request):
     api_key = settings.GOOGLE_MAPS_API_KEY
-
+    clinics = Clinic.objects.all()
     search_vector = SearchVector('practitioner__first_name', 'name',
                                  'description', 'street', 'city')
     results = Clinic.objects.annotate(search=search_vector).filter(
-        search='Göteborg').values_list('name',
-                                       'street',
-                                       'city',
-                                       'lat',
-                                       'lng',
-                                       flat=False)
+        search='winter').values_list('name',
+                                     'street',
+                                     'city',
+                                     'lat',
+                                     'lng',
+                                     flat=False)
 
     print("These are the raw results: " + str(results))
 
     def list_of_results(results):
         key_list = ['name', 'street', 'city', 'lat', 'lng']
         r_list = []
+        object = []
         for p in results:
             r_list.append([p[0], p[1], p[2], p[3], p[4]])
-            print(r_list)
-
-        # what data structure to I want before I run zip?
-        # r_list = [[gun, gunsStreet, gunsCity, gunsLat, gunsLng],
-        #           [jimi, jimiStreet, jimiCity, jimiLat, Jimilng ]]
-
-        #target_dict = defaultdict(list)
-        #for i, key in enumerate(results):
-        #    target_dict[k].append(values[i])
-
-        #r_list = []
-        #for r in results:
-        #    for i in r:
-        #        r_list.append(i)
-        #print("this is r_list: " + str(r_list))
-        #key_list = ['name', 'street', 'city', 'lat', 'lng']
-        # r_list = [results[0], results[1], results[2], results[3], results[4]]
-        #zipped = zip(key_list, r_list)
-        #for r in results:
-        #    print(r[3])
-        #print(str(zipped))
-        #return r[0]
+        print(r_list)
+        for array in r_list:
+            object.append(dict(zip(key_list, array)))
+        print(object)
+        return object
 
     search_result = list_of_results(results)
     return render(request, 'clinic_listing.html', {
         'api_key': api_key,
-        'result': search_result
+        'latlng': search_result,
+        'clinic': clinics
     })
-
-
-# search('Göteborg')

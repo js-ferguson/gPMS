@@ -34,11 +34,14 @@ function placeMarkers(latlng) {
 
 function mapSelector() {
     setCurrentLocation();
-    if (window.location.href.slice(22, -1) === "clinic_listing") {
+    console.log(window.location.href.slice(22, -1));
+   
+    if (window.location.href.slice(22, -1) === "clinic_listing" || window.location.href.slice(22, -1)) {
         var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
+        console.log(latlng)
         placeMarkers(latlng);
 
     } else {
