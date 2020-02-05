@@ -1,0 +1,51 @@
+
+GoannaPMS - Todo
+
+* TODO Think of a new name now that the focus has changed
+
+* TODO Edit models
+  - Add Field for website to clinic models
+  - Remove bio from regular site users
+
+* TODO create a search listing page  
+- That is displayed after a pin is selected from the map or a search is performed
+- should show either the first result displayed with the rest in a collapsed view
+- should display the selected pin first, plus the next 5 closest clinics 
+
+* TODO figure out some nice styling
+
+* TODO create contacts page
+- and a method to add patients as being related to a specific practitioner.
+
+* TODO start planning the scheduler
+1. The scheduler is the calendaring app.
+2. It should be a single page javascript application
+3. It should use CSS grid
+
+* TODO Create unit tests for home/views.py
+
+* TODO responsive design
+
+* DONE integrate current clinic reg form with google maps package
+  CLOSED: [2020-02-04 Tue 17:39]
+
+* DONE Create forms for personal info and clinic   
+  CLOSED: [2020-01-19 Sun 12:10]
+
+* DONE Create forms
+1. For sign up either as a patient or practitioner
+2. To add extra personal details.
+3. To register a clinic.
+
+* DONE Create a model for clinics to be registered
+  CLOSED: [2020-01-19 Sun 12:09]
+1. Model needs to allow for a clinic to be associated with a practitioner
+
+  CLOSED: [2020-01-19 Sun 12:09]
+* DONE extend user model for patients
+  CLOSED: [2020-01-12 Sun 18:38]
+1. Create model that adds extra personal details for patients that sign up.
+2. The model needs to be associated with an authenticated user. 
+   
+* DONE extend user model for practitioners
+  CLOSED: [2020-01-19 Sun 12:09]
