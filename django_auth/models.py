@@ -1,10 +1,15 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_active=True,
-                    is_practitioner=False, is_admin=False, is_staff=False):
+    def create_user(self,
+                    email,
+                    password=None,
+                    is_active=True,
+                    is_practitioner=False,
+                    is_admin=False,
+                    is_staff=False):
         if not email:
             raise ValueError("You must provide an email to register")
         if not password:
@@ -22,13 +27,8 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
     def create_practitioner(self, email, password=None):
-        user = self.create_user(
-            email,
-            password,
-            is_practitioner=True
-        )
+        user = self.create_user(email, password, is_practitioner=True)
         return user
 
     def create_superuser(self, email, password=None):
@@ -87,5 +87,3 @@ class CustomUser(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
-
-

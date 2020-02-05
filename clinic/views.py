@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.postgres.search import SearchQuery
+from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import Nominatim
 
+#from accounts.models import Profile
 from djGoannaPMS import settings
 
 from .forms import RegisterClinicForm
@@ -55,16 +56,27 @@ def clinic_listing(request):
                     'lng': clinic.lng,
                     'name': clinic.name,
                 })
-                print(latlng)
+            # print(latlng)
         return latlng
 
-    print(str(list_of_coords()))
+    # print(str(list_of_coords()))
 
     def search(term):
-        result = SearchQuery(term)
-        print(f'result for search {term}' + str(result))
+        search_vector = SearchVector('practitioner__first_name', 'name',
+                                     'practitioner__profile__mods',
+                                     'description', 'street', 'city')
+        result = Clinic.objects.annotate(search=search_vector).filter(
+            search=term).values_list('name',
+                                     'street',
+                                     'city',
+                                     'practitioner__profile__mods',
+                                     'lat',
+                                     'lng',
+                                     flat=False)
 
-    search("joy")
+        print(str(result))
+
+    search('Göteborg')
 
     return render(request, 'clinic_listing.html', {
         'clinics': clinics,
