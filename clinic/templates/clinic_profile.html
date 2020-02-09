@@ -9,17 +9,21 @@
 
 
 <script src="../static/js/maps.js"></script>
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=clinicListing"
         async defer></script> -->
 
 <div class="listing-body">
     <div class="listing-frame">
         <ul>
-            {% for clinic in clinics %}
+            {% for ob in clinic %}
+           
             <div class="listing-card">
-                <li>{{ clinic.name }}</li>
-                <li>{{ clinic.phone }}</li>
-                <li>{{ clinic.practitioner.user.mods }}</li>
+                <li>{{ ob.name }}</li>
+                <li>{{ ob.practitioner }}</li>
+                <li>{{ prac.mods }}</li>
+                <li>{{ ob.description }}</li>
+
+                <li>{{ ob.street }}</li>
+                <li>{{ ob.city }}</li>
             </div>
             {% endfor %}
         </ul>

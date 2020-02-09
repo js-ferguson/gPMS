@@ -54,7 +54,8 @@ def index(request):
                     c_list.append({
                         'lat': clinic.lat,
                         'lng': clinic.lng,
-                        'name': clinic.name
+                        'name': clinic.name,
+                        'url': "clinic/" + str(clinic.id)
                     })
             print(c_list)
             return c_list

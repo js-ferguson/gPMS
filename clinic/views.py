@@ -6,7 +6,7 @@ from django.contrib.postgres.search import SearchVector
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import Nominatim
 
-#from accounts.models import Profile
+from accounts.models import Profile
 from djGoannaPMS import settings
 
 from .forms import RegisterClinicForm
@@ -69,18 +69,20 @@ def clinic_listing(request):
 
 def search(request):
     api_key = settings.GOOGLE_MAPS_API_KEY
+    profile = Profile.objects.all()
     clinics = Clinic.objects.all()
     search_vector = SearchVector('practitioner__first_name', 'name',
                                  'description', 'street', 'city')
     results = Clinic.objects.annotate(search=search_vector).filter(
-        search='winter').values_list('name',
-                                     'street',
-                                     'city',
-                                     'lat',
-                                     'lng',
-                                     flat=False)
+        search='thai massage').values_list('name',
+                                           'street',
+                                           'city',
+                                           'lat',
+                                           'lng',
+                                           flat=False)
 
-    print("These are the raw results: " + str(results))
+    # match a field in the search results to identify the correct profile and
+    # add the modalities to the list_of_results on the search page
 
     def list_of_results(results):
         key_list = ['name', 'street', 'city', 'lat', 'lng']
@@ -100,3 +102,29 @@ def search(request):
         'latlng': search_result,
         'clinic': clinics
     })
+
+
+def clinic_profile(request, clinic_id):
+    clinic = Clinic.objects.filter(pk=clinic_id)
+
+    def get_prac(clinic):
+        for ob in clinic:
+            user = User.objects.filter(email=ob.practitioner)
+            # profile = user.get_profile()
+            print(request.user)
+            return user
+
+    get_prac(clinic)
+
+    # print(clinic.practitioner.email)
+    # prac = User.objects.filter(email=clinic.practitioner.email)
+
+    # print(prac)
+
+    return render(
+        request,
+        'clinic_profile.html',
+        {
+            'clinic': clinic,
+            #'prac': prac
+        })

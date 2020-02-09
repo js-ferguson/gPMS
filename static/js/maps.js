@@ -26,7 +26,12 @@ function placeMarkers(latlng) {
             var marker = new google.maps.Marker({
                 position: obj,
                 map: map,
-                title: latlng[i].name
+                title: latlng[i].name,
+                url:latlng[i].url
+            });
+            marker.addListener('click', function() {
+                console.log('hi');
+                window.location.href = this.url;
             });
         }
     };
