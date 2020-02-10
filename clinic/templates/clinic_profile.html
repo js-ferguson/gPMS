@@ -19,9 +19,10 @@
             <div class="listing-card">
                 <li>{{ ob.name }}</li>
                 <li>{{ ob.practitioner }}</li>
-                <li>{{ prac.mods }}</li>
                 <li>{{ ob.description }}</li>
-
+                {% for k in mods %}
+                <li>{{ k.name }}</li> 
+                {% endfor %}
                 <li>{{ ob.street }}</li>
                 <li>{{ ob.city }}</li>
             </div>

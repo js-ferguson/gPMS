@@ -1,4 +1,4 @@
-from collections import defaultdict
+# from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -69,7 +69,7 @@ def clinic_listing(request):
 
 def search(request):
     api_key = settings.GOOGLE_MAPS_API_KEY
-    profile = Profile.objects.all()
+    # profile = Profile.objects.all()
     clinics = Clinic.objects.all()
     search_vector = SearchVector('practitioner__first_name', 'name',
                                  'description', 'street', 'city')
@@ -105,26 +105,25 @@ def search(request):
 
 
 def clinic_profile(request, clinic_id):
+
     clinic = Clinic.objects.filter(pk=clinic_id)
 
-    def get_prac(clinic):
-        for ob in clinic:
-            user = User.objects.filter(email=ob.practitioner)
-            # profile = user.get_profile()
-            print(request.user)
-            return user
+    def get_mods():
+        profile = Profile.objects.filter(user=Clinic.objects.get(
+            pk=clinic_id).practitioner)
+        mods = profile[0].mods.all().values('name') if profile else []
+        print(mods)
+        i = 0
+        print(len(mods))
+        while i < len(mods) + 1:
 
-    get_prac(clinic)
+            mod_dict = mods[i]
+            print(mod_dict)
+            for k in mod_dict:
+                print(mod_dict[k])
+            i += 1
 
-    # print(clinic.practitioner.email)
-    # prac = User.objects.filter(email=clinic.practitioner.email)
-
-    # print(prac)
-
-    return render(
-        request,
-        'clinic_profile.html',
-        {
-            'clinic': clinic,
-            #'prac': prac
-        })
+    return render(request, 'clinic_profile.html', {
+        'clinic': clinic,
+        'mods': get_mods
+    })

@@ -1,12 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
 class Clinic(models.Model):
-    practitioner = models.OneToOneField(User, on_delete=models.CASCADE)
+    practitioner = models.OneToOneField(User,
+                                        related_name='prac_user',
+                                        on_delete=models.CASCADE)
     lat = models.FloatField(null=True, blank=True)
     lng = models.FloatField(null=True, blank=True)
     name = models.CharField(max_length=128, )
