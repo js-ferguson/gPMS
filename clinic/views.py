@@ -1,5 +1,3 @@
-# from collections import defaultdict
-
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
