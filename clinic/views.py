@@ -110,16 +110,10 @@ def clinic_profile(request, clinic_id):
         profile = Profile.objects.filter(user=Clinic.objects.get(
             pk=clinic_id).practitioner)
         mods = profile[0].mods.all().values('name') if profile else []
-        print(mods)
-        i = 0
-        print(len(mods))
-        while i < len(mods) + 1:
 
-            mod_dict = mods[i]
-            print(mod_dict)
-            for k in mod_dict:
-                print(mod_dict[k])
-            i += 1
+        mods = [(q['name']) for q in mods]
+        print(mods)
+        return mods
 
     return render(request, 'clinic_profile.html', {
         'clinic': clinic,
