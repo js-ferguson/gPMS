@@ -91,6 +91,16 @@ def search(request):
         for array in r_list:
             object.append(dict(zip(key_list, array)))
         print(object)
+        id_list = []
+
+        def get_id():
+            for clinic in object:
+                id = clinic['clinic_id']
+                id_list.append(id)
+            mods = Modalities.objects.filter(profile__clinics__in=id_list)
+            return mods
+
+        print(get_id)
         return object
 
     search_result = list_of_results(results)
