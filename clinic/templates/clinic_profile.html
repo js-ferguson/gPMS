@@ -5,32 +5,34 @@
 
 {{ latlng|json_script:"latlng-data" }}
 {{ api_key|json_script:"api-key" }}
-{{ result|json_script:"result"}}
 
-
-<script src="../static/js/maps.js"></script>
-        async defer></script> -->
+<!-- <script type="text/javascript" src="../static/js/maps.js"></script> -->
 
 <div class="listing-body">
     <div class="listing-frame">
         <ul>
             {% for ob in clinic %}
            
-            <div class="listing-card">
-                <li>{{ ob.name }}</li>
-                <li>{{ ob.practitioner }}</li>
-                <li>{{ ob.description }}</li>
+            <div class="profile-card">
+                <h3>{{ ob.name }}</h3>
+                <p>{{ ob.description }}</p>
+                <h4>Available Therapies</h4>
                 {% for m in mods %}
                 <li>{{ m }}</li> 
                 {% endfor %}
-                <li>{{ ob.street }}</li>
-                <li>{{ ob.city }}</li>
+                <h4>Contact</h4>
+                <p>
+                    Phone: {{ ob.phone }}<br>
+                    Email: {{ ob.practitioner }}<br>
+                    Address: {{ ob.street }} {{ ob.city }}
+                </p>
             </div>
             {% endfor %}
         </ul>
     </div>
-
-    <div id="listing-map"></div>
+    <div class="map-frame">
+        <div id="map"></div>
+    </div>
 </div>
 
 {% endblock %}

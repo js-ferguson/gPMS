@@ -43,7 +43,6 @@ body {
 .listing-body {
   width: 100%; }
   .listing-body .listing-frame {
-    margin-top: 100px;
     width: 40%;
     display: inline-block; }
     .listing-body .listing-frame .listing-card {
@@ -53,7 +52,25 @@ body {
       margin-top: 15px; }
       .listing-body .listing-frame .listing-card li {
         list-style-position: inside; }
+    .listing-body .listing-frame .profile-card {
+      background-color: #ffebcd;
+      padding: 15px;
+      border-radius: 5px;
+      height: 100%; }
+      .listing-body .listing-frame .profile-card h4 {
+        margin-top: 15px; }
+      .listing-body .listing-frame .profile-card li {
+        list-style-position: inside; }
   .listing-body #listing-map {
     height: 500px;
     width: 50%;
     display: inline-block; }
+  .listing-body .map-frame {
+    height: 500px;
+    width: 50%;
+    display: inline-block; }
+    .listing-body .map-frame #map {
+      height: 500px;
+      width: 100%; }
+
+/*# sourceMappingURL=style.css.map */

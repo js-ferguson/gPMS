@@ -4,13 +4,14 @@ from django.contrib.postgres.search import SearchVector
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import Nominatim
 
-from accounts.models import Profile
+from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
 
 from .forms import RegisterClinicForm
 from .models import Clinic
 
 User = get_user_model()
+api_key = settings.GOOGLE_MAPS_API_KEY
 
 
 def register_clinic(request):
@@ -45,7 +46,6 @@ def register_clinic(request):
 
 def clinic_listing(request):
     clinics = Clinic.objects.all()
-    api_key = settings.GOOGLE_MAPS_API_KEY
 
     def list_of_coords():
         latlng = []
@@ -66,45 +66,55 @@ def clinic_listing(request):
 
 
 def search(request):
-    api_key = settings.GOOGLE_MAPS_API_KEY
-    # profile = Profile.objects.all()
     clinics = Clinic.objects.all()
-    search_vector = SearchVector('practitioner__first_name', 'name',
-                                 'description', 'street', 'city')
+    search_vector = SearchVector('practitioner__first_name', 'description',
+                                 'street', 'city')
     results = Clinic.objects.annotate(search=search_vector).filter(
-        search='thai massage').values_list('name',
-                                           'street',
-                                           'city',
-                                           'lat',
-                                           'lng',
-                                           flat=False)
+        search='Göteborg').values_list('name',
+                                       'street',
+                                       'city',
+                                       'lat',
+                                       'lng',
+                                       'pk',
+                                       flat=False)
 
-    # match a field in the search results to identify the correct profile and
-    # add the modalities to the list_of_results on the search page
+    # Modalities.objects.filter(profile__clinics__in=results)
 
     def list_of_results(results):
-        key_list = ['name', 'street', 'city', 'lat', 'lng']
+        print(results)
+        key_list = ['name', 'street', 'city', 'lat', 'lng', 'clinic_id']
         r_list = []
         object = []
         for p in results:
-            r_list.append([p[0], p[1], p[2], p[3], p[4]])
-        print(r_list)
+            r_list.append([p[0], p[1], p[2], p[3], p[4], p[5]])
+        # print(r_list)
         for array in r_list:
             object.append(dict(zip(key_list, array)))
         print(object)
         return object
 
     search_result = list_of_results(results)
-    return render(request, 'clinic_listing.html', {
-        'api_key': api_key,
-        'latlng': search_result,
-        'clinic': clinics
-    })
+
+    return render(
+        request,
+        'clinic_listing.html',
+        {
+            'api_key': api_key,
+            'latlng': search_result,
+            'clinic': clinics,
+            # 'mods': get_mods
+        })
 
 
 def clinic_profile(request, clinic_id):
 
     clinic = Clinic.objects.filter(pk=clinic_id)
+    latlng = {
+        "lat": clinic[0].lat,
+        "lng": clinic[0].lng,
+        "name": clinic[0].name
+    }
+    print(latlng)
 
     def get_mods():
         profile = Profile.objects.filter(user=Clinic.objects.get(
@@ -117,5 +127,7 @@ def clinic_profile(request, clinic_id):
 
     return render(request, 'clinic_profile.html', {
         'clinic': clinic,
-        'mods': get_mods
+        'mods': get_mods,
+        'latlng': latlng,
+        'api_key': api_key
     })

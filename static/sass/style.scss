@@ -59,7 +59,6 @@ body {
 .listing-body {
     width: 100%;
     .listing-frame {
-        margin-top: 100px;
         width: 40%;
         display: inline-block;
 
@@ -73,10 +72,33 @@ body {
                 list-style-position: inside;
             }
         }
+        .profile-card {
+            background-color: #ffebcd;
+            padding: 15px;
+            border-radius: 5px;
+            height: 100%; 
+            h4 {
+                margin-top: 15px;
+            }
+            li {
+                list-style-position: inside;
+            }
+        }
     }
+
     #listing-map {
         height: 500px;
         width: 50%;
         display: inline-block;
+    }
+    .map-frame {
+        height: 500px;
+        width: 50%;
+        display: inline-block;
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+
     }
 }

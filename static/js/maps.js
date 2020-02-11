@@ -37,17 +37,34 @@ function placeMarkers(latlng) {
     };
 }
 
+function placeClinic(latlng) {
+    var obj = latlng;
+    for (var key in obj) {
+        var marker = new google.maps.Marker({
+            position: obj,
+            map: map,
+            title: latlng.name,
+        });
+    }
+}
+
 function mapSelector() {
     setCurrentLocation();
-    console.log(window.location.href.slice(22, -1));
+    //console.log(window.location.href.slice(22, -1));
    
-    if (window.location.href.slice(22, -1) === "clinic_listing" || window.location.href.slice(22, -1)) {
+    if (window.location.href.slice(22, -1) === "clinic_listing") {
         var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
-        console.log(latlng)
         placeMarkers(latlng);
+
+    } else if (window.location.href.slice(22, 29) === "clinic/") {
+        latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10
+        });
+        placeClinic(latlng);
 
     } else {
         latlng = JSON.parse(document.getElementById('latlng-data').textContent);
