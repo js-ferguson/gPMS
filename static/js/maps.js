@@ -36,9 +36,6 @@ function placeMarkers(latlng) {
     };
 }
 
-
-
-
 function placeClinic(latlng) {
     var obj = latlng;
     console.log(obj['lat']);
@@ -72,8 +69,7 @@ function placeClinic(latlng) {
 
 function mapSelector() {
     setCurrentLocation();
-    //console.log(window.location.href.slice(22, -1));
-   
+
     if (window.location.href.slice(22, -1) === "clinic_listing") {
         var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
         map = new google.maps.Map(document.getElementById('listing-map'), {
