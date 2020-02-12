@@ -85,7 +85,7 @@ def search(request):
         # then I can iterate of results and for all tuples that contain a match to the search term,
         # return the profile_id to send to the template
 
-        ## also check out the get_mods function below for snippet to get mods from a profile
+        ## also look at get_mods function below for example of how to get mods from a profile
 
         count = profile.count()
         p_prac = []  # list of practitioners matching the search
