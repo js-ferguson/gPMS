@@ -30,20 +30,42 @@ function placeMarkers(latlng) {
                 url:latlng[i].url
             });
             marker.addListener('click', function() {
-                console.log('hi');
                 window.location.href = this.url;
             });
         }
     };
 }
 
+
+
+
 function placeClinic(latlng) {
     var obj = latlng;
+    console.log(obj['lat']);
     for (var key in obj) {
         var marker = new google.maps.Marker({
             position: obj,
             map: map,
             title: latlng.name,
+        });
+        marker.addListener('click', function() {
+            var getPosition = function (options) {
+                return new Promise(function (resolve, reject) {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+                });
+            };
+            getPosition()
+                .then((position) => {
+                    var url =  `https://www.google.com/maps/dir/?api=1&origin=${position.coords.latitude},${position.coords.longitude}&destination=${obj["lat"]},${obj["lng"]}&travelmode=driving`;
+
+                    let a = document.createElement('a');
+                    a.target = '_blank';
+                    a.href = url;
+                    a.click();
+                })
+                .catch((err) => {
+                    console.error(err.message);
+                });
         });
     }
 }
