@@ -80,26 +80,40 @@ def search(request):
         ## get a list of mods belonging to each practitioner
         #and return each practioner_id that contains that mod
         # then get all clinics belonging to those practitoners
+
+        # need a list of tuples with prof_id and a mod result = [(1, 'Acupuncture'), (1, Tuina)]
+        # then I can iterate of results and for all tuples that contain a match to the search term,
+        # return the profile_id to send to the template
+
+        ## also check out the get_mods function below for snippet to get mods from a profile
+
         count = profile.count()
         p_prac = []  # list of practitioners matching the search
         for id in range(count):  # for each profile_id in range
+            print(profile)
             prac = Profile.objects.filter(
                 mods=id)  # find the profile with the id
+            #print(prac)
+
+            for i in profile:
+                print(i.id)
+
             r_list = []
             for i in prac:
+                #print(i)
                 r_list.append({
                     'pk': i.id,
                     'mods': []
                 })  # append pk:profile_id and list of dicts with mods
-                for mod in i.mods.all().values("name"):  #  for each mod
+                for mod in i.mods.all().values("name"):  # for each mod
                     r_list[0]['mods'].append(
                         mod)  # append name: mod to r_list mods:[]
-                print(r_list[0]['mods'])
+                # print(r_list[0]['mods'])
                 for k in r_list[0]['mods']:
-                    if 'Tuina' in k.values():
+                    if 'Acupuncture' in k.values():
                         prac_id = r_list[0]['pk']
                         p_prac.append(Profile.objects.filter(pk=prac_id))
-        print(p_prac)
+        # print(p_prac)
 
         #    if 'Massage' in k.values():
         #        prac_id = r_list[0]['pk']
