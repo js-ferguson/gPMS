@@ -7,7 +7,6 @@ User = get_user_model()
 
 class Clinic(models.Model):
     practitioner = models.OneToOneField(User,
-                                        related_name='prac_user',
                                         on_delete=models.CASCADE)
     lat = models.FloatField(null=True, blank=True)
     lng = models.FloatField(null=True, blank=True)

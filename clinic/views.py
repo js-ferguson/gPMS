@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from geopy.geocoders import Nominatim
+from geopy.geocoders import Nominatim, GoogleV3
 
 from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
@@ -19,7 +19,7 @@ api_key = settings.GOOGLE_MAPS_API_KEY
 
 def register_clinic(request):
     form = RegisterClinicForm(request.POST)
-    locator = Nominatim(user_agent="gPMS")
+    locator = GoogleV3(api_key=api_key)
     if request.method == 'POST':
         if form.is_valid():
             clinic = form.save(commit=False)

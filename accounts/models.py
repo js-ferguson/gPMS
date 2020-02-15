@@ -18,7 +18,6 @@ class Modalities(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User,
-                                related_name='prof_user',
                                 on_delete=models.CASCADE)
     bio = models.TextField(max_length=5000)
     mods = models.ManyToManyField(Modalities)

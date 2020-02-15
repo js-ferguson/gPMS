@@ -7,6 +7,8 @@ GoannaPMS - Todo
   - Add Field for website to clinic models
   - Remove bio from regular site users
 
+* TODO fix map view in clinic profile. It should center on the clinic, not the users location
+
 * TODO create a search listing page  
 - That is displayed after a pin is selected from the map or a search is performed
 - should show either the first result displayed with the rest in a collapsed view
