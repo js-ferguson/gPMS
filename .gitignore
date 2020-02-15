@@ -10,4 +10,5 @@ static/.sass-cache
 #media/
 #*.png
 *.map
-*migrations
+*/migrations/*
+*.pgsql
