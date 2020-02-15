@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'djGoannaPMS.urls'
@@ -132,7 +133,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
@@ -144,3 +144,5 @@ PHONENUMBER_DB_FORMAT = 'E164'
 
 AUTH_USER_MODEL = 'django_auth.CustomUser'
 AUTH_PROFILE_MODULE = 'accounts.Profile'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

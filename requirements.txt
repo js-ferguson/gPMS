@@ -39,5 +39,6 @@ snowballstemmer==2.0.0
 sqlparse==0.3.0
 ujson==1.35
 urllib3==1.25.7
+whitenoise
 wrapt==1.11.2
 yapf==0.29.0
