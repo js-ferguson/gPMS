@@ -2,6 +2,8 @@
 function loadScript() {
     const apiKey = JSON.parse(document.getElementById('api-key').textContent); 
     var script = document.createElement('script');
+    latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+
     script.type = 'text/javascript';
     script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=mapSelector";
     document.body.appendChild(script);
@@ -37,6 +39,7 @@ function placeMarkers(latlng) {
 }
 
 function placeClinic(latlng) {
+    map.setCenter({lat: latlng['lat'], lng: latlng['lng']});
     var obj = latlng;
     console.log(obj['lat']);
     for (var key in obj) {
@@ -45,6 +48,9 @@ function placeClinic(latlng) {
             map: map,
             title: latlng.name,
         });
+     //   map.setCenter(new google.maps.LatLng(obj['lat'], obj['lng']));
+     //   console.log("this is working");
+
         marker.addListener('click', function() {
             var getPosition = function (options) {
                 return new Promise(function (resolve, reject) {
@@ -67,25 +73,24 @@ function placeClinic(latlng) {
     }
 }
 
-function mapSelector() {
-    setCurrentLocation();
+function mapSelector(){
+    var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
     if (window.location.href.slice(22, -1) === "clinic_listing") {
-        var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+        setCurrentLocation();
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
         placeMarkers(latlng);
 
     } else if (window.location.href.slice(22, 29) === "clinic/") {
-        latlng = JSON.parse(document.getElementById('latlng-data').textContent);
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10
+            zoom: 10,
         });
         placeClinic(latlng);
 
     } else {
-        latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+        setCurrentLocation();
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10
         });
