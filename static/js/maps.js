@@ -74,7 +74,7 @@ function placeClinic(latlng) {
 }
 
 function mapSelector(){
-	#console.log(window.location.href.slice(-10, -4));
+//console.log(window.location.href.slice(-10, -4));
     var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
     if (window.location.href.slice(23, -1) === "clinic_listing") {
