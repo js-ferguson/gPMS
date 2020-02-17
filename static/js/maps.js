@@ -77,14 +77,14 @@ function mapSelector(){
 //console.log(window.location.href.slice(-10, -4));
     var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
-    if (window.location.href.slice(23, -1) === "clinic_listing") {
+    if (window.location.href.includes("clinic_listing")) {
         setCurrentLocation();
         map = new google.maps.Map(document.getElementById('listing-map'), {
             zoom: 10
         });
         placeMarkers(latlng);
 
-    } else if (window.location.href.slice(-10, -4) === "clinic") {
+    } else if (window.location.href.includes("/clinic/")) {
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10,
         });
