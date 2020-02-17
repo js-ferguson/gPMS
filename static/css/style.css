@@ -41,9 +41,12 @@ body {
   padding-left: 25px; }
 
 .listing-body {
-  width: 100%; }
+  width: 100%;
+  height: 500px;
+  margin-top: 100px; }
   .listing-body .listing-frame {
     width: 40%;
+    height: 100%;
     display: inline-block; }
     .listing-body .listing-frame .listing-card {
       background-color: #ffebcd;
@@ -68,7 +71,8 @@ body {
   .listing-body .map-frame {
     height: 500px;
     width: 50%;
-    display: inline-block; }
+    display: inline-block;
+    float: right; }
     .listing-body .map-frame #map {
       height: 500px;
       width: 100%; }
