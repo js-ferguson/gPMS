@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from geopy.geocoders import Nominatim, GoogleV3
+from geopy.geocoders import GoogleV3, Nominatim
 
 from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
@@ -69,109 +69,47 @@ def clinic_listing(request):
 
 
 def search(request):
-    profile = Profile.objects.all()
+    result = []
     search_vector = SearchVector('practitioner__first_name', 'description',
                                  'street', 'city')
     qs = Clinic.objects.annotate(search=search_vector).filter(
         search='tuina').values()
-    # print(qs)
-    if not qs:
+    if qs:
+        for i in qs[0]:
+            result.append(i)
+    else:
 
-        ## get a list of mods belonging to each practitioner
-        #and return each practioner_id that contains that mod
-        # then get all clinics belonging to those practitoners
+        if Modalities.objects.filter(name="Acupuncture").exists():
+            s_mod = Modalities.objects.get(name="Acupuncture")
+            s_users = Profile.objects.filter(
+                mods__name__contains='Acupuncture').values()
+            # print(s_users)
+            for i in s_users:
+                result.append(i)
+    print(result)
 
-        # need a list of tuples with prof_id and a mod result = [(1, 'Acupuncture'), (1, Tuina)]
-        # then I can iterate of results and for all tuples that contain a match to the search term,
-        # return the profile_id to send to the template
+    def find_clinics(result):
+        r_array = []
+        # l_array = []
+        for i in result:
+            r_array.append(Clinic.objects.get(practitioner=i['user_id']))
+            # for j in r_array[0]:
+            #   l_array.append(j)
 
-        ## also look at get_mods function below for example of how to get mods from a profile
+        # print(l_array)
+        print(r_array)
+        return (r_array)
 
-        count = profile.count()
-        p_prac = []  # list of practitioners matching the search
-        for id in range(count):  # for each profile_id in range
-            print(profile)
-            prac = Profile.objects.filter(
-                mods=id)  # find the profile with the id
-            #print(prac)
-
-            for i in profile:
-                print(i.id)
-
-            r_list = []
-            for i in prac:
-                #print(i)
-                r_list.append({
-                    'pk': i.id,
-                    'mods': []
-                })  # append pk:profile_id and list of dicts with mods
-                for mod in i.mods.all().values("name"):  # for each mod
-                    r_list[0]['mods'].append(
-                        mod)  # append name: mod to r_list mods:[]
-                # print(r_list[0]['mods'])
-                for k in r_list[0]['mods']:
-                    if 'Acupuncture' in k.values():
-                        prac_id = r_list[0]['pk']
-                        p_prac.append(Profile.objects.filter(pk=prac_id))
-        # print(p_prac)
-
-        #    if 'Massage' in k.values():
-        #        prac_id = r_list[0]['pk']
-        #       print(prac_id)
-        #       p_prac = Profile.objects.filter(pk=prac_id)
-        #       print(p_prac)
-        # print(r_list)
-
-    #mods = Modalities.objects.filter(profile__clinics__in=qs[0]['id'])
-    #print(mods)
-
-    #def search(request):
-    #    clinics = Clinic.objects.all()
-    #    search_vector = SearchVector('practitioner__first_name', 'description',
-    #                                 'street', 'city')
-    #    results = Clinic.objects.annotate(search=search_vector).filter(
-    #        search='Göteborg').values_list('name',
-    #                                       'street',
-    #                                       'city',
-    #                                       'lat',
-    #                                       'lng',
-    #                                       'pk',
-    #                                       flat=False)
-
-    #    # Modalities.objects.filter(profile__clinics__in=results)
-    #
-    #    def list_of_results(results):
-    #        print(results)
-    #        key_list = ['name', 'street', 'city', 'lat', 'lng', 'clinic_id']
-    #        r_list = []
-    #        object = []
-    #        for p in results:
-    #            r_list.append([p[0], p[1], p[2], p[3], p[4], p[5]])
-    #        # print(r_list)
-    #        for array in r_list:
-    #            object.append(dict(zip(key_list, array)))
-    #        print(object)
-    #        id_list = []
-
-    #        def get_id():
-    #            for clinic in object:
-    #                id = clinic['clinic_id']
-    #                id_list.append(id)
-    #            mods = Modalities.objects.filter(profile__clinics__in=id_list)
-    #            return mods
-    #
-    #        print(get_id)
-    #        return object
-    #
-    #    search_result = list_of_results(results)
+    find_clinics(result)
 
     return render(
         request,
         'clinic_listing.html',
         {
             'api_key': api_key,
+            #'result': find_clinics(result)
             #            'latlng': search_result,
-            #            'clinic': clinics,
+            #'clinic': find_clinics(result),
             # 'mods': get_mods
         })
 

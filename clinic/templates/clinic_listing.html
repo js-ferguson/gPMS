@@ -16,12 +16,14 @@
     <div class="listing-frame">
         <ul>
             {% for clinic in clinics %}
+            {% for i in clinic %}
             <div class="listing-card">
                 <li>{{ clinic.name }}</li>
                 <li>{{ clinic.phone }}</li>
                 <li>{{ clinic.practitioner.user.mods }}</li>
             </div>
             {% endfor %}
+           {% endfor %}
         </ul>
     </div>
 
