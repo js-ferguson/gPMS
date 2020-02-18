@@ -32,12 +32,7 @@ function placeMarkers(latlng) {
                 url:latlng[i].url
             });
             marker.addListener('click', function() {
-               // if (window.location.href.includes('search')) {
-               //     window.location.
-               // }
-               // window.location.href = window.location.hostname;
-                window.location.href = this.url;
-                
+                window.location.pathname = this.url;
             });
         }
     };

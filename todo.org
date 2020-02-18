@@ -6,19 +6,22 @@ GoannaPMS - Todo
 * TODO Edit models
   - Add Field for website to clinic models
   - Remove bio from regular site users
-
-* TODO fix map view in clinic profile. It should center on the clinic, not the users location
-
-* TODO create a search listing page  
-- That is displayed after a pin is selected from the map or a search is performed
-- should show either the first result displayed with the rest in a collapsed view
-- should display the selected pin first, plus the next 5 closest clinics 
-
+* TODO Fix markers on search page parsing the wrong url
+* TODO Add user reviews section to clinic profile pages
+* TODO Fix user profiles so the look better and users can update their details
+* TODO fix practitioner profiles so that they can be updated by users
+* TODO Change profile creation so that regular users dont have to write a bio
+* TODO Add more decriptive labels in all sign up forms
 * TODO figure out some nice styling
+
+* TODO responsive design
 
 * TODO create contacts page
 - and a method to add patients as being related to a specific practitioner.
 
+           
+- Stuff for after assessment - 
+ 
 * TODO start planning the scheduler
 1. The scheduler is the calendaring app.
 2. It should be a single page javascript application
@@ -26,7 +29,18 @@ GoannaPMS - Todo
 
 * TODO Create unit tests for home/views.py
 
-* TODO responsive design
+  
+* DONE fix map view in clinic profile. It should center on the clinic, not the users location
+  CLOSED: [2020-02-18 Tue 16:43]
+  :PROPERTIES:
+  :ID:       05310eb7-6521-4288-a2b9-770c163c779f
+  :END:
+
+* DONE create a search listing page  
+  CLOSED: [2020-02-18 Tue 16:31]
+- That is displayed after a pin is selected from the map or a search is performed
+- should show either the first result displayed with the rest in a collapsed view
+- should display the selected pin first, plus the next 5 closest clinics 
 
 * DONE integrate current clinic reg form with google maps package
   CLOSED: [2020-02-04 Tue 17:39]

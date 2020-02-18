@@ -3,9 +3,8 @@ from collections import defaultdict
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from geopy.geocoders import GoogleV3, Nominatim
+from geopy.geocoders import GoogleV3
 
 from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
@@ -49,7 +48,7 @@ def register_clinic(request):
 
 def clinic_listing(request):
     clinics = Clinic.objects.all()
-    
+
     def list_of_coords():
         latlng = []
         for clinic in clinics:
@@ -67,57 +66,60 @@ def clinic_listing(request):
         'latlng': list_of_coords(),
     })
 
+
 def search(request):
     search_term = request.POST.get('search_term')
     print(search_term)
     search_result = []
     # search_term = "Göteborg"
     result = []
-    search_vector = SearchVector('name', 'practitioner__first_name', 'description',
-                                 'street', 'city')
+    search_vector = SearchVector('name', 'practitioner__first_name',
+                                 'description', 'street', 'city')
     qs = Clinic.objects.annotate(search=search_vector).filter(
         search=search_term).values()
     if qs:
         for i in qs:
-            search_result.append(Clinic.objects.get(practitioner=i['practitioner_id']).get_clinic_details())
-
+            search_result.append(
+                Clinic.objects.get(
+                    practitioner=i['practitioner_id']).get_clinic_details())
     else:
-
         if Modalities.objects.filter(name__iexact=search_term).exists():
             # s_mod = Modalities.objects.get(name=search_term)
             s_users = Profile.objects.filter(
                 mods__name__icontains=search_term).values()
             for i in s_users:
                 result.append(i)
-        print(result)
+
     def find_clinics(result):
         r_array = []
-
         for i in result:
-            r_array.append(Clinic.objects.get(practitioner=i['user_id']).get_clinic_details())
+            r_array.append(
+                Clinic.objects.get(
+                    practitioner=i['user_id']).get_clinic_details())
         return (r_array)
 
     def colate_results(sv_result, mod_result):
         search_result = sv_result + mod_result
         return search_result
-    # colate_results(search_result, find_clinics(result))
 
     def get_coords(search_result):
         coords = []
         for i in search_result:
-            coords.append({"lat": i['lat'], "lng": i['lng'], "url": f"clinic/{i['id']}"})
+            coords.append({
+                "lat": i['lat'],
+                "lng": i['lng'],
+                "url": f"clinic/{i['id']}"
+            })
         return coords
 
     return render(
-        request,
-        'clinic_listing.html',
-        {
-            'api_key': api_key,
-            'result': colate_results(search_result, find_clinics(result)),
-            'latlng': get_coords(colate_results(search_result, find_clinics(result))),
-            #'clinic': find_clinics(result),
-            # 'mods': get_mods
-            # 'result': find_clinics(result)
+        request, 'clinic_listing.html', {
+            'api_key':
+            api_key,
+            'result':
+            colate_results(search_result, find_clinics(result)),
+            'latlng':
+            get_coords(colate_results(search_result, find_clinics(result))),
         })
 
 
