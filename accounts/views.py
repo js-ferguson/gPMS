@@ -48,6 +48,7 @@ def create_profile(request):
             mod_list = []
             mods = form.cleaned_data.get('mods')
             for word in mods.split(", "):
+                word.capitalize()
                 mod_list.append(word)
 
             def add_modalities(mods):

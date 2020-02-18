@@ -17,21 +17,20 @@
         <ul>
             {% for clinic in result %}
             <div class="listing-card">
-                <li>{{ clinic.name }}</li>
-                <li>{{ clinic.prac_name }}</li>
-                <li>{{ clinic.description }}</li>
+                <h3>{{ clinic.name }}</h3>
+                <p>{{ clinic.prac_name }}</p>
                 {% for m in clinic.mods %}
                 <li>{{ m }}</li>
                 {% endfor %}
-                <li>{{ clinic.phone }}</li>
-                <li>{{ clinic.street }}</li>
-                <li>{{ clinic.city }}</li>
+                <p>Phone: {{ clinic.phone }}<br>
+                Address: {{ clinic.street }}, {{ clinic.city }}</p>
             </div>
             {% endfor %}
         </ul>
     </div>
-
-    <div id="listing-map"></div>
+    <div class="map-frame"> 
+        <div id="map"></div>
+    </div>
 </div>
 
 {% endblock %}

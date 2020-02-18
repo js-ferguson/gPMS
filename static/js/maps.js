@@ -90,6 +90,13 @@ function mapSelector(){
         });
         placeClinic(latlng);
 
+    } else if (window.location.href.includes("/search/")) {
+        setCurrentLocation();
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+        });
+        placeMarkers(latlng);
+
     } else {
         setCurrentLocation();
         map = new google.maps.Map(document.getElementById('map'), {

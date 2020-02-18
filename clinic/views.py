@@ -68,9 +68,10 @@ def clinic_listing(request):
     })
 
 def search(request):
+    search_term = request.POST.get('search_term')
+    print(search_term)
     search_result = []
     # search_term = "Göteborg"
-    search_term = "ChiNeiTsang"
     result = []
     search_vector = SearchVector('name', 'practitioner__first_name', 'description',
                                  'street', 'city')
@@ -82,10 +83,10 @@ def search(request):
 
     else:
 
-        if Modalities.objects.filter(name=search_term).exists():
-            s_mod = Modalities.objects.get(name=search_term)
+        if Modalities.objects.filter(name__iexact=search_term).exists():
+            # s_mod = Modalities.objects.get(name=search_term)
             s_users = Profile.objects.filter(
-                mods__name__contains=search_term).values()
+                mods__name__icontains=search_term).values()
             for i in s_users:
                 result.append(i)
 
@@ -99,6 +100,13 @@ def search(request):
     def colate_results(sv_result, mod_result):
         search_result = sv_result + mod_result
         return search_result
+    # colate_results(search_result, find_clinics(result))
+
+    def get_coords(search_result):
+        coords = []
+        for i in search_result:
+            coords.append({"lat": i['lat'], "lng": i['lng']})
+        return coords
 
     return render(
         request,
@@ -106,7 +114,7 @@ def search(request):
         {
             'api_key': api_key,
             'result': colate_results(search_result, find_clinics(result)),
-            #            'latlng': search_result,
+            'latlng': get_coords(colate_results(search_result, find_clinics(result))),
             #'clinic': find_clinics(result),
             # 'mods': get_mods
             # 'result': find_clinics(result)
