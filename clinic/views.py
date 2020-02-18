@@ -89,7 +89,7 @@ def search(request):
                 mods__name__icontains=search_term).values()
             for i in s_users:
                 result.append(i)
-
+        print(result)
     def find_clinics(result):
         r_array = []
 
@@ -105,7 +105,7 @@ def search(request):
     def get_coords(search_result):
         coords = []
         for i in search_result:
-            coords.append({"lat": i['lat'], "lng": i['lng']})
+            coords.append({"lat": i['lat'], "lng": i['lng'], "url": f"clinic/{i['id']}"})
         return coords
 
     return render(

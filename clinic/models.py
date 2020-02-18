@@ -31,7 +31,7 @@ class Clinic(models.Model):
         mods = [(q['name']) for q in mods]
 
         return {"lat": self.lat,
-                "lng": self.lng, "name": self.name,
+                "lng": self.lng, "name": self.name, "id": self.id,
                 "prac_name": name, "phone": phone,
                 "mods": mods, "description": self.description,
                 "street": self.street,
