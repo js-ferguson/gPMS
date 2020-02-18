@@ -21,3 +21,18 @@ class Clinic(models.Model):
 
     def save(self):
         super().save()
+
+    def get_clinic_details(self):
+        from accounts.models import Profile
+        phone = str(self.phone)
+        name = self.practitioner.get_full_name()
+        profile = Profile.objects.get(user=Clinic.objects.get(pk=self.id).practitioner)
+        mods = profile.mods.all().values('name') if profile else []
+        mods = [(q['name']) for q in mods]
+
+        return {"lat": self.lat,
+                "lng": self.lng, "name": self.name,
+                "prac_name": name, "phone": phone,
+                "mods": mods, "description": self.description,
+                "street": self.street,
+                "city": self.city}

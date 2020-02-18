@@ -49,7 +49,7 @@ def register_clinic(request):
 
 def clinic_listing(request):
     clinics = Clinic.objects.all()
-
+    
     def list_of_coords():
         latlng = []
         for clinic in clinics:
@@ -67,50 +67,49 @@ def clinic_listing(request):
         'latlng': list_of_coords(),
     })
 
-
 def search(request):
+    search_result = []
+    # search_term = "Göteborg"
+    search_term = "ChiNeiTsang"
     result = []
-    search_vector = SearchVector('practitioner__first_name', 'description',
+    search_vector = SearchVector('name', 'practitioner__first_name', 'description',
                                  'street', 'city')
     qs = Clinic.objects.annotate(search=search_vector).filter(
-        search='tuina').values()
+        search=search_term).values()
     if qs:
-        for i in qs[0]:
-            result.append(i)
+        for i in qs:
+            search_result.append(Clinic.objects.get(practitioner=i['practitioner_id']).get_clinic_details())
+
     else:
 
-        if Modalities.objects.filter(name="Acupuncture").exists():
-            s_mod = Modalities.objects.get(name="Acupuncture")
+        if Modalities.objects.filter(name=search_term).exists():
+            s_mod = Modalities.objects.get(name=search_term)
             s_users = Profile.objects.filter(
-                mods__name__contains='Acupuncture').values()
-            # print(s_users)
+                mods__name__contains=search_term).values()
             for i in s_users:
                 result.append(i)
-    print(result)
 
     def find_clinics(result):
         r_array = []
-        # l_array = []
-        for i in result:
-            r_array.append(Clinic.objects.get(practitioner=i['user_id']))
-            # for j in r_array[0]:
-            #   l_array.append(j)
 
-        # print(l_array)
-        print(r_array)
+        for i in result:
+            r_array.append(Clinic.objects.get(practitioner=i['user_id']).get_clinic_details())
         return (r_array)
 
-    find_clinics(result)
+    def colate_results(sv_result, mod_result):
+        search_result = sv_result + mod_result
+        return search_result
 
     return render(
         request,
         'clinic_listing.html',
         {
             'api_key': api_key,
-            #'result': find_clinics(result)
+            'result': colate_results(search_result, find_clinics(result)),
             #            'latlng': search_result,
             #'clinic': find_clinics(result),
             # 'mods': get_mods
+            # 'result': find_clinics(result)
         })
 
 

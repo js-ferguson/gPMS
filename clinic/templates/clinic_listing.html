@@ -15,15 +15,19 @@
 <div class="listing-body">
     <div class="listing-frame">
         <ul>
-            {% for clinic in clinics %}
-            {% for i in clinic %}
+            {% for clinic in result %}
             <div class="listing-card">
                 <li>{{ clinic.name }}</li>
+                <li>{{ clinic.prac_name }}</li>
+                <li>{{ clinic.description }}</li>
+                {% for m in clinic.mods %}
+                <li>{{ m }}</li>
+                {% endfor %}
                 <li>{{ clinic.phone }}</li>
-                <li>{{ clinic.practitioner.user.mods }}</li>
+                <li>{{ clinic.street }}</li>
+                <li>{{ clinic.city }}</li>
             </div>
             {% endfor %}
-           {% endfor %}
         </ul>
     </div>
 
