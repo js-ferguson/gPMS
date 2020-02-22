@@ -17,16 +17,15 @@ class Modalities(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,
-                                on_delete=models.CASCADE)
-    bio = models.TextField(max_length=5000)
-    mods = models.ManyToManyField(Modalities)
-    phone = PhoneNumberField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=5000, blank=True)
+    mods = models.ManyToManyField(Modalities, blank=True)
+    phone = PhoneNumberField(blank=True)
     clinics = models.ManyToManyField(Clinic)
     personnummer = models.CharField(max_length=12)
     street = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
-    consent = models.BooleanField()
+    consent = models.BooleanField(blank=True)
 
     def __str__(self):
         return self.user.email

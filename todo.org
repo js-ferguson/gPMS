@@ -6,13 +6,17 @@ GoannaPMS - Todo
 * TODO Edit models
   - Add Field for website to clinic models
   - Remove bio from regular site users
-* TODO Fix markers on search page parsing the wrong url
+* DONE Fix markers on search page parsing the wrong url
+  CLOSED: [2020-02-18 Tue 17:31]
 * TODO Add user reviews section to clinic profile pages
 * TODO Fix user profiles so the look better and users can update their details
 * TODO fix practitioner profiles so that they can be updated by users
 * TODO Change profile creation so that regular users dont have to write a bio
 * TODO Add more decriptive labels in all sign up forms
 * TODO figure out some nice styling
+* TODO Redirect logged in users away from the landing page.
+  - maybe send them to a listing of local clinics
+* TODO Separate search function into it's own module/class
 
 * TODO responsive design
 
@@ -52,7 +56,7 @@ GoannaPMS - Todo
 1. For sign up either as a patient or practitioner
 2. To add extra personal details.
 3. To register a clinic.
-
+   
 * DONE Create a model for clinics to be registered
   CLOSED: [2020-01-19 Sun 12:09]
 1. Model needs to allow for a clinic to be associated with a practitioner
