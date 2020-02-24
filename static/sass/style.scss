@@ -34,12 +34,13 @@ body {
 
 .private-business {
     width: 100%;
-    margin: auto;
-    margin-top: 20px;
+    padding: 25px 25px 0 25px;
+    
     .form {
-        @include jumbo-frame;
-        top: 10%;
-        left: 65%;
+        margin-top: 15px;
+      //  @include jumbo-frame;
+        //top: 10%;
+        //left: 65%;
         //float: right;
     }
     .welcome {

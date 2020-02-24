@@ -96,13 +96,17 @@ function mapSelector(){
         setCurrentLocation();
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10,
+            mapTypeId: 'hybrid',
+            disableDefaultUI: true,
         });
         placeMarkers(latlng);
 
     } else {
         setCurrentLocation();
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10
+            zoom: 10,
+            mapTypeId: 'hybrid',
+            disableDefaultUI: true,
         });
         placeMarkers(latlng);
     }

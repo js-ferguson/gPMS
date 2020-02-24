@@ -6,26 +6,28 @@
 {{ api_key|json_script:"api-key" }}
 {{ c_list|json_script:"latlng-data" }}
 
-<div class="container">
-<div class="row">
-    <div class="private-business">
-        <div class="welcome col-sm">
-            <h1>Welcome to The Goanna Patient Management System.</h1>
-            <p>You can register a free account to use the site, or browse the public listing of clinics</p>
-        </div>
+<div class="row map-banner">
+    <div class="col-sm map-frame">
         <div id="map"></div>
-            <div class="form col-sm"> <form method="POST" action="/index/">
-                <fieldset class="form-group">
-                    <legend>Sign up now!</legend>
-                    <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
-                    {% csrf_token %}
-                    {{ form | as_bootstrap}}
-                    <button type="submit" class="btn btn-primary">Create account</button>
-                </fieldset>
-            </form>
-        </div>
     </div>
 </div>
+
+<div class="row private-business">
+    <div class="welcome col-sm">
+        <h1>Welcome to The Goanna Patient Management System.</h1>
+        <p>You can register a free account to use the site, or browse the public listing of clinics</p>
+    </div>
+    <div class="form col-sm">
+        <form method="POST" action="/index/">
+            <fieldset class="form-group">
+                <legend>Sign up now!</legend>
+                <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
+                {% csrf_token %}
+                {{ form | as_bootstrap}}
+                <button type="submit" class="btn btn-primary">Create account</button>
+            </fieldset>
+        </form>
+    </div>
 </div>
 {% endblock %}
 

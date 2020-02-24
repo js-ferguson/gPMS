@@ -10,27 +10,9 @@ body {
 
 .private-business {
   width: 100%;
-  margin: auto;
-  margin-top: 20px; }
+  padding: 25px 25px 0 25px; }
   .private-business .form {
-    background-color: black;
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/opacity/see-through */
-    color: white;
-    font-weight: bold;
-    border: 3px solid #f1f1f1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    width: 30%;
-    padding: 20px;
-    text-align: center;
-    filter: None;
-    -webkit-filter: None;
-    top: 10%;
-    left: 65%; }
+    margin-top: 15px; }
   .private-business .welcome {
     margin-top: 30px;
     width: 50%; }
