@@ -36,6 +36,7 @@
             </div>
             {% endfor %}
         </ul>
+        <hr>
     </div>
 </div>
 <div class="row reviews">
@@ -53,7 +54,6 @@
     </div>
 
     <div class="col-sm review-frame">
-        <legend>Reviews</legend>
         {% if not reviews %}
         <p>There are no reviews yet.</p>
         <p>You could be the first!</p>
@@ -63,12 +63,13 @@
         <div class="review-slip col-sm">
             <div>
             <h5 class="review-title">{{ r.title }}</h5> 
-            <button class="btn-small btn-danger">Edit</button>
+            <button class="btn-small">Edit</button>
             </div>
             <div>
             <p>{{ r.body }}</p>
             </div>
         </div>
+        <hr>
         {% endfor %}
     </div>
 </div>
