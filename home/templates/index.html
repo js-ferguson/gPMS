@@ -6,17 +6,15 @@
 {{ api_key|json_script:"api-key" }}
 {{ c_list|json_script:"latlng-data" }}
 
-
+<div class="container">
 <div class="row">
     <div class="private-business">
-        <div class="image"></div>
-
-        <div class="welcome">
+        <div class="welcome col-sm">
             <h1>Welcome to The Goanna Patient Management System.</h1>
             <p>You can register a free account to use the site, or browse the public listing of clinics</p>
         </div>
         <div id="map"></div>
-            <div class="form"> <form method="POST" action="/index/">
+            <div class="form col-sm"> <form method="POST" action="/index/">
                 <fieldset class="form-group">
                     <legend>Sign up now!</legend>
                     <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
@@ -27,6 +25,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
 

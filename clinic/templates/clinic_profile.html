@@ -2,19 +2,25 @@
 {% extends "base.html" %}
 {% load bootstrap_tags %}
 {% block content %}
+{% load static %}
 
 {{ latlng|json_script:"latlng-data" }}
 {{ api_key|json_script:"api-key" }}
+<script src="{% static 'js/reviews.js' %}"></script>
 
 <!-- <script type="text/javascript" src="../static/js/maps.js"></script> -->
 
-<div class="listing-body">
-    <div class="listing-frame">
+<div class="row map-banner">
+    <div class="col-sm map-frame">
+        <div id="map"></div>
+    </div>
+</div>
+<div class="row listing-body">
+    <div class="col-sm listing-frame">
         <ul>
             {% for ob in clinic %}
-           
             <div class="profile-card">
-                <h3>{{ ob.name }}</h3>
+                <h2>{{ ob.name }}</h2>
                 <p>{{ ob.description }}</p>
                 <h4>Available Therapies</h4>
                 {% for m in mods %}
@@ -30,8 +36,33 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="map-frame">
-        <div id="map"></div>
+</div>
+<div class="row reviews">
+    <div class="col-sm review-form">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {% for ob in clinic %}
+                <legend>Leave a review for {{ ob.name }}</legend>
+                {% endfor %}
+                {{ form | as_bootstrap}}
+                <button type="submit" class="btn btn-primary">Done!</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="col-sm review-frame">
+        <legend>User Reviews</legend>
+        {% for r in reviews %}
+        <div class col-sm>
+            <div>
+            <h4>{{ r.title }}</h4> 
+            </div>
+            <div>
+            <p>{{ r.body }}</p>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 

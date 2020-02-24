@@ -1,12 +1,21 @@
+from django import forms
 from django.contrib.auth import get_user_model
-from django.forms import ModelForm
 
-from .models import Clinic
+from .models import Clinic, Reviews
 
 User = get_user_model()
 
 
-class RegisterClinicForm(ModelForm):
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Reviews
+        fields = (
+            'title',
+            'body',
+        )
+
+
+class RegisterClinicForm(forms.ModelForm):
     class Meta:
         model = Clinic
         fields = (

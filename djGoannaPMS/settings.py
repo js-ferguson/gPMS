@@ -27,7 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.environ.get("DEV"):
     import env
     DEBUG = True
-    print(f'Importing env.py and running with dev environment variables \n Debugging is {DEBUG}')
+    print(
+        f'Importing env.py and running with dev environment variables \n Debugging is {DEBUG}'
+    )
 else:
     DEBUG = False
 
@@ -152,3 +154,5 @@ AUTH_USER_MODEL = 'django_auth.CustomUser'
 AUTH_PROFILE_MODULE = 'accounts.Profile'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+LOGIN_URL = "/login"

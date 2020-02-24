@@ -1,5 +1,6 @@
-from django.shortcuts import redirect, reverse, render
 from django.contrib import auth, messages
+from django.shortcuts import redirect, render, reverse
+
 from .forms import UserLoginForm
 
 
@@ -23,11 +24,14 @@ def login(request):
                 messages.success(request, 'You have been logged in')
                 if user.is_admin:
                     return redirect('/admin/')
-                return redirect('/profile/')
-            
+                elif user.is_practitioner:
+                    return redirect('/profile/')
+                else:
+                    return redirect('/user_profile/')
+
             else:
-                login_form.add_error(None,
-                "Your email address or password in incorrect")
+                login_form.add_error(
+                    None, "Your email address or password in incorrect")
     else:
         login_form = UserLoginForm()
     return render(request, 'login.html', {'login_form': login_form})

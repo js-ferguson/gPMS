@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, reverse
 
 from djGoannaPMS import settings
 
-from .forms import ProfileForm
+from .forms import ProfileForm, UserUpdateForm
 from .models import Modalities
 
 User = get_user_model()
@@ -30,10 +31,14 @@ def profile(request):
     })
 
 
+@login_required
 def user_profile(request):
     user = User.objects.get(email=request.user.email)
+    form = UserUpdateForm(request.POST)
+
     return render(request, 'user_profile.html', {
         'user': user,
+        'form': form,
     })
 
 

@@ -43,3 +43,13 @@ class Clinic(models.Model):
             "street": self.street,
             "city": self.city
         }
+
+
+class Reviews(models.Model):
+    title = models.CharField(max_length=128)
+    body = models.TextField(max_length=500)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    clinic = models.ForeignKey(Clinic,
+                               null=True,
+                               blank=True,
+                               on_delete=models.CASCADE)

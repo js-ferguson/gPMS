@@ -87,6 +87,8 @@ function mapSelector(){
     } else if (window.location.href.includes("/clinic/")) {
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 10,
+            mapTypeId: 'hybrid',
+            disableDefaultUI: true,
         });
         placeClinic(latlng);
 

@@ -2,11 +2,12 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-<p>This is some user information
+<p>
     <ul>
         <h2>{{ user.get_full_name }}</h2>
         <p>{{ user.email }}</p>
     </ul>
+    {{ form | as_bootstrap }}
 
 </p>
 {% endblock %}

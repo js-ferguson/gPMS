@@ -9,8 +9,8 @@ from geopy.geocoders import GoogleV3
 from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
 
-from .forms import RegisterClinicForm
-from .models import Clinic
+from .forms import RegisterClinicForm, ReviewForm
+from .models import Clinic, Reviews
 
 User = get_user_model()
 api_key = settings.GOOGLE_MAPS_API_KEY
@@ -126,6 +126,25 @@ def search(request):
 def clinic_profile(request, clinic_id):
 
     clinic = Clinic.objects.filter(pk=clinic_id)
+    form = ReviewForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            r_clinic = Clinic.objects.get(pk=clinic_id)
+            print("form is valid")
+            title = form.cleaned_data.get("title")
+            body = form.cleaned_data.get("body")
+            review = Reviews(title=title,
+                             body=body,
+                             author=request.user,
+                             clinic=r_clinic)
+            review.save()
+
+            messages.success(request, f'Thank you for leaving a review!')
+    # return render(request, 'clinic_profile.html', clinic_id=clinic_id)
+
+    clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
+    print(clinic_reviews)
+
     latlng = {
         "lat": clinic[0].lat,
         "lng": clinic[0].lng,
@@ -142,9 +161,12 @@ def clinic_profile(request, clinic_id):
         print(mods)
         return mods
 
-    return render(request, 'clinic_profile.html', {
-        'clinic': clinic,
-        'mods': get_mods,
-        'latlng': latlng,
-        'api_key': api_key
-    })
+    return render(
+        request, 'clinic_profile.html', {
+            'clinic': clinic,
+            'mods': get_mods,
+            'latlng': latlng,
+            'api_key': api_key,
+            'reviews': clinic_reviews,
+            'form': form,
+        })

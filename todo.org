@@ -3,15 +3,12 @@ GoannaPMS - Todo
 
 * TODO Think of a new name now that the focus has changed
 
-* TODO Edit models
-  - Add Field for website to clinic models
-  - Remove bio from regular site users
-* DONE Fix markers on search page parsing the wrong url
-  CLOSED: [2020-02-18 Tue 17:31]
 * TODO Add user reviews section to clinic profile pages
+* TODO Edit clinics
+  - clinics should be able to be updated from the user profile of the
+    practitioner
 * TODO Fix user profiles so the look better and users can update their details
 * TODO fix practitioner profiles so that they can be updated by users
-* TODO Change profile creation so that regular users dont have to write a bio
 * TODO Add more decriptive labels in all sign up forms
 * TODO figure out some nice styling
 * TODO Redirect logged in users away from the landing page.
@@ -34,12 +31,20 @@ GoannaPMS - Todo
 * TODO Create unit tests for home/views.py
 
   
+* DONE Change profile creation so that regular users dont have to write a bio
+  CLOSED: [2020-02-24 Mon 11:04]
 * DONE fix map view in clinic profile. It should center on the clinic, not the users location
   CLOSED: [2020-02-18 Tue 16:43]
   :PROPERTIES:
   :ID:       05310eb7-6521-4288-a2b9-770c163c779f
   :END:
 
+* DONE Edit models
+  CLOSED: [2020-02-24 Mon 11:04]
+  - Add Field for website to clinic models
+  - Remove bio from regular site users
+* DONE Fix markers on search page parsing the wrong url
+  CLOSED: [2020-02-18 Tue 17:31]
 * DONE create a search listing page  
   CLOSED: [2020-02-18 Tue 16:31]
 - That is displayed after a pin is selected from the map or a search is performed
