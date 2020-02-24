@@ -77,12 +77,16 @@ body {
 
 .listing-body {
     width: 100%;
+    margin: 0;
     // height: 500px;
     margin-top: 20px;
     .listing-frame {
         width: 40%;
         height: 100%;
         display: inline-block;
+        hr {
+            margin: 0 25px 0 25px;
+        }
 
         .listing-card {
             background-color: #ffebcd;
@@ -95,7 +99,7 @@ body {
             }
         }
         .profile-card {
-            background-color: #ffebcd;
+            background-color: #fafafa;
             padding: 15px;
             border-radius: 5px;
             height: 100%; 
@@ -127,16 +131,16 @@ body {
 }
 
 .reviews {
-    padding: 0 55px 55px;
-    margin-top: 0;
+    padding: 25px;
+    margin: 0;
     width: 100%;
     .review-frame {
-        //float: right;
-        background-color: #dffbe7;
+        margin: 0;
+        //background-color: #dffbe7;
         .review-slip {
-            background-color: #d2e6d8;
-            padding: 15px;
-            margin-bottom: 10px;
+            //background-color: #d2e6d8;
+            //padding: 15px;
+            //margin-bottom: 10px;
             .review-title {
                 display: inline-block;
             }

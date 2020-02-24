@@ -58,11 +58,14 @@ body {
 
 .listing-body {
   width: 100%;
+  margin: 0;
   margin-top: 20px; }
   .listing-body .listing-frame {
     width: 40%;
     height: 100%;
     display: inline-block; }
+    .listing-body .listing-frame hr {
+      margin: 0 25px 0 25px; }
     .listing-body .listing-frame .listing-card {
       background-color: #ffebcd;
       padding: 15px;
@@ -71,7 +74,7 @@ body {
       .listing-body .listing-frame .listing-card li {
         list-style-position: inside; }
     .listing-body .listing-frame .profile-card {
-      background-color: #ffebcd;
+      background-color: #fafafa;
       padding: 15px;
       border-radius: 5px;
       height: 100%; }
@@ -93,19 +96,15 @@ body {
       width: 100%; }
 
 .reviews {
-  padding: 0 55px 55px;
-  margin-top: 0;
+  padding: 25px;
+  margin: 0;
   width: 100%; }
   .reviews .review-frame {
-    background-color: #dffbe7; }
-    .reviews .review-frame .review-slip {
-      background-color: #d2e6d8;
-      padding: 15px;
-      margin-bottom: 10px; }
-      .reviews .review-frame .review-slip .review-title {
-        display: inline-block; }
-      .reviews .review-frame .review-slip .btn-small {
-        display: inline-block;
-        float: right; }
+    margin: 0; }
+    .reviews .review-frame .review-slip .review-title {
+      display: inline-block; }
+    .reviews .review-frame .review-slip .btn-small {
+      display: inline-block;
+      float: right; }
 
 /*# sourceMappingURL=style.css.map */
