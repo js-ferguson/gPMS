@@ -17,8 +17,7 @@ def profile(request):
     user = User.objects.get(email=request.user.email)
     mods = user.profile.mods.all()
     latlng = [user.clinic.lat, user.clinic.lng]
-    matches = [val for val in user.profile.mods.all()]
-    print(matches)
+    # matches = [val for val in user.profile.mods.all()]
     for mod in mods:
         print(mod.name)
 
@@ -28,6 +27,13 @@ def profile(request):
         'mods': mods,
         'latlng': latlng,
         'api_key': api_key
+    })
+
+
+def user_profile(request):
+    user = User.objects.get(email=request.user.email)
+    return render(request, 'user_profile.html', {
+        'user': user,
     })
 
 

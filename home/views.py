@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 
 from accounts.forms import ProfileForm
 from clinic.models import Clinic
@@ -24,14 +24,23 @@ def index(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-            messages.success(
-                request,
-                f'Your account has been created. Please update your details')
-            # return redirect('index')
-            return render(request, "create_profile.html", {
-                "form": profile_form,
-                "user": user
-            })
+
+            if user.is_practitioner:
+                messages.success(
+                    request,
+                    f'Your account has been created. Please update your details'
+                )
+
+                return render(request, "create_profile.html", {
+                    "form": profile_form,
+                    "user": user
+                })
+
+            else:
+                messages.success(
+                    request,
+                    f'You can now update your details or begin your search')
+                return redirect(reverse('user_profile'))
 
     #if request.method == 'GET':
     #    search_form = NavSearchForm(request.GET)

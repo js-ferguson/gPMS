@@ -37,8 +37,10 @@
       <li class="nav-item">
           {% if user.is_admin %}
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-          {% else %}
+          {% elif user.is_practitioner %}
           <a class="nav-link" href="{% url 'profile' %}">Profile ({{ user.email }})</a>
+          {% else %}
+          <a class="nav-link" href="{% url 'user_profile' %}">Profile ({{ user.email }})</a>
           {% endif %}
       </li>
       <li class="nav-item">
