@@ -131,8 +131,22 @@ body {
     margin-top: 0;
     width: 100%;
     .review-frame {
-        float: right;
+        //float: right;
         background-color: #dffbe7;
+        .review-slip {
+            background-color: #d2e6d8;
+            padding: 15px;
+            margin-bottom: 10px;
+            .review-title {
+                display: inline-block;
+            }
+            .btn-small {
+                display: inline-block;
+                float: right;
+            }
+            
+        }
     }
+
 
 }

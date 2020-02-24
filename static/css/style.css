@@ -97,7 +97,15 @@ body {
   margin-top: 0;
   width: 100%; }
   .reviews .review-frame {
-    float: right;
     background-color: #dffbe7; }
+    .reviews .review-frame .review-slip {
+      background-color: #d2e6d8;
+      padding: 15px;
+      margin-bottom: 10px; }
+      .reviews .review-frame .review-slip .review-title {
+        display: inline-block; }
+      .reviews .review-frame .review-slip .btn-small {
+        display: inline-block;
+        float: right; }
 
 /*# sourceMappingURL=style.css.map */

@@ -28,6 +28,7 @@
                 {% endfor %}
                 <h4>Contact</h4>
                 <p>
+                    Web: <a  href="{{ ob.web }}" target="_blank">{{ ob.name }}</a><br>
                     Phone: {{ ob.phone }}<br>
                     Email: {{ ob.practitioner }}<br>
                     Address: {{ ob.street }} {{ ob.city }}
@@ -52,11 +53,17 @@
     </div>
 
     <div class="col-sm review-frame">
-        <legend>User Reviews</legend>
+        <legend>Reviews</legend>
+        {% if not reviews %}
+        <p>There are no reviews yet.</p>
+        <p>You could be the first!</p>
+        {% endif %}
+
         {% for r in reviews %}
-        <div class col-sm>
+        <div class="review-slip col-sm">
             <div>
-            <h4>{{ r.title }}</h4> 
+            <h5 class="review-title">{{ r.title }}</h5> 
+            <button class="btn-small btn-danger">Edit</button>
             </div>
             <div>
             <p>{{ r.body }}</p>
