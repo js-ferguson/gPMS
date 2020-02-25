@@ -92,6 +92,14 @@ function mapSelector(){
         });
         placeClinic(latlng);
 
+    } else if (window.location.href.includes("/profile/")) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            mapTypeId: 'hybrid',
+            disableDefaultUI: true,
+        });
+        placeClinic(latlng);
+
     } else if (window.location.href.includes("/search/")) {
         setCurrentLocation();
         map = new google.maps.Map(document.getElementById('map'), {

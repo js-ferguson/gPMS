@@ -139,19 +139,22 @@ body {
         margin: 0;
         //background-color: #dffbe7;
         .review-slip {
+            margin-top: 85px;
             //background-color: #d2e6d8;
             //padding: 15px;
             //margin-bottom: 10px;
             .review-title {
                 display: inline-block;
+                margin-bottom: 40px;
             }
             .btn-small {
                 display: inline-block;
                 float: right;
             }
-            
         }
     }
+}
 
-
+.profile {
+    margin: 30px 25px 0 0;
 }

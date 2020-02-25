@@ -83,10 +83,16 @@ body {
   width: 100%; }
   .reviews .review-frame {
     margin: 0; }
-    .reviews .review-frame .review-slip .review-title {
-      display: inline-block; }
-    .reviews .review-frame .review-slip .btn-small {
-      display: inline-block;
-      float: right; }
+    .reviews .review-frame .review-slip {
+      margin-top: 85px; }
+      .reviews .review-frame .review-slip .review-title {
+        display: inline-block;
+        margin-bottom: 40px; }
+      .reviews .review-frame .review-slip .btn-small {
+        display: inline-block;
+        float: right; }
+
+.profile {
+  margin: 30px 25px 0 0; }
 
 /*# sourceMappingURL=style.css.map */

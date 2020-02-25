@@ -2,28 +2,42 @@
 {% load bootstrap_tags %}
 {% block content %}
 
-{{latlng|json_script:"latlng"}}
-<p>This is some user information
+{{ api_key|json_script:"api-key" }}
+{{ latlng|json_script:"latlng-data" }}
+
+<div class="row map-banner">
+    <div class="col-sm map-frame">
+        <div id="map"></div>
+    </div>
+</div>
+
+<div class="row profile">
+    <div class="col-sm">
     <ul>
         <h2>{{ user.get_full_name }}</h2>
         <p>{{ user.email }}</p>
-        <h3>Bio</h3>
+        <legend>Bio</legend>
         <p>{{ user.profile.bio }}</p>
-        <h3>Available Therapies</h3>
-        <div class="profile-mods">
-            {% for mod in mods %}
-            <li>{{ mod.name }}</li>
-            {% endfor %}
-        </div>
-        <h3>Clinics Detail</h3>
-        <h4>{{ user.clinic.name }}</h4>
-        <p>{{ user.clinic.description }}<p>
+        <p>{{ user.clinic.web }}</p>
         <p>{{ user.clinic.phone }}</p>
         <p>{{ user.clinic.street }}</p>
         <p>{{ user.clinic.city }}</p>
     </ul>
+    </div>
+    <div class="col-sm">
+        <ul>
+            <h2>{{ user.clinic.name }}</h2>
+            <p>{{ user.clinic.description }}</p>
 
-</p>
+            <legend>Available Therapies</legend>
+            <div class="profile-mods">
+                {% for mod in mods %}
+                <li>{{ mod.name }}</li>
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+</div>
 <form method="post" action="{% url 'create_profile' %}" class="accountform">
     <fieldset class="form-group">
     </fieldset>

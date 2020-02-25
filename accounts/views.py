@@ -17,7 +17,12 @@ def profile(request):
     """
     user = User.objects.get(email=request.user.email)
     mods = user.profile.mods.all()
-    latlng = [user.clinic.lat, user.clinic.lng]
+    latlng = {
+        "lat": user.clinic.lat,
+        "lng": user.clinic.lng,
+        "name": user.clinic.name
+    }
+    print(latlng)
     # matches = [val for val in user.profile.mods.all()]
     for mod in mods:
         print(mod.name)

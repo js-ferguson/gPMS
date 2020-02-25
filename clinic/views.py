@@ -143,7 +143,6 @@ def clinic_profile(request, clinic_id):
     # return render(request, 'clinic_profile.html', clinic_id=clinic_id)
 
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
-    print(clinic_reviews)
 
     latlng = {
         "lat": clinic[0].lat,
