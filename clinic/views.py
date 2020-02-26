@@ -71,7 +71,6 @@ def search(request):
     search_term = request.POST.get('search_term')
     print(search_term)
     search_result = []
-    # search_term = "Göteborg"
     result = []
     search_vector = SearchVector('name', 'practitioner__first_name',
                                  'description', 'street', 'city')
@@ -84,7 +83,6 @@ def search(request):
                     practitioner=i['practitioner_id']).get_clinic_details())
     else:
         if Modalities.objects.filter(name__iexact=search_term).exists():
-            # s_mod = Modalities.objects.get(name=search_term)
             s_users = Profile.objects.filter(
                 mods__name__icontains=search_term).values()
             for i in s_users:
@@ -127,29 +125,12 @@ def clinic_profile(request, clinic_id):
 
     clinic = Clinic.objects.filter(pk=clinic_id)
     form = ReviewForm(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            r_clinic = Clinic.objects.get(pk=clinic_id)
-            print("form is valid")
-            title = form.cleaned_data.get("title")
-            body = form.cleaned_data.get("body")
-            review = Reviews(title=title,
-                             body=body,
-                             author=request.user,
-                             clinic=r_clinic)
-            review.save()
-
-            messages.success(request, f'Thank you for leaving a review!')
-    # return render(request, 'clinic_profile.html', clinic_id=clinic_id)
-
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
-
     latlng = {
         "lat": clinic[0].lat,
         "lng": clinic[0].lng,
         "name": clinic[0].name
     }
-    print(latlng)
 
     def get_mods():
         profile = Profile.objects.filter(user=Clinic.objects.get(
@@ -160,6 +141,9 @@ def clinic_profile(request, clinic_id):
         print(mods)
         return mods
 
+    if request.user.is_active:
+        form = ReviewForm(initial=request.session['initial'])
+
     return render(
         request, 'clinic_profile.html', {
             'clinic': clinic,
@@ -169,3 +153,39 @@ def clinic_profile(request, clinic_id):
             'reviews': clinic_reviews,
             'form': form,
         })
+
+
+def create_review(request, clinic_id):
+    form = ReviewForm(request.POST)
+    if request.method == 'POST':
+        if request.user.is_active:
+            if form.is_valid():
+                r_clinic = Clinic.objects.get(pk=clinic_id)
+                title = form.cleaned_data.get("title")
+                body = form.cleaned_data.get("body")
+                review = Reviews(title=title,
+                                 body=body,
+                                 author=request.user,
+                                 clinic=r_clinic)
+            print("active")
+            review.save()
+            messages.success(request, f'Thank you for leaving a review!')
+        else:
+            print("inactive")
+            messages.error(request, f'You must be logged in to post a review')
+            return redirect('login')
+    return redirect('clinic_profile', clinic_id=clinic_id)
+
+
+def edit_review(request, review_id):
+    review = Reviews.objects.get(pk=review_id)
+    clinic_id = review.clinic.id
+    title_data = review.title
+    body_data = review.body
+    if review.author == request.user:
+        print(request.user)
+        request.session['initial'] = {"title": title_data, "body": body_data}
+        return redirect('clinic_profile', clinic_id=clinic_id)
+    else:
+        messages.error(request, f"You don't have permission to edit that")
+        return redirect('clinic_profile', clinic_id=clinic_id)

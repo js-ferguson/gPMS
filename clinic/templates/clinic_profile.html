@@ -41,7 +41,7 @@
 </div>
 <div class="row reviews">
     <div class="col-sm review-form">
-        <form method="POST" action="">
+        <form method="POST" action="create_review/">
             {% csrf_token %}
             <fieldset class="form-group">
                 {% for ob in clinic %}
@@ -62,12 +62,12 @@
         {% for r in reviews %}
         <div class="review-slip col-sm">
             <div>
-            <h5 class="review-title">{{ r.title }}</h5> 
-            <button class="btn-small btn-danger">Delete</button>
-            <button class="btn-small">Edit</button>
+                <h5 class="review-title">{{ r.title }}</h5> 
+                <button class="btn-small"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
+               
             </div>
             <div>
-            <p>{{ r.body }}</p>
+                <p>{{ r.body }}</p>
             </div>
         </div>
         <hr>
