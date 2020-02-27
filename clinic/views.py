@@ -142,7 +142,10 @@ def clinic_profile(request, clinic_id):
         return mods
 
     if request.user.is_active:
-        form = ReviewForm(initial=request.session['initial'])
+        if 'initial' in request.session:
+            print("It's in here")
+            form = ReviewForm(initial=request.session['initial'])
+            # This will populate the review form with the review to be edited on, and it populates on any page... Please set a session variable with the clinic_id to be edited and check that it matches the page you are on before pre-filling the form. Also... delete 'initial' from session when your done.
 
     return render(
         request, 'clinic_profile.html', {
