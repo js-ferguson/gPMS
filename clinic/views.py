@@ -29,9 +29,6 @@ def register_clinic(request):
             address = form.cleaned_data.get(
                 "street") + " " + form.cleaned_data.get("city")
             coords = locator.geocode(address)
-            print(
-                f'Latitude = {coords.latitude}, Longitude = {coords.longitude}'
-            )
 
             model.lat = coords.latitude
             model.lng = coords.longitude
@@ -69,7 +66,6 @@ def clinic_listing(request):
 
 def search(request):
     search_term = request.POST.get('search_term')
-    print(search_term)
     search_result = []
     result = []
     search_vector = SearchVector('name', 'practitioner__first_name',
@@ -126,6 +122,13 @@ def clinic_profile(request, clinic_id):
     clinic = Clinic.objects.filter(pk=clinic_id)
     form = ReviewForm(request.POST)
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
+    # Test if clinic_id in session['initial'] matched the current clinic id
+    # if not, remove 'initial' from request.session
+    if 'initial' in request.session:
+        print(clinic_id)
+        if request.session['initial']['clinic_id'] != clinic_id:
+            del request.session['initial']
+    edit = False
     latlng = {
         "lat": clinic[0].lat,
         "lng": clinic[0].lng,
@@ -138,13 +141,14 @@ def clinic_profile(request, clinic_id):
         mods = profile[0].mods.all().values('name') if profile else []
 
         mods = [(q['name']) for q in mods]
-        print(mods)
         return mods
 
     if request.user.is_active:
         if 'initial' in request.session:
             print("It's in here")
+            edit = True
             form = ReviewForm(initial=request.session['initial'])
+
             # This will populate the review form with the review to be edited on, and it populates on any page... Please set a session variable with the clinic_id to be edited and check that it matches the page you are on before pre-filling the form. Also... delete 'initial' from session when your done.
 
     return render(
@@ -155,6 +159,7 @@ def clinic_profile(request, clinic_id):
             'api_key': api_key,
             'reviews': clinic_reviews,
             'form': form,
+            'edit': edit,
         })
 
 
@@ -170,11 +175,9 @@ def create_review(request, clinic_id):
                                  body=body,
                                  author=request.user,
                                  clinic=r_clinic)
-            print("active")
             review.save()
             messages.success(request, f'Thank you for leaving a review!')
         else:
-            print("inactive")
             messages.error(request, f'You must be logged in to post a review')
             return redirect('login')
     return redirect('clinic_profile', clinic_id=clinic_id)
@@ -185,10 +188,28 @@ def edit_review(request, review_id):
     clinic_id = review.clinic.id
     title_data = review.title
     body_data = review.body
+
+    if request.method == 'POST' and review.author == request.user:
+        review.title = request.POST['title']
+        review.body = request.POST['body']
+        review.author = request.user
+        review.save()
+        del request.session['initial']
+        print(
+            f'review {review_id} has been saved and cleared from the session')
+        messages.success(request, f"Your review has been updated")
+        return redirect('clinic_profile', clinic_id=clinic_id)
+
     if review.author == request.user:
-        print(request.user)
-        request.session['initial'] = {"title": title_data, "body": body_data}
+        print(f'request.user {request.user} = review.author {review.author}')
+        request.session['initial'] = {
+            "title": title_data,
+            "body": body_data,
+            "clinic_id": clinic_id
+        }
         return redirect('clinic_profile', clinic_id=clinic_id)
     else:
         messages.error(request, f"You don't have permission to edit that")
+        if 'initial' in request.session:
+            del request.session['initial']
         return redirect('clinic_profile', clinic_id=clinic_id)
