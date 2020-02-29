@@ -86,7 +86,7 @@ function mapSelector(){
 
     } else if (window.location.href.includes("/clinic/")) {
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 20,
+            zoom: 17,
             mapTypeId: 'hybrid',
             disableDefaultUI: true,
         });
@@ -94,7 +94,7 @@ function mapSelector(){
 
     } else if (window.location.href.includes("/profile/")) {
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 1,
+            zoom: 17,
             mapTypeId: 'hybrid',
             disableDefaultUI: true,
         });
