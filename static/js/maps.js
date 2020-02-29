@@ -86,7 +86,7 @@ function mapSelector(){
 
     } else if (window.location.href.includes("/clinic/")) {
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
+            zoom: 20,
             mapTypeId: 'hybrid',
             disableDefaultUI: true,
         });
@@ -94,10 +94,11 @@ function mapSelector(){
 
     } else if (window.location.href.includes("/profile/")) {
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
+            zoom: 1,
             mapTypeId: 'hybrid',
             disableDefaultUI: true,
         });
+        console.log(map.zoom)
         placeClinic(latlng);
 
     } else if (window.location.href.includes("/search/")) {
