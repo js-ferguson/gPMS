@@ -154,6 +154,12 @@ body {
             .btn-small {
                 display: inline-block;
                 float: right;
+                byorder-radius: 4px;
+                margin-right: 2px;
+                a {
+                    color: #fff;
+                    text-decoration: none;
+                }
             }
         }
     }

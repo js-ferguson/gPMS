@@ -160,6 +160,7 @@ def clinic_profile(request, clinic_id):
             'reviews': clinic_reviews,
             'form': form,
             'edit': edit,
+            'user': request.user
         })
 
 
@@ -213,3 +214,12 @@ def edit_review(request, review_id):
         if 'initial' in request.session:
             del request.session['initial']
         return redirect('clinic_profile', clinic_id=clinic_id)
+
+
+def delete_review(request, review_id):
+    review = Reviews.objects.get(pk=review_id)
+    clinic_id = review.clinic.id
+    print(review.id)
+    if review.author == request.user:
+        review.delete()
+    return redirect('clinic_profile', clinic_id=clinic_id)

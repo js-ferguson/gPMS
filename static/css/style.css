@@ -93,7 +93,12 @@ body {
         margin-bottom: 40px; }
       .reviews .review-frame .review-slip .btn-small {
         display: inline-block;
-        float: right; }
+        float: right;
+        byorder-radius: 4px;
+        margin-right: 2px; }
+        .reviews .review-frame .review-slip .btn-small a {
+          color: #fff;
+          text-decoration: none; }
 
 .profile {
   margin: 30px 25px 0 0; }

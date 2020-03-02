@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import (clinic_listing, clinic_profile, create_review, edit_review,
-                    register_clinic, search)
+from .views import (clinic_listing, clinic_profile, create_review,
+                    delete_review, edit_review, register_clinic, search)
 
 # from accounts import views as account_views
 
@@ -14,6 +14,10 @@ urlpatterns = [
     path('clinic/<int:clinic_id>/create_review/',
          create_review,
          name='create_review'),
-    path('clinic/edit_review/<int:review_id>', edit_review, name='edit_review')
+    path('clinic/edit_review/<int:review_id>', edit_review,
+         name='edit_review'),
+    path('clinic/delete_review/<int:review_id>',
+         delete_review,
+         name='delete_review')
     # path('login', account_views.login, name='login'),
 ]

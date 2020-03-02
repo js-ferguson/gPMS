@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, reverse
 
+from clinic.models import Clinic
 from djGoannaPMS import settings
 
 from .forms import ProfileForm, UserUpdateForm
@@ -16,11 +17,14 @@ def profile(request):
     Displays the users profile
     """
     user = User.objects.get(email=request.user.email)
+    print(user.clinic.id)
     mods = user.profile.mods.all()
     latlng = {
         "lat": user.clinic.lat,
         "lng": user.clinic.lng,
-        "name": user.clinic.name
+        "name": user.clinic.name,
+        "url": "clinic/" + str(user.clinic.id),
+        "clinic_id": user.clinic.id
     }
     print(latlng)
     # matches = [val for val in user.profile.mods.all()]
@@ -34,6 +38,16 @@ def profile(request):
         'latlng': latlng,
         'api_key': api_key
     })
+
+
+def update_location(request, lat, lng, clinic_id):
+    print(lat, lng, clinic_id)
+    clinic = Clinic.objects.get(pk=clinic_id)
+    print(clinic.lat)
+    clinic.lat = lat
+    clinic.lng = lng
+    clinic.save()
+    return redirect('profile')
 
 
 @login_required
