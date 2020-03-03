@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.forms import Textarea, TextInput
 
 from .models import Clinic, Reviews
 
@@ -13,6 +14,14 @@ class ReviewForm(forms.ModelForm):
             'title',
             'body',
         )
+        labels = {
+            "title": "",
+            "body": "",
+        }
+        widgets = {
+            'title': TextInput(attrs={'placeholder': "Title"}),
+            'body': Textarea(attrs={'placeholder': "Review"})
+        }
 
 
 class RegisterClinicForm(forms.ModelForm):
