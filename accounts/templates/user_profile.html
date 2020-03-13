@@ -2,14 +2,20 @@
 {% load bootstrap_tags %}
 {% block content %}
 
+<div class="row map-banner">
+    <div class="col-sm map-frame">
+        <div id="map"></div>
+    </div>
+</div>
+
 <div class="container">
 <p>
     <ul>
         <h2>{{ user.get_full_name }}</h2>
         <p>{{ user.email }}</p>
     </ul>
+    {% csrf_token %}
     {{ form | as_bootstrap }}
-
 </p>
 </div>
 {% endblock %}

@@ -3,10 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, reverse
 
+from accounts.models import Profile
+from clinic.forms import RegisterClinicForm
 from clinic.models import Clinic
 from djGoannaPMS import settings
 
-from .forms import ProfileForm, UserUpdateForm
+from .forms import ProfileForm, ProfileUpdateForm, UserUpdateForm
 from .models import Modalities
 
 User = get_user_model()
@@ -26,18 +28,47 @@ def profile(request):
         "url": "clinic/" + str(user.clinic.id),
         "clinic_id": user.clinic.id
     }
-    print(latlng)
+
+    profile_form_initial = {
+        'bio': user.profile.bio,
+        'phone': user.profile.phone,
+        'street': user.profile.street,
+        'city': user.profile.city
+    }
+    profile_form = ProfileUpdateForm(initial=profile_form_initial)
+
+    user_form_initial = {
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'email': user.email
+    }
+    user_form = UserUpdateForm(initial=user_form_initial)
+
+    clinic_form_initial = {
+        'name': user.clinic.name,
+        'description': user.clinic.description,
+        'phone': user.clinic.phone,
+        'web': user.clinic.web,
+        'street': user.clinic.street,
+        'city': user.clinic.city
+    }
+    clinic_form = RegisterClinicForm(initial=clinic_form_initial)
+
     # matches = [val for val in user.profile.mods.all()]
     for mod in mods:
         print(mod.name)
 
     api_key = settings.GOOGLE_MAPS_API_KEY
-    return render(request, 'profile.html', {
-        'user': user,
-        'mods': mods,
-        'latlng': latlng,
-        'api_key': api_key
-    })
+    return render(
+        request, 'profile.html', {
+            'user': user,
+            'mods': mods,
+            'latlng': latlng,
+            'api_key': api_key,
+            'profile_form': profile_form,
+            'user_form': user_form,
+            'clinic_form': clinic_form,
+        })
 
 
 def update_location(request, lat, lng, clinic_id):
@@ -106,3 +137,38 @@ def create_profile(request):
     else:
         form = ProfileForm()
     return render(request, 'create_profile.html', {'form': form})
+
+
+def update_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+
+    user.first_name = request.POST['first_name']
+    user.last_name = request.POST['last_name']
+    user.email = request.POST['email']
+    user.save()
+    return redirect('profile')
+
+
+def update_profile(request, user_id):
+    profile = Profile.objects.get(user=user_id)
+    print(request.POST)
+
+    profile.bio = request.POST['bio']
+    profile.phone = request.POST['phone']
+    profile.street = request.POST['street']
+    profile.city = request.POST['city']
+    profile.save()
+    return redirect('profile')
+
+
+def update_clinic(request, user_id):
+    clinic = Clinic.objects.get(practitioner=user_id)
+
+    clinic.name = request.POST['name']
+    clinic.web = request.POST['name']
+    clinic.phone = request.POST['phone']
+    clinic.description = request.POST['description']
+    clinic.street = request.POST['street']
+    clinic.city = request.POST['city']
+    clinic.save()
+    return redirect('profile')

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+{% block content %}
+
+{{ api_key|json_script:"api-key" }}
+{{ latlng|json_script:"latlng-data" }}
+
+<div class="row map-banner">
+    <div class="col-sm map-frame">
+        <div id="map"></div>
+    </div>
+</div>
+
+<div class="row profile">
+    <div class="col-sm">
+    <ul>
+        <h2>{{ user.get_full_name }}</h2>
+        <p>{{ user.email }}</p>
+        <legend>Bio</legend>
+        <p>{{ user.profile.bio }}</p>
+        <p>{{ user.clinic.web }}</p>
+        <p>{{ user.clinic.phone }}</p>
+        <p>{{ user.clinic.street }}</p>
+        <p>{{ user.clinic.city }}</p>
+    </ul>
+    </div>
+    <div class="col-sm">
+        <ul>
+            <h2>{{ user.clinic.name }}</h2>
+            <p>{{ user.clinic.description }}</p>
+
+            <legend>Available Therapies</legend>
+            <div class="profile-mods">
+                {% for mod in mods %}
+                <li>{{ mod.name }}</li>
+                {% endfor %}
+            </div>
+            <div class="location">
+                <legend>Location</legend>
+                <p>You can adjust the position of you clinic on the map by dragging the marker and saving a new location</p>
+                <li>Location: <span id="current"></span></li>
+                <div id="save-loc"></div>
+            </div>
+        </ul>
+    </div>
+</div>
+<form method="post" action="{% url 'create_profile' %}" class="accountform">
+    <fieldset class="form-group">
+    </fieldset>
+</form>
+{% endblock %}

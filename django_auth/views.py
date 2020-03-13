@@ -31,7 +31,7 @@ def login(request):
 
             else:
                 login_form.add_error(
-                    None, "Your email address or password in incorrect")
+                    None, "Your email address or password is incorrect")
     else:
         login_form = UserLoginForm()
     return render(request, 'login.html', {'login_form': login_form})
