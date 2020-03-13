@@ -26,7 +26,11 @@ body {
     width: 50%; }
 
 .profile-mods {
-  padding-left: 25px; }
+  padding-left: 0; }
+  .profile-mods .mod-list {
+    padding-left: 25px; }
+  .profile-mods .btn {
+    margin-top: 15px; }
 
 .map-banner {
   width: 100%;
@@ -102,5 +106,11 @@ body {
 
 .profile {
   margin: 30px 25px 0 0; }
+
+#user-profile-form {
+  display: none; }
+
+#clinic-profile-form {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
