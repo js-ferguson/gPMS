@@ -12,11 +12,14 @@ from .forms import ProfileForm, ProfileUpdateForm, UserUpdateForm
 from .models import Modalities
 
 User = get_user_model()
+api_key = settings.GOOGLE_MAPS_API_KEY
 
 
+@login_required
 def profile(request):
     """
-    Displays the users profile
+    Displays the practitioners profile and allows them to
+    update their details as well as their clinics details.
     """
     user = User.objects.get(email=request.user.email)
     print(user.clinic.id)
@@ -54,11 +57,6 @@ def profile(request):
     }
     clinic_form = RegisterClinicForm(initial=clinic_form_initial)
 
-    # matches = [val for val in user.profile.mods.all()]
-    for mod in mods:
-        print(mod.name)
-
-    api_key = settings.GOOGLE_MAPS_API_KEY
     return render(
         request, 'profile.html', {
             'user': user,
@@ -71,10 +69,13 @@ def profile(request):
         })
 
 
+@login_required
 def update_location(request, lat, lng, clinic_id):
-    print(lat, lng, clinic_id)
+    '''
+    Takes a latitude, longitude and clinic_id and updates the position of
+    a clinics map marker
+    '''
     clinic = Clinic.objects.get(pk=clinic_id)
-    print(clinic.lat)
     clinic.lat = lat
     clinic.lng = lng
     clinic.save()
@@ -83,8 +84,11 @@ def update_location(request, lat, lng, clinic_id):
 
 @login_required
 def user_profile(request):
+    '''
+    Displays the logged in users profile and allows them to
+    update their details.
+    '''
     user = User.objects.get(email=request.user.email)
-    api_key = settings.GOOGLE_MAPS_API_KEY
     form = UserUpdateForm(request.POST)
     clinics = Clinic.objects.all()
 
@@ -109,6 +113,7 @@ def user_profile(request):
     })
 
 
+@login_required
 def create_profile(request):
     """
     Provides a profile creation form for the user to add personal i
@@ -156,6 +161,7 @@ def create_profile(request):
     return render(request, 'create_profile.html', {'form': form})
 
 
+@login_required
 def update_user(request, user_id):
     user = User.objects.get(pk=user_id)
 
@@ -166,9 +172,9 @@ def update_user(request, user_id):
     return redirect('profile')
 
 
+@login_required
 def update_profile(request, user_id):
     profile = Profile.objects.get(user=user_id)
-    print(request.POST)
 
     profile.bio = request.POST['bio']
     profile.phone = request.POST['phone']
@@ -178,6 +184,7 @@ def update_profile(request, user_id):
     return redirect('profile')
 
 
+@login_required
 def update_clinic(request, user_id):
     clinic = Clinic.objects.get(practitioner=user_id)
 
