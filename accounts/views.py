@@ -84,11 +84,28 @@ def update_location(request, lat, lng, clinic_id):
 @login_required
 def user_profile(request):
     user = User.objects.get(email=request.user.email)
+    api_key = settings.GOOGLE_MAPS_API_KEY
     form = UserUpdateForm(request.POST)
+    clinics = Clinic.objects.all()
+
+    def list_of_clinics():
+        c_list = []
+        for clinic in clinics:
+            if clinic.lat:
+                c_list.append({
+                    'lat': clinic.lat,
+                    'lng': clinic.lng,
+                    'name': clinic.name,
+                    'url': "clinic/" + str(clinic.id)
+                })
+        print(c_list)
+        return c_list
 
     return render(request, 'user_profile.html', {
         'user': user,
         'form': form,
+        'latlng': list_of_clinics,
+        'api_key': api_key
     })
 
 

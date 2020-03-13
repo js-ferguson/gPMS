@@ -2,6 +2,10 @@
 {% load bootstrap_tags %}
 {% block content %}
 
+{{ api_key|json_script:"api-key" }}
+{{ latlng|json_script:"latlng-data" }}
+
+
 <div class="row map-banner">
     <div class="col-sm map-frame">
         <div id="map"></div>
