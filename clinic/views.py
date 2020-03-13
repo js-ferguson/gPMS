@@ -210,6 +210,7 @@ def edit_review(request, review_id):
         }
         return redirect('clinic_profile', clinic_id=clinic_id)
     else:
+        print(f'{request.user} {review.author}')
         messages.error(request, f"You don't have permission to edit that")
         if 'initial' in request.session:
             del request.session['initial']
