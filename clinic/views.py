@@ -189,11 +189,11 @@ def edit_review(request, review_id):
     clinic_id = review.clinic.id
     title_data = review.title
     body_data = review.body
-
+    print(review.author)
     if request.method == 'POST' and review.author == request.user:
         review.title = request.POST['title']
         review.body = request.POST['body']
-        review.author = request.user
+        # review.author = request.user
         review.save()
         del request.session['initial']
         print(

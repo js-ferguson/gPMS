@@ -43,7 +43,9 @@
     <div class="col-sm review-form">
         {% if edit %}
         {% for r in reviews %}
+        {% if r.author == user %}
         <form method="POST" action="{% url 'edit_review' review_id=r.id %}">
+            {% endif %}
         {% endfor %}
         {% else %}    
         <form method="POST" action="create_review/">
@@ -72,7 +74,7 @@
         {% for r in reviews %}
         <div class="review-slip col-sm">
             <div>
-                <h5 class="review-title">{{ r.title }}</h5> 
+                <h5 class="review-title">{{ r.title }} by {{r.author}} {{r.id}}</h5> 
                 {% if r.author == user %}
                 <button class="btn-small btn-danger"><a href="{% url 'delete_review' review_id=r.id %}">Delete</a></button>
                 <button class="btn-small btn-primary"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
