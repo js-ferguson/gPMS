@@ -6,6 +6,7 @@ certifi==2019.11.28
 chardet==3.0.4
 Django==3.0.2
 django-forms-bootstrap==3.1.0
+django-google-maps==0.11.0
 django-phonenumber-field==4.0.0
 entrypoints==0.3
 flake8==3.7.9
@@ -13,7 +14,6 @@ future==0.18.2
 geographiclib==1.50
 geopy==1.20.0
 googlemaps==4.0.0
-gunicorn
 idna==2.8
 isort==4.3.21
 jedi==0.15.2
@@ -36,8 +36,9 @@ rope==0.16.0
 six==1.14.0
 snowballstemmer==2.0.0
 sqlparse==0.3.0
+stripe==2.44.0
 ujson==1.35
 urllib3==1.25.7
-whitenoise
+whitenoise==5.0.1
 wrapt==1.11.2
 yapf==0.29.0

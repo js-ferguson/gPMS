@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'clinic',
+    'payments',
     'phonenumber_field',
 ]
 
@@ -147,6 +148,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 GOOGLE_MAPS_API_KEY = os.environ.get('MAPS_KEY')
+
+STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
+STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
 PHONENUMBER_DB_FORMAT = 'E164'
 
