@@ -242,7 +242,7 @@ def update_clinic(request, user_id):
     clinic = Clinic.objects.get(practitioner=user_id)
 
     clinic.name = request.POST['name']
-    clinic.web = request.POST['name']
+    clinic.web = request.POST['web']
     clinic.phone = request.POST['phone']
     clinic.description = request.POST['description']
     clinic.street = request.POST['street']

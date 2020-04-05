@@ -28,7 +28,9 @@
                 {% endfor %}
                 <h4>Contact</h4>
                 <p>
+                    {% if ob.web %}
                     Web: <a  href="{{ ob.web }}" target="_blank">{{ ob.name }}</a><br>
+                    {% endif %}
                     Phone: {{ ob.phone }}<br>
                     Email: {{ ob.practitioner }}<br>
                     Address: {{ ob.street }} {{ ob.city }}

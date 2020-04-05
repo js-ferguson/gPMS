@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
     re_path(
-        r'^profile/(?P<lat>\d+\.\d{7})/(?P<lng>\d+\.\d{7})/(?P<clinic_id>\d+)/$',
+        r'^profile/(?P<lat>-?\d+\.\d{7})/(?P<lng>-?\d+\.\d{7})/(?P<clinic_id>\d+)/$',
         views.update_location,
         name='update_location'),
     path('create_profile/', views.create_profile, name='create_profile'),
@@ -23,5 +23,5 @@ urlpatterns = [
          name='update_clinic'),
     path('profile/update_mods/<int:user_id>/',
          views.update_mods,
-         name='update_mods'), 
+         name='update_mods'),
 ]

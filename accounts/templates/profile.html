@@ -48,7 +48,9 @@
             <h2>Clinic Profile</h2>
             <hr>
             <legend>{{ user.clinic.name }}</legend>
+            {% if user.clinic.web %}
             <p>{{ user.clinic.web }}</p>
+            {% endif %}
             <p>{{ user.clinic.phone }}</p>
             <p>{{ user.clinic.email }}</p>
             <legend>Description</legend>
