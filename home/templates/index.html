@@ -24,7 +24,7 @@
                 <legend>Sign up now!</legend>
                 <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
                 {% csrf_token %}
-                {{ form | as_bootstrap}}
+                {{ form | as_bootstrap }}
                 <button type="submit" class="btn btn-primary">Create account</button>
             </fieldset>
         </form>

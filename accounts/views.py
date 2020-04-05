@@ -8,7 +8,8 @@ from clinic.forms import RegisterClinicForm
 from clinic.models import Clinic
 from djGoannaPMS import settings
 
-from .forms import ProfileForm, ProfileUpdateForm, UserUpdateForm
+from .forms import (ModsUpdateForm, ProfileForm, ProfileUpdateForm,
+                    UserUpdateForm)
 from .models import Modalities
 
 User = get_user_model()
@@ -22,7 +23,7 @@ def profile(request):
     update their details as well as their clinics details.
     """
     user = User.objects.get(email=request.user.email)
-    print(user.clinic.id)
+    print("clinic id: " + str(user.clinic.id))
     mods = user.profile.mods.all()
     latlng = {
         "lat": user.clinic.lat,
@@ -38,6 +39,7 @@ def profile(request):
         'street': user.profile.street,
         'city': user.profile.city
     }
+
     profile_form = ProfileUpdateForm(initial=profile_form_initial)
 
     user_form_initial = {
@@ -45,6 +47,7 @@ def profile(request):
         'last_name': user.last_name,
         'email': user.email
     }
+
     user_form = UserUpdateForm(initial=user_form_initial)
 
     clinic_form_initial = {
@@ -55,7 +58,15 @@ def profile(request):
         'street': user.clinic.street,
         'city': user.clinic.city
     }
+
     clinic_form = RegisterClinicForm(initial=clinic_form_initial)
+    mod_list = []
+    for mod in mods:
+        mod_list.append(str(mod))
+    mod_string = ', '.join(mod_list)
+    mods_form_initial = {'mods': mod_string}
+
+    mods_form = ModsUpdateForm(initial=mods_form_initial)
 
     return render(
         request, 'profile.html', {
@@ -66,6 +77,7 @@ def profile(request):
             'profile_form': profile_form,
             'user_form': user_form,
             'clinic_form': clinic_form,
+            'mods_form': mods_form,
         })
 
 
@@ -175,12 +187,53 @@ def update_user(request, user_id):
 @login_required
 def update_profile(request, user_id):
     profile = Profile.objects.get(user=user_id)
-
     profile.bio = request.POST['bio']
     profile.phone = request.POST['phone']
     profile.street = request.POST['street']
     profile.city = request.POST['city']
     profile.save()
+    return redirect('profile')
+
+
+@login_required
+def update_mods(request, user_id):
+    user = User.objects.get(pk=user_id)
+    mod_list = []
+    mod_string = request.POST['mods']
+    for word in mod_string.split(", "):
+        word.capitalize()
+        mod_list.append(word)
+
+    def save_modalities(mods):
+        # if the count of mod in mods does not equal count of count of user.profile.mods
+        # create a list of mods to remove
+        db_mods = list(user.profile.mods.all())
+        list_of_db_mods = []
+
+        def diff(db_mods, altered_mods):
+            # return a list of mods that exist in the database that don't
+            # exist in the request.POST
+            return (list(set(db_mods) - set(altered_mods)))
+
+        for mod in db_mods:
+            list_of_db_mods.append(str(mod))
+
+        removed_mods = diff(list_of_db_mods, mod_list)
+
+        if removed_mods:
+            for mod in removed_mods:
+                m = Modalities.objects.get(name=mod)
+                user.profile.mods.remove(m)
+
+        for mod in mods:
+            if Modalities.objects.filter(name=str(mod)).exists():
+                e = Modalities.objects.get(name=mod)
+                user.profile.mods.add(e)
+            else:
+                user.profile.mods.create(name=str(mod))
+
+    save_modalities(mod_list)
+
     return redirect('profile')
 
 

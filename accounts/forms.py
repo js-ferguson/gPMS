@@ -4,7 +4,7 @@ from django.forms import ModelForm, TextInput
 
 from django_auth.models import CustomUser
 
-from .models import Profile
+from .models import Modalities, Profile
 
 User = get_user_model()
 
@@ -54,3 +54,7 @@ class ProfileUpdateForm(ModelForm):
     class Meta:
         model = Profile
         fields = ('bio', 'phone', 'street', 'city')
+
+
+class ModsUpdateForm(forms.Form):
+    mods = forms.CharField(label='Modalities', max_length=500)

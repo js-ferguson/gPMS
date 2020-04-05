@@ -62,8 +62,16 @@
                     <li>{{ mod.name }}</li>
                     {% endfor %}
                 </div>
-
-                <button class="btn btn-primary">Edit Modalities</button>
+                <div id="mod-list-form">
+                    <form method="post" action="{% url 'update_mods' user_id=user.id %}" class="accountform">
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                            {{  mods_form | as_bootstrap }}
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
             </div>
             <div class="location">
                 <br>

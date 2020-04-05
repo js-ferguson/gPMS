@@ -20,5 +20,8 @@ urlpatterns = [
          name='update_profile'),
     path('profile/update_clinic/<int:user_id>/',
          views.update_clinic,
-         name='update_clinic')
+         name='update_clinic'),
+    path('profile/update_mods/<int:user_id>/',
+         views.update_mods,
+         name='update_mods'), 
 ]
