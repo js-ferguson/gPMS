@@ -4,6 +4,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 
+class Product(models.Model):
+    period = models.CharField()
+
+
 class Order(models.Model):
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = PhoneNumberField(blank=False)
