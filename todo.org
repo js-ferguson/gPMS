@@ -1,14 +1,19 @@
 
 GoannaPMS - Todo
 
-* TODO Think of a new name now that the focus has changed
+* DONE Think of a new name now that the focus has changed
+  CLOSED: [2020-04-11 Sat 16:00]
 
-* TODO Add user reviews section to clinic profile pages
-* TODO Edit clinics
+* TODO going to the url /user_profile as a practitioner should redirect you to the regular profile 
+* DONE Add user reviews section to clinic profile pages
+  CLOSED: [2020-04-11 Sat 15:59]
+* DONE Edit clinics
+  CLOSED: [2020-04-11 Sat 15:59]
   - clinics should be able to be updated from the user profile of the
     practitioner
 * TODO Fix user profiles so the look better and users can update their details
-* TODO fix practitioner profiles so that they can be updated by users
+* DONE fix practitioner profiles so that they can be updated by users
+  CLOSED: [2020-04-11 Sat 15:59]
 * TODO Add more decriptive labels in all sign up forms
 * TODO figure out some nice styling
 * TODO Redirect logged in users away from the landing page.
