@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, Select, TextInput
 
 from django_auth.models import CustomUser
 
@@ -33,7 +33,7 @@ class ProfileForm(ModelForm):
         )
         labels = {
             'consent':
-            "Do you consent to have your clinic's details listed publically"
+            "Do you consent to have your clinic's details listed publically",
         }
         widgets = {
             'mods': TextInput(attrs={'placeholder': "Comma separated list"}),

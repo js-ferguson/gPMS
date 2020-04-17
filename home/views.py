@@ -31,6 +31,8 @@ def index(request):
                     f'Your account has been created. Please update your details'
                 )
 
+                #return render(request, "subscription.html", {"user": user})
+
                 return render(request, "create_profile.html", {
                     "form": profile_form,
                     "user": user

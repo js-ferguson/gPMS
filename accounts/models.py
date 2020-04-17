@@ -26,6 +26,9 @@ class Profile(models.Model):
     street = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     consent = models.BooleanField(blank=True)
+    sub_type = models.CharField(max_length=20, blank=False, default=0)
+
+    #stripe_id = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.email

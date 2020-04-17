@@ -196,13 +196,10 @@ def edit_review(request, review_id):
         # review.author = request.user
         review.save()
         del request.session['initial']
-        print(
-            f'review {review_id} has been saved and cleared from the session')
         messages.success(request, f"Your review has been updated")
         return redirect('clinic_profile', clinic_id=clinic_id)
 
     if review.author == request.user:
-        print(f'request.user {request.user} = review.author {review.author}')
         request.session['initial'] = {
             "title": title_data,
             "body": body_data,
@@ -210,7 +207,6 @@ def edit_review(request, review_id):
         }
         return redirect('clinic_profile', clinic_id=clinic_id)
     else:
-        print(f'{request.user} {review.author}')
         messages.error(request, f"You don't have permission to edit that")
         if 'initial' in request.session:
             del request.session['initial']

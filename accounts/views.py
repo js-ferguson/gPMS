@@ -161,9 +161,13 @@ def create_profile(request):
 
             add_modalities(mod_list)
 
+            #if user.is_practitioner:
+            #    messages.success(request, f'Now register your clinic')
+            #    return redirect(reverse('register_clinic'))
+
             if user.is_practitioner:
-                messages.success(request, f'Now register your clinic')
-                return redirect(reverse('register_clinic'))
+                messages.success(request, f'Now set up your subscription')
+                return redirect(reverse('subscription'))
 
             messages.success(request, f'Thank you for updating your details')
             return redirect(reverse('profile'))

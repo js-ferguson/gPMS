@@ -1,7 +1,8 @@
-from django.conf.urls import path
+from django.urls import path
 
-from .views import checkout
+from .views import subscription
 
 urlpatterns = [
-    path('checkout/', checkout, name='checkout'),
+    path('subscription/', subscription, name='subscription'),
+    path('sub/', subscription, name='sub'),
 ]
