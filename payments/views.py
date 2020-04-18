@@ -1,10 +1,11 @@
-import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
+
+import stripe
 
 from .forms import MakePaymentForm
 #from .forms import MakePaymentForm, OrderForm
@@ -13,6 +14,7 @@ from .models import Customer, Plans, Products, Subscription
 User = get_user_model()
 
 stripe.api_key = settings.STRIPE_SECRET
+api_key = settings.GOOGLE_MAPS_API_KEY
 
 
 @login_required
@@ -22,23 +24,15 @@ def subscription(request):
     if request.method == "POST":
         form = MakePaymentForm()
 
-        #customer = stripe.Customer.create(
-        #   id=user.id,
-        #   email=user.email,
-        #   plan="plan_H2cOfdfjGlirRx",
-        #   #card=user.profile.stripe_id,
-        #   name=user.get_full_name(),
-        #   address={
-        #       'line1': user.profile.street,
-        #       'city': user.profile.city
-        #   })
+        # yearly = Plans(nickname="yearly", stripe_id="plan_H2cPoMv9Kx449p")
+        # monthly = Plans(nickname="monthly", stripe_id="plan_H2cOfdfjGlirRx")
         cust = Customer.objects.all()
-        yearly = Plans(nickname="yearly", stripe_id="plan_H2cPoMv9Kx449p")
-        monthly = Plans(nickname="monthly", stripe_id="plan_H2cOfdfjGlirRx")
         plans = Plans.objects.all()
+
         for plan in plans:
             print(plan.stripe_id)
         prods = Products.objects.all()
+
         for prod in prods:
             print(prod.stripe_id)
 
@@ -50,7 +44,7 @@ def subscription(request):
             # using both profile model sending both profile info to stripe and adding stipe info to db
 
             customer = stripe.Customer.create(
-                name=user.get_full_name(),
+                name=user.request.POST['name'],
                 email=user.email,
             )
 
@@ -64,15 +58,19 @@ def subscription(request):
 
         for c in cust:
             print(f'{c.user.profile.bio} {c.user_id}')
-
-        print(create_customer())
+        print(request.POST)
+        # print(create_customer())
+        if request.POST['sublist'] == 'monthly':
+            amount = 1000
+        else:
+            amount = 10000
 
         intent = stripe.PaymentIntent.create(
-            amount=1099,
+            amount=0,
             currency='sek',
             payment_method_types=['card'],
+            setup_future_usage='off_session',
         )  #save intent_id to session
-
         print(intent)
 
         stripe.PaymentIntent.confirm(intent.id, payment_method="pm_card_visa")
@@ -98,12 +96,21 @@ def subscription(request):
 
         return render(
             request,
-            "subscription.html",
+            "sub.html",
             {
                 'form': form,
+                'api-key': api_key,
+                'key': settings.STRIPE_SECRET,
+                'user': user,
                 #'payment_form': payment_form,
                 #'publishable': settings.STRIPE_PUBLISHABLE
             })
     else:
         form = MakePaymentForm(initial={'full_name': user.get_full_name()})
-    return render(request, "subscription.html", {'form': form})
+    return render(
+        request, "sub.html", {
+            'form': form,
+            'api_key': api_key,
+            'user': user,
+            'client_secret': intent.client_secret,
+        })
