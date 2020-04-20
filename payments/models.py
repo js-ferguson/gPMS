@@ -1,13 +1,14 @@
 from datetime import datetime
 
 import stripe
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import post_save
 
 User = get_user_model()
-
-PLANS = (('MONTHLY', 'monthly'), ('YEARLY', 'yearly'), ('FREE', 'Free'))
+stripe.api_key = settings.STRIPE_SECRET
+PLAN_CHOICES = (('monthly', 'monthly'), ('yearly', 'yearly'), ('free', 'free'))
 
 
 class Products(models.Model):
@@ -16,9 +17,11 @@ class Products(models.Model):
 
 
 class Plans(models.Model):  # Membership
-    # slug = models.SlugField()
+    slug = models.SlugField()
     stripe_plan_id = models.CharField(max_length=50)
-    plan_type = models.CharField(choices=PLANS, default='FREE', max_length=30)
+    plan_type = models.CharField(choices=PLAN_CHOICES,
+                                 default='free',
+                                 max_length=30)
     price = models.IntegerField(default=10)
 
     def __str__(self):
@@ -26,30 +29,30 @@ class Plans(models.Model):  # Membership
 
 
 class Customer(models.Model):  # UserMembership
-    user_customer = models.OneToOneField(User, on_delete=models.CASCADE)
-    stripe_customer_id = models.CharField(max_length=100, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    stripe_customer_id = models.CharField(max_length=100)
     sub = models.ForeignKey(Plans, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.stripe_customer_id
 
 
-def post_save_create_customer(sender, instance, created, *args, **kwargs):
-    user_customer, created = Subscription.objects.get_or_create(user=instance)
+def post_save_customer_create(sender, instance, created, *args, **kwargs):
+    customer, created = Customer.objects.get_or_create(user=instance)
 
-    if user_customer.stripe_cusomer_id is None or user_customer.stripe_customer_id == '':
+    if customer.stripe_customer_id is None or customer.stripe_customer_id == '':
         new_customer_id = stripe.Customer.create(email=instance.email)
-        free_membership = Plans.objects.get(plan_type='FREE')
-        user_customer.strip_customer_id = new_customer_id['id']
-        user_customer.sub = free_membership
-        user_customer.save()
+        free_membership = Plans.objects.get(plan_type='free')
+        customer.stripe_customer_id = new_customer_id['id']
+        customer.sub = free_membership
+        customer.save()
 
 
-post_save.connect(post_save_create_customer, sender=User)
+post_save.connect(post_save_customer_create, sender=User)
 
 
 class Subscription(models.Model):  # Subscription
-    user_customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     stripe_subscription_id = models.CharField(max_length=50)
     active = models.BooleanField(default=False)
     initiated_on = models.DateField(null=True, blank=True)
