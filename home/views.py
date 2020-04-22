@@ -12,6 +12,23 @@ User = get_user_model()
 
 # from accounts.models import Clinic
 
+api_key = settings.GOOGLE_MAPS_API_KEY
+clinics = Clinic.objects.all()
+
+
+def list_of_clinics():
+    c_list = []
+    for clinic in clinics:
+        if clinic.lat:
+            c_list.append({
+                'lat': clinic.lat,
+                'lng': clinic.lng,
+                'name': clinic.name,
+                'url': "clinic/" + str(clinic.id)
+            })
+    print(c_list)
+    return c_list
+
 
 def index(request):
     if request.method == 'POST':
@@ -55,21 +72,6 @@ def index(request):
 
     else:
         form = SignUpForm()
-        api_key = settings.GOOGLE_MAPS_API_KEY
-        clinics = Clinic.objects.all()
-
-        def list_of_clinics():
-            c_list = []
-            for clinic in clinics:
-                if clinic.lat:
-                    c_list.append({
-                        'lat': clinic.lat,
-                        'lng': clinic.lng,
-                        'name': clinic.name,
-                        'url': "clinic/" + str(clinic.id)
-                    })
-            print(c_list)
-            return c_list
 
     return render(request, "index.html", {
         "form": form,
