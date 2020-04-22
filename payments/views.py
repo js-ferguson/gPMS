@@ -1,11 +1,10 @@
+import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
-
-import stripe
 
 from .forms import MakePaymentForm
 #from .forms import MakePaymentForm, OrderForm
@@ -17,100 +16,98 @@ stripe.api_key = settings.STRIPE_SECRET
 api_key = settings.GOOGLE_MAPS_API_KEY
 
 
+def get_customer(request):
+    customer = Customer.objects.filter(user=request.user)
+    if customer.exists():
+        return customer.first()
+    return None
+
+
+def get_subscription(request):
+    subscription = Subscription.objects.filter(customer=get_customer(request))
+    if subscription.exists():
+        subscription = subscription.first()
+        return subscription
+    return None
+
+
+def get_plan(request):
+    plan_type = request.session['selected_plan_type']
+    selected_plan = Plans.objects.filter(plan_type=plan_type)
+    if selected_plan.exists():
+        return selected_plan.first()
+    return None
+
+
 @login_required
 def subscription(request):
     user = User.objects.get(email=request.user.email)
-
+    plans = Plans.objects.all()
     if request.method == "POST":
-        form = MakePaymentForm()
-
-        # yearly = Plans(nickname="yearly", stripe_id="plan_H2cPoMv9Kx449p")
-        # monthly = Plans(nickname="monthly", stripe_id="plan_H2cOfdfjGlirRx")
-        cust = Customer.objects.all()
-        plans = Plans.objects.all()
-
-        for plan in plans:
-            print(plan.stripe_id)
-        prods = Products.objects.all()
-
-        for prod in prods:
-            print(prod.stripe_id)
-
-        # get card info and pass to backend
-        # then create a customer
-
-        def create_customer():
-            #this needs to add a customer to the db one-to-one with a profile
-            # using both profile model sending both profile info to stripe and adding stipe info to db
-
-            customer = stripe.Customer.create(
-                name=user.request.POST['name'],
-                email=user.email,
-            )
-
-            db_cust = Customer(stripe_customer_id=customer.id, user_id=user.id)
-            if Customer.objects.filter(stripe_customer_id=customer.id):
-                messages(request, "customer exists")
-            else:
-                db_cust.save()
-
-            return customer
-
-        for c in cust:
-            print(f'{c.user.profile.bio} {c.user_id}')
+        token = request.POST['stripeToken']
+        request.session['selected_plan_type'] = request.POST['sublist']
+        print(user.customer.sub.stripe_plan_id)
         print(request.POST)
-        # print(create_customer())
-        if request.POST['sublist'] == 'monthly':
-            amount = 1000
-        else:
+        customer = get_customer(request)
+        selected_plan = get_plan(request)
+
+        stripe_customer = stripe.Customer.retrieve(customer.stripe_customer_id)
+        stripe_customer.source = token
+        stripe_customer.save()
+
+        subscription = stripe.Subscription.create(
+            customer=customer, items=[{
+                "plan": selected_plan.stripe_plan_id
+            }])
+
+        ## Update customer with the selected subscription
+        customer.sub = selected_plan
+        customer.save()
+
+        sub, created = Subscription.objects.get_or_create(customer=customer)
+        sub.stripe_subscription_id = subscription.id
+        sub.active = True
+        sub.save()
+
+        amount = 1000
+        if request.POST.get('sublist') == 'yearly':
             amount = 10000
+        print(amount)
 
-        intent = stripe.PaymentIntent.create(
-            amount=0,
-            currency='sek',
-            payment_method_types=['card'],
-            setup_future_usage='off_session',
-        )  #save intent_id to session
+        print(request.POST['sublist'])
+
+        intent = stripe.PaymentIntent.create(amount=amount,
+                                             currency='sek',
+                                             payment_method_types=['card'],
+                                             setup_future_usage='off_session',
+                                             customer=user.customer)
+
+        request.session['payment_intent_id'] = intent.id
         print(intent)
-
         stripe.PaymentIntent.confirm(intent.id, payment_method="pm_card_visa")
-        #pay_method = stripe.PaymentMethod.create(
-        #    type="card",
-        #    card={
-        #        "number": form.cleaned_data.credit_card_number,
-        #        "exp_month": form.cleaned_data.expiry_month,
-        #        "exp_year": form.cleaned_data.expity_year,
-        #        "cvc": form.cleaned_data.cvv,
-        #    },
-        #)
-
-        #def payment():
-        #    pay = stripe.PaymentIntent.create(customer=customer['id'],
-        #                                      amount=1000,
-        #                                      currency='sek',
-        #                                      receipt_email=customer['email'])
-        #    print(pay)
-        #    return pay
-
-        # payment()
+        if request.POST['stripeToken']:
+            messages.success(
+                request,
+                "Thank you for subscribing to gCMS. You can now register your clinic"
+            )
+            return redirect(reverse('register_clinic'))
 
         return render(
-            request,
-            "sub.html",
-            {
-                'form': form,
+            request, "subscription.html", {
                 'api-key': api_key,
                 'key': settings.STRIPE_SECRET,
                 'user': user,
-                #'payment_form': payment_form,
-                #'publishable': settings.STRIPE_PUBLISHABLE
+                'plans': plans,
+                'publishable': settings.STRIPE_PUBLISHABLE,
+                'client_secret': intent.client_secret
             })
     else:
         form = MakePaymentForm(initial={'full_name': user.get_full_name()})
     return render(
-        request, "sub.html", {
+        request, "subscription.html", {
             'form': form,
-            'api_key': api_key,
+            'api-key': api_key,
             'user': user,
-            'client_secret': intent.client_secret,
+            'plans': plans,
+            'publishable': settings.STRIPE_PUBLISHABLE,
         })

@@ -24,6 +24,12 @@
         <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
         <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
     </ul>
+    <div>
+        <h2>Subscription Details</h2>
+        <hr>
+        <legend>{{ user.customer.sub.plan_type.capitalize }}</legend>
+    </div>
+
     </div>
     <!-- Forms to update user details are hidden by default -->
     <div class="col-sm" id="user-profile-form">

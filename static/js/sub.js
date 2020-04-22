@@ -6,7 +6,6 @@ var style = {
     base: {
         color: '#32325d',
         lineHeight: '24px',
-        width: '30em',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: 'antialiased',
         fontSize: '16px',
@@ -24,62 +23,50 @@ var card = elements.create('card', {
     hidePostalCode: true,
     style: style,
 });
-//var card = elements.create('card', {
-//  hidePostalCode: true,
-//  style: {
-//    base: {
-//      iconColor: '#666EE8',
-//      color: '#31325F',
-//      lineHeight: '40px',
-//      fontWeight: 300,
- //     fontFamily: 'Helvetica Neue',
-//      fontSize: '15px',
-//      border:'2px',
-
-//      '::placeholder': {
-//        color: '#CFD7E0',
-//      },
-//    },
-//  }
-//});
 
 card.mount('#card-element');
 
-function setOutcome(result) {
-  var successElement = document.querySelector('.success');
-  var errorElement = document.querySelector('.error');
-  successElement.classList.remove('visible');
-  errorElement.classList.remove('visible');
+// Handle real-time validation errors from the card Element.
+card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+});
 
-  if (result.token) {
-    // In this example, we're simply displaying the token
-    successElement.querySelector('.token').textContent = result.token.id;
-    successElement.classList.add('visible');
+// Handle form submission.
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    stripe.createToken(card).then(function(result) {
+        if (result.error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+        } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+        }
+    });
+});
 
-    // In a real integration, you'd submit the form with the token to your backend server
-    //var form = document.querySelector('form');
-    //form.querySelector('input[name="token"]').setAttribute('value', result.token.id);
-    //form.submit();
-  } else if (result.error) {
-    errorElement.textContent = result.error.message;
-    errorElement.classList.add('visible');
-  }
+var successElement = document.getElementById('stripe-token-handler');
+document.querySelector('.wrapper').addEventListener('click', function() {
+    successElement.className = 'is-hidden';
+});
+
+function stripeTokenHandler(token) {
+    successElement.className = '';
+    successElement.querySelector('.token').textContent = token.id;
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+    // Submit the form
+    form.submit();
 }
-
-card.on('change', function(event) {
-  setOutcome(event);
-});
-
-document.querySelector('form').addEventListener('submit', function(e) {
-e.preventDefault();
-var options = {
-name: document.getElementById('name').value,
-address_line1: document.getElementById('address-line1').value,
-address_line2: document.getElementById('address-line2').value,
-address_city: document.getElementById('address-city').value,
-address_state: document.getElementById('address-state').value,
-address_zip: document.getElementById('address-zip').value,
-address_country: document.getElementById('address-country').value,
-};
-stripe.createToken(card, options).then(setOutcome);
-});

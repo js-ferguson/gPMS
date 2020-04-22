@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 
 User = get_user_model()
 stripe.api_key = settings.STRIPE_SECRET
-PLAN_CHOICES = (('monthly', 'monthly'), ('yearly', 'yearly'), ('free', 'free'))
+PLAN_CHOICES = (('monthly', 'Monthly'), ('yearly', 'Yearly'), ('free', 'Free'))
 
 
 class Products(models.Model):
@@ -23,6 +23,8 @@ class Plans(models.Model):  # Membership
                                  default='free',
                                  max_length=30)
     price = models.IntegerField(default=10)
+    duration = models.CharField(max_length=20, default='ongoing')
+    description = models.CharField(max_length=100, default='description')
 
     def __str__(self):
         return self.plan_type

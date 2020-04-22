@@ -190,3 +190,19 @@ body {
 .card-label {
     width: 30em;
 }
+
+.sub-row {
+    display: inline-block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    .sub-card {
+        display: inline-block;
+    }
+}
+
+.form-label {
+    display: inline-block;
+    width: 70px;
+    margin-top: 10px;
+}
