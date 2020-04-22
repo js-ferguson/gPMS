@@ -39,6 +39,31 @@ def get_plan(request):
     return None
 
 
+def create_sub(request, *args):
+    token = args[0]
+    customer = get_customer(request)
+    selected_plan = get_plan(request)
+
+    stripe_customer = stripe.Customer.retrieve(customer.stripe_customer_id)
+    stripe_customer.source = token
+    stripe_customer.save()
+
+    subscription = stripe.Subscription.create(customer=customer,
+                                              items=[{
+                                                  "plan":
+                                                  selected_plan.stripe_plan_id
+                                              }])
+
+    ## Update customer with the selected subscription
+    customer.sub = selected_plan
+    customer.save()
+
+    sub, created = Subscription.objects.get_or_create(customer=customer)
+    sub.stripe_subscription_id = subscription.id
+    sub.active = True
+    sub.save()
+
+
 @login_required
 def subscription(request):
     user = User.objects.get(email=request.user.email)
@@ -48,26 +73,9 @@ def subscription(request):
         request.session['selected_plan_type'] = request.POST['sublist']
         print(user.customer.sub.stripe_plan_id)
         print(request.POST)
-        customer = get_customer(request)
-        selected_plan = get_plan(request)
-
-        stripe_customer = stripe.Customer.retrieve(customer.stripe_customer_id)
-        stripe_customer.source = token
-        stripe_customer.save()
-
-        subscription = stripe.Subscription.create(
-            customer=customer, items=[{
-                "plan": selected_plan.stripe_plan_id
-            }])
-
-        ## Update customer with the selected subscription
-        customer.sub = selected_plan
-        customer.save()
-
-        sub, created = Subscription.objects.get_or_create(customer=customer)
-        sub.stripe_subscription_id = subscription.id
-        sub.active = True
-        sub.save()
+        # customer = get_customer(request)
+        # selected_plan = get_plan(request)
+        create_sub(request, token)
 
         amount = 1000
         if request.POST.get('sublist') == 'yearly':

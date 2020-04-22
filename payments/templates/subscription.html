@@ -13,29 +13,35 @@
     {% for plan in plans %}
     {% if plan.plan_type != 'free' %}
     <div class="row col-md-6 col-sm-6 sub-row">
-        <div class="sub-card">
+        {% if plan.plan_type == 'monthly' %}
+        <div class="sub-card jumbotron" id="year">
+        {% else %}
+        <div class="sub-card jumbotron" id="month">
+        {% endif %}
             <h4>{{ plan.plan_type.capitalize }}</h4>
             <hr/>
             <p>
                 {{ plan.price }}kr/{{ plan.duration }}<br/><small>{{ plan.description }}</small>
             </p>
+            <button id="select-button" class="btn btn-primary btn-lg" onclick="toggleSublist('{{ plan.plan_type }}')">This one!</button>
         </div>
     </div>
     {% endif %}
     {% endfor %}
     <div class="wrapper">
-        <div id="stripe-token-handler" class="is-hidden">Success! Got token: <span class="token"></span></div>
+        <div id="display-selected-sub" class="is-hidden">Selected subscription: <span class="selected-sub"></span></div>
     </div>
 
 
 <form   method="POST" id="payment-form" action="/subscription/" >
 {% csrf_token %}
     <input type="hidden" name="token" />
-    <label for="sub_type">Choose Subsciption length:</label>
-    <select id="sub_type" name="sublist" form="payment-form">
+
+    <input id="sublist" type="hidden" name="sublist" value="monthly">
+    <!-- <select id="sub_type" name="sublist" form="payment-form">
         <option value="monthly">Monthly</option>
         <option value="yearly">Yearly</option>
-    </select>
+    </select> -->
     <div class="group">
       <label>
         <div class="card-label">Card</div>
