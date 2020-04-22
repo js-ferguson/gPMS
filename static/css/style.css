@@ -107,6 +107,10 @@ body {
 .profile {
   margin: 30px 25px 0 0; }
 
+.sub-details {
+  margin-left: 40px;
+  margin-top: 30px; }
+
 #user-profile-form {
   display: none; }
 

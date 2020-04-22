@@ -24,10 +24,10 @@
         <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
         <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
     </ul>
-    <div>
-        <h2>Subscription Details</h2>
+    <div class="sub-details">
+        <legend>Subscription Details</legend>
         <hr>
-        <legend>{{ user.customer.sub.plan_type.capitalize }}</legend>
+        Current Subscription: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
     </div>
 
     </div>
