@@ -125,11 +125,13 @@ body {
 
 .sub-row {
   display: inline-block;
+  width: 100%;
   margin-top: 50px;
   margin-bottom: 50px;
   text-align: center; }
   .sub-row .sub-card {
-    display: inline-block; }
+    display: inline-block;
+    width: 250px; }
 
 .form-label {
   display: inline-block;

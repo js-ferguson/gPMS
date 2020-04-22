@@ -26,6 +26,21 @@ var card = elements.create('card', {
 
 card.mount('#card-element');
 
+// Toggle the selected subscription
+function toggleSublist(sub) {
+    console.log(sub);
+    const sublist = document.getElementById('sublist');
+
+    sublist.setAttribute('value', sub);
+    displaySub(sublist);
+}
+
+function displaySub(sublist) {
+   // const sublist = document.getElementById('sublist');
+    successElement.className = '';
+    successElement.querySelector('.selected-sub').textContent = sublist.value;
+}
+
 // Handle real-time validation errors from the card Element.
 card.addEventListener('change', function(event) {
     var displayError = document.getElementById('card-errors');
@@ -52,14 +67,12 @@ form.addEventListener('submit', function(event) {
     });
 });
 
-var successElement = document.getElementById('stripe-token-handler');
+var successElement = document.getElementById('display-selected-sub');
 document.querySelector('.wrapper').addEventListener('click', function() {
     successElement.className = 'is-hidden';
 });
 
 function stripeTokenHandler(token) {
-    successElement.className = '';
-    successElement.querySelector('.token').textContent = token.id;
     // Insert the token ID into the form so it gets submitted to the server
     var form = document.getElementById('payment-form');
     var hiddenInput = document.createElement('input');
