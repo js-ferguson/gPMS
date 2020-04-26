@@ -31,21 +31,29 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+        <li class="nav-item active">
+        {% if user.complete_signup %}
         <a class="nav-link" href="{% url "home_index" %}">Home <span class="sr-only">(current)</span></a>
+        {% endif %}
       </li>
       {% if user.is_authenticated %}
       <li class="nav-item">
           {% if user.is_admin %}
           <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
           {% elif user.is_practitioner %}
+          {% if user.complete_signup %}
           <a class="nav-link" href="{% url 'profile' %}">Profile ({{ user.email }})</a>
+          {% endif %}
           {% else %}
+          {% if user.complete_signup %}
           <a class="nav-link" href="{% url 'user_profile' %}">Profile ({{ user.email }})</a>
+          {% endif %}
       </li>
           {% endif %}
       <li class="nav-item">
+          {% if user.complete_signup %}
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          {% endif %}
       </li>
       {% endif %}
       {% if user.is_authenticated == False %}

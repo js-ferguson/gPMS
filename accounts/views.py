@@ -101,7 +101,7 @@ def user_profile(request):
     update their details.
     '''
     user = User.objects.get(email=request.user.email)
-    form = UserUpdateForm(request.POST)
+    form = UserUpdateForm()
     clinics = Clinic.objects.all()
 
     def list_of_clinics():
@@ -170,10 +170,12 @@ def create_profile(request):
                 return redirect(reverse('subscription'))
 
             messages.success(request, f'Thank you for updating your details')
+            user.complete_signup = True
+            user.save()
             return redirect(reverse('profile'))
 
     else:
-        form = ProfileForm()
+        form = ProfileForm(None)
     return render(request, 'create_profile.html', {'form': form})
 
 

@@ -23,10 +23,10 @@
         <form method="POST" action="/index/">
             <fieldset class="form-group">
                 <legend>Sign up now!</legend>
-                <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
                 {% csrf_token %}
                 {{ form | as_bootstrap }}
                 <button type="submit" class="btn btn-primary">Create account</button>
+                <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
             </fieldset>
         </form>
     </div>

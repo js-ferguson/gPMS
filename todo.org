@@ -15,7 +15,11 @@ GoannaPMS - Todo
 * DONE fix practitioner profiles so that they can be updated by users
   CLOSED: [2020-04-11 Sat 15:59]
 * TODO Add more decriptive labels in all sign up forms
+  1. Make the phonenumer field more descriptive
+  2. remove required field messages
+
 * TODO figure out some nice styling
+* TODO inform user if no result from search
 * TODO Redirect logged in users away from the landing page.
   - maybe send them to a listing of local clinics
 * TODO Separate search function into it's own module/class
@@ -35,6 +39,7 @@ GoannaPMS - Todo
 
 * TODO Create unit tests for home/views.py
 
+* TODO Create a notification system using messages/email to alert users about new reviews.brb 
   
 * DONE Change profile creation so that regular users dont have to write a bio
   CLOSED: [2020-02-24 Mon 11:04]

@@ -60,6 +60,8 @@ The finished project is somewhat different in design to the initial wireframes. 
 
 There are many more features that I intend to implement. I would like to put these in place immediately, but I have a course to finish.
 
+* A notification system to let practitioners know via email/messages when their clinic revcieves a new review.
+
 * Practitioners should have a calendar/scheduler where they can make appointment times available to be booked. 
 
 * Appointments are handles as blocks of time. Blocks can be configured as either 30, 45, or 60 mins and can be restricted to certain modalities. So if a practitioner provides both acupuncture and massage as treatment option, they can make massages available only in the morning, or limited to a certain number per day... massages can be tiring.

@@ -23,16 +23,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-# if os.environ.get("DEV"):
-#     import env
-#     DEBUG = True
-#     print(
-#         f'Importing env.py and running with dev environment variables \n Debugging is {DEBUG}'
-#     )
-# else:
-#     DEBUG = False
+if os.environ.get("DEV"):
+    import env
+    DEBUG = True
+    print(
+        f'Importing env.py and running with dev environment variables \n Debugging is {DEBUG}'
+    )
+else:
+    DEBUG = False
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 

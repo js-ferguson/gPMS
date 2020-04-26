@@ -45,7 +45,7 @@ def index(request):
             if user.is_practitioner:
                 messages.success(
                     request,
-                    f'Your account has been created. Please update your details'
+                    f'Your account has been created. Please update your personal details'
                 )
 
                 #return render(request, "subscription.html", {"user": user})
@@ -56,6 +56,9 @@ def index(request):
                 })
 
             else:
+                user.complete_signup = True
+                user.save()
+
                 messages.success(
                     request,
                     f'You can now update your details or begin your search')
@@ -71,7 +74,7 @@ def index(request):
     #                          {'search_form': search_form})
 
     else:
-        form = SignUpForm()
+        form = SignUpForm(request.POST or None)
 
     return render(request, "index.html", {
         "form": form,

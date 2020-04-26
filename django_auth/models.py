@@ -51,6 +51,7 @@ class CustomUser(AbstractBaseUser):
     admin = models.BooleanField(default=False)  # superuser
     staff = models.BooleanField(default=False)  # staff
     timestamp = models.DateTimeField(auto_now_add=True)
+    complete_signup = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -87,3 +88,7 @@ class CustomUser(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
+
+    @property
+    def completed_signup(self):
+        return self.completed_signup

@@ -3,6 +3,7 @@ from collections import defaultdict
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
@@ -34,6 +35,10 @@ def register_clinic(request):
             model.lng = coords.longitude
             model.save()
 
+            user = User.objects.get(email=request.user.email)
+            user.complete_signup = True
+            user.save()
+
             messages.success(
                 request, f'Thank you for registering your clinic with us!')
             return redirect(reverse('profile'))
@@ -43,25 +48,24 @@ def register_clinic(request):
     return render(request, 'register_clinic.html', {'form': form})
 
 
-def clinic_listing(request):
-    clinics = Clinic.objects.all()
+#     clinics = Clinic.objects.all()
 
-    def list_of_coords():
-        latlng = []
-        for clinic in clinics:
-            if clinic.lat:
-                latlng.append({
-                    'lat': clinic.lat,
-                    'lng': clinic.lng,
-                    'name': clinic.name,
-                })
-        return latlng
+#     def list_of_coords():
+#         latlng = []
+#         for clinic in clinics:
+#             if clinic.lat:
+#                 latlng.append({
+#                     'lat': clinic.lat,
+#                     'lng': clinic.lng,
+#                     'name': clinic.name,
+#                 })
+#         return latlng
 
-    return render(request, 'clinic_listing.html', {
-        'clinics': clinics,
-        'api_key': api_key,
-        'latlng': list_of_coords(),
-    })
+#     return render(request, 'clinic_listing.html', {
+#         'clinics': clinics,
+#         'api_key': api_key,
+#         'latlng': list_of_coords(),
+#     })
 
 
 def search(request):
@@ -120,15 +124,21 @@ def search(request):
 def clinic_profile(request, clinic_id):
 
     clinic = Clinic.objects.filter(pk=clinic_id)
-    form = ReviewForm(request.POST)
+
+    if clinic.count() == 0:
+        raise Http404("This clinic does not exist")
+
+    form = ReviewForm()
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
-    # Test if clinic_id in session['initial'] matched the current clinic id
+
+    # Test if clinic_id in session['initial'] matches the current clinic_id
     # if not, remove 'initial' from request.session
     if 'initial' in request.session:
         print(clinic_id)
         if request.session['initial']['clinic_id'] != clinic_id:
             del request.session['initial']
     edit = False
+
     latlng = {
         "lat": clinic[0].lat,
         "lng": clinic[0].lng,
@@ -149,7 +159,11 @@ def clinic_profile(request, clinic_id):
             edit = True
             form = ReviewForm(initial=request.session['initial'])
 
-            # This will populate the review form with the review to be edited on, and it populates on any page... Please set a session variable with the clinic_id to be edited and check that it matches the page you are on before pre-filling the form. Also... delete 'initial' from session when your done.
+            # This will populate the review form with the review to be edited
+            # on, and it populates on any page... Please set a session
+            # variable with the clinic_id to be edited and check that it
+            # matches the page you are on before pre-filling the form.
+            # Also... delete 'initial' from session when your done.
 
     return render(
         request, 'clinic_profile.html', {
