@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
-from django.http import Http404
+from django.http import Http404, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
@@ -15,6 +15,10 @@ from .models import Clinic, Reviews
 
 User = get_user_model()
 api_key = settings.GOOGLE_MAPS_API_KEY
+
+
+def handler404(request, exception):
+    return render(request, '404.html', data)
 
 
 def register_clinic(request):
@@ -126,7 +130,7 @@ def clinic_profile(request, clinic_id):
     clinic = Clinic.objects.filter(pk=clinic_id)
 
     if clinic.count() == 0:
-        raise Http404("This clinic does not exist")
+        raise Http404("no clinic")
 
     form = ReviewForm()
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
