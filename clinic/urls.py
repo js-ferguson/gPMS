@@ -4,7 +4,6 @@ from .views import (clinic_profile, create_review, delete_review, edit_review,
                     register_clinic, search)
 
 # from accounts import views as account_views
-handler404 = 'clinic.views.handler404'
 
 urlpatterns = [
     # path('', views.index, name='home_index'),

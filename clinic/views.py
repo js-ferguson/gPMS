@@ -130,7 +130,8 @@ def clinic_profile(request, clinic_id):
     clinic = Clinic.objects.filter(pk=clinic_id)
 
     if clinic.count() == 0:
-        raise Http404("no clinic")
+        print("returns 0")
+        raise Http404()
 
     form = ReviewForm()
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)

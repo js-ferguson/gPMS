@@ -33,7 +33,7 @@ if os.environ.get("DEV"):
 else:
     DEBUG = False
 
-DEBUG = False
+# DEBUG = False
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
