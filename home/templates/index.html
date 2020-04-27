@@ -6,30 +6,35 @@
 {{ api_key|json_script:"api-key" }}
 {{ c_list|json_script:"latlng-data" }}
 
+
+
 <div class="row map-banner">
     <div class="col-sm map-frame">
         <div id="map"></div>
     </div>
 </div>
 
-<div class="row private-business">
-    <div class="welcome col-sm">
+
+<div class="container">
+<div class="row landing-page">
+    <div class="welcome col-sm-12 col-md-8">
         <h1>Welcome to the gPMS clinic directory.</h1>
         <p>You can register an account to be able to leave reviews of clinics you have been to, or or browse the public listing of clinics if you are just looking for treatment close by.</p>
         <p> Listing a clinic costs just 10kr/month</p>
         <p>This clinic directory is the beginning of a much broader service, aiming to provide a clinic management and booking service for small, single practitioner clinics.</p>
     </div>
-    <div class="form col-sm">
+    <div class="form col-sm-12 col-md-4">
         <form method="POST" action="/index/">
             <fieldset class="form-group">
                 <legend>Sign up now!</legend>
                 {% csrf_token %}
                 {{ form | as_bootstrap }}
                 <button type="submit" class="btn btn-primary">Create account</button>
-                <p>Already have an account? <a href="{% url "login" %}">login here</a></p>
+                <p><small>Already have an account? <a href="{% url "login" %}">login here</a></small></p>
             </fieldset>
         </form>
     </div>
+</div>
 </div>
 {% endblock %}
 

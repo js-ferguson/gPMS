@@ -11,98 +11,94 @@
     </div>
 </div>
 
-<div class="row profile">
-    <div class="col-sm" id="user-profile">
-    <ul>
-        <h2>User Profile</h2>
-        <hr>
-        <legend>{{ user.get_full_name }}</legend>
-        <p>{{ user.email }}</p>
-        <p>{{ user.profile.phone }}</p>
-        <legend>Bio</legend>
-        <p>{{ user.profile.bio }}</p>
-        <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
-        <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
-    </ul>
-    <div class="sub-details">
-        <legend>Subscription Details</legend>
-        <hr>
-        Current Subscription: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
-    </div>
-
-    </div>
-    <!-- Forms to update user details are hidden by default -->
-    <div class="col-sm" id="user-profile-form">
-        <form method="post" action="{% url 'update_user' user_id=user.id %}" class="accountform">
-            <fieldset class="form-group">
-                <legend>Update your details</legend>
-                {% csrf_token %}
-                {{ user_form | as_bootstrap }}
-                <button type="submit" class="btn btn-primary">Save</button>
-            </fieldset>
-        </form>
-        <form method="post" action="{% url 'update_profile' user_id=user.id %}" class="accountform">
-            <fieldset class="form-group">
-                {% csrf_token %}
-                {{  profile_form | as_bootstrap }}
-                <button type="submit" class="btn btn-primary">Save</button>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm" id="clinic-profile">
-        <ul>
-            <h2>Clinic Profile</h2>
+<div class="container">
+    <div class="row profile">
+        <div class="col-sm-12 col-md-6" id="user-profile">
+            <h2>User Profile</h2>
             <hr>
-            <legend>{{ user.clinic.name }}</legend>
-            {% if user.clinic.web %}
-            <p>{{ user.clinic.web }}</p>
-            {% endif %}
-            <p>{{ user.clinic.phone }}</p>
-            <p>{{ user.clinic.email }}</p>
-            <legend>Description</legend>
-            <p>{{ user.clinic.description }}</p>
-            <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
-            <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
-            <legend>Available Therapies</legend>
-            <div class="profile-mods">
-                <div class="mod-list">
-                    {% for mod in mods %}
-                    <li>{{ mod.name }}</li>
-                    {% endfor %}
-                </div>
-                <div id="mod-list-form">
-                    <form method="post" action="{% url 'update_mods' user_id=user.id %}" class="accountform">
-                        <fieldset class="form-group">
-                            {% csrf_token %}
-                            {{  mods_form | as_bootstrap }}
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </fieldset>
-                    </form>
-                </div>
-                <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
+            <legend>{{ user.get_full_name }}</legend>
+            <p>{{ user.email }}</p>
+            <p>{{ user.profile.phone }}</p>
+            <legend>Bio</legend>
+            <p>{{ user.profile.bio }}</p>
+            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
+            <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
+            <div class="sub-details">
+                <legend>Subscription Details</legend>
+                <hr>
+                Current Subscription: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
             </div>
-            <div class="location">
-                <br>
-                <legend>Location</legend>
-                <p>You can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
-                Location: <span id="current"></span>
-                <div id="save-loc"></div>
+        </div>
+        <!-- Forms to update user details are hidden by default -->
+        <div class="col-sm-12 col-md-6" id="user-profile-form">
+            <form method="post" action="{% url 'update_user' user_id=user.id %}" class="accountform">
+                <fieldset class="form-group">
+                    <legend>Update your details</legend>
+                    {% csrf_token %}
+                    {{ user_form | as_bootstrap }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </fieldset>
+            </form>
+            <form method="post" action="{% url 'update_profile' user_id=user.id %}" class="accountform">
+                <fieldset class="form-group">
+                    {% csrf_token %}
+                    {{  profile_form | as_bootstrap }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-sm-12 col-md-6" id="clinic-profile">
+                <h2>Clinic Profile</h2>
+                <hr>
+                <legend>{{ user.clinic.name }}</legend>
+                {% if user.clinic.web %}
+                <p>{{ user.clinic.web }}</p>
+                {% endif %}
+                <p>{{ user.clinic.phone }}</p>
+                <p>{{ user.clinic.email }}</p>
+                <legend>Description</legend>
+                <p>{{ user.clinic.description }}</p>
+                <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
+                <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
+                <legend>Available Therapies</legend>
+                <div class="profile-mods">
+                    <div class="mod-list">
+                        {% for mod in mods %}
+                        <li>{{ mod.name }}</li>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-12 col-md-6" id="mod-list-form">
+                        <form method="post" action="{% url 'update_mods' user_id=user.id %}" class="accountform">
+                            <fieldset class="form-group">
+                                {% csrf_token %}
+                                {{  mods_form | as_bootstrap }}
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
+                </div>
+                <div class="location">
+                    <br>
+                    <legend>Location</legend>
+                    <p>You can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
+                    Location: <span id="current"></span>
+                    <div id="save-loc"></div>
+                </div>
+            <div id="clinic-profile-form">
+                <form method="post" action="{% url 'update_clinic' user_id=user.id %}" class="accountform">
+                    <fieldset class="form-group">
+                        <legend>Register your clinic</legend>
+                        {% csrf_token %}
+                        {{  clinic_form | as_bootstrap }}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </fieldset>
+                </form>
             </div>
-        </ul>
-    </div>
-    <div class="col-sm" id="clinic-profile-form">
-        <form method="post" action="{% url 'update_clinic' user_id=user.id %}" class="accountform">
+        </div>
+        <form method="post" action="{% url 'create_profile' %}" class="accountform">
             <fieldset class="form-group">
-                <legend>Register your clinic</legend>
-                {% csrf_token %}
-                {{  clinic_form | as_bootstrap }}
-                <button type="submit" class="btn btn-primary">Save</button>
             </fieldset>
         </form>
-    </div>
 </div>
-<form method="post" action="{% url 'create_profile' %}" class="accountform">
-    <fieldset class="form-group">
-    </fieldset>
-</form>
 {% endblock %}
