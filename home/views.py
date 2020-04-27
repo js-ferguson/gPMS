@@ -48,8 +48,6 @@ def index(request):
                     f'Your account has been created. Please update your personal details'
                 )
 
-                #return render(request, "subscription.html", {"user": user})
-
                 return render(request, "create_profile.html", {
                     "form": profile_form,
                     "user": user
@@ -63,15 +61,6 @@ def index(request):
                     request,
                     f'You can now update your details or begin your search')
                 return redirect(reverse('user_profile'))
-
-    #if request.method == 'GET':
-    #    search_form = NavSearchForm(request.GET)
-    #    if search_form.is_valid():
-    #        if "query" in request.GET:
-    #            query = request.GET['query'].strip()
-    #            print(query)
-    #            return render(request, "index.html",
-    #                          {'search_form': search_form})
 
     else:
         form = SignUpForm(request.POST or None)

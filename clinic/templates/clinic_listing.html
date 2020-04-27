@@ -21,6 +21,12 @@
 
 <div class="container">
     <div class="row search">
+        {% if not result %}
+        <div class="col-sm-12 no-result">
+        <h3>Your search did not return any results</h3>
+        <p>Try searching a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name</p>
+        </div>
+        {% endif %}
         <div class="col-sm-12 col-md-6 listing-frame">
             <ul>
                 {% for clinic in result %}

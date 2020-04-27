@@ -2,14 +2,18 @@
 {% load bootstrap_tags %}
 {% block content %}
 <div class="container">
-<form method="post" action="{% url 'login' %}" class="accountform">
-    <fieldset class="form-group">
-        <legend>Login</legend>
-        <p>Need an account? <a href="{% url 'index' %}">Register!</a></p>
-        {% csrf_token %}
-        {{  login_form | as_bootstrap }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </fieldset>
-</form>
+    <div class="row login">
+        <div class="col-sm-6">
+            <form method="post" action="{% url 'login' %}" class="accountform">
+                <fieldset class="form-group">
+                    <legend>Login</legend>
+                    {% csrf_token %}
+                    {{  login_form | as_bootstrap }}
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <p><small>Need an account? <a href="{% url 'index' %}">Register!</a></small></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

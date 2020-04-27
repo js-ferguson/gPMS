@@ -56,17 +56,25 @@ def search(request):
                                  'description', 'street', 'city')
     qs = Clinic.objects.annotate(search=search_vector).filter(
         search=search_term).values()
-    if qs:
-        for i in qs:
-            search_result.append(
-                Clinic.objects.get(
-                    practitioner=i['practitioner_id']).get_clinic_details())
-    else:
-        if Modalities.objects.filter(name__iexact=search_term).exists():
-            s_users = Profile.objects.filter(
-                mods__name__icontains=search_term).values()
-            for i in s_users:
-                result.append(i)
+    # if qs:
+    for i in qs:
+        search_result.append(
+            Clinic.objects.get(
+                practitioner=i['practitioner_id']).get_clinic_details())
+    # else:
+    mods_vector = SearchVector('mods__name')
+
+    mqs = Profile.objects.annotate(search=mods_vector).filter(
+        search=search_term).values()
+    if mqs:
+        for i in mqs:
+            print(i)
+            result.append(i)
+        # if Modalities.objects.filter(name__icontains=search_term).exists():
+        #     s_users = Profile.objects.filter(
+        #         mods__name__icontains=search_term).values()
+        #     for i in s_users:
+        #         result.append(i)
 
     def find_clinics(result):
         r_array = []

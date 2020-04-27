@@ -83,6 +83,9 @@ body {
         input {
             border-color: $color-primary
         }
+        .checkbox {
+            margin-top: 25px;
+        }
         button {
             @include gpms-button;
         }
@@ -116,6 +119,11 @@ body {
     margin: 0;
     // height: 500px;
     margin-top: 20px;
+    .no-result {
+        p {
+            margin-bottom: 50px;
+        }
+    }
     .listing-frame {
         width: 40%;
         height: 100%;
@@ -166,6 +174,15 @@ body {
     }
 }
 
+.login {
+    button {
+        @include gpms-button;
+    }
+    p {
+        margin-top: 10px
+    }
+}
+
 .reviews {
     padding: 25px;
     margin: 0;
@@ -183,7 +200,7 @@ body {
                 float: right;
                 byorder-radius: 4px;
                 margin-right: 2px;
-                a {
+                 a {
                     color: #fff;
                     text-decoration: none;
                 }

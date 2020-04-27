@@ -47,6 +47,8 @@ body {
     padding: 0 30px 0 10px; }
     .landing-page .form input {
       border-color: #173a60; }
+    .landing-page .form .checkbox {
+      margin-top: 25px; }
     .landing-page .form button {
       background-color: #173a60;
       border-color: #173a60; }
@@ -73,6 +75,8 @@ body {
   width: 100%;
   margin: 0;
   margin-top: 20px; }
+  .search .no-result p {
+    margin-bottom: 50px; }
   .search .listing-frame {
     width: 40%;
     height: 100%;
@@ -107,6 +111,15 @@ body {
     .search .map-frame #map {
       height: 500px;
       width: 100%; }
+
+.login button {
+  background-color: #173a60;
+  border-color: #173a60; }
+  .login button:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+.login p {
+  margin-top: 10px; }
 
 .reviews {
   padding: 25px;
