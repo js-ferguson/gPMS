@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
 from accounts.models import Profile
@@ -22,8 +23,13 @@ def profile(request):
     Displays the practitioners profile and allows them to
     update their details as well as their clinics details.
     """
-    user = User.objects.get(email=request.user.email)
-    print("clinic id: " + str(user.clinic.id))
+
+    try:
+        user = User.objects.get(email=request.user.email)
+    except User.DoesNotExist:
+        raise Http404("This user does not exit")
+
+        print("clinic id: " + str(user.clinic.id))
     mods = user.profile.mods.all()
     latlng = {
         "lat": user.clinic.lat,
@@ -87,7 +93,11 @@ def update_location(request, lat, lng, clinic_id):
     Takes a latitude, longitude and clinic_id and updates the position of
     a clinics map marker
     '''
-    clinic = Clinic.objects.get(pk=clinic_id)
+    try:
+        clinic = Clinic.objects.get(pk=clinic_id)
+    except Clinic.DoesNotExist:
+        raise Http404("This clinic does not exist")
+
     clinic.lat = lat
     clinic.lng = lng
     clinic.save()
@@ -100,7 +110,11 @@ def user_profile(request):
     Displays the logged in users profile and allows them to
     update their details.
     '''
-    user = User.objects.get(email=request.user.email)
+    try:
+        user = User.objects.get(email=request.user.email)
+    except User.DoesNotExist:
+        raise Http404("This user does not exist")
+
     form = UserUpdateForm()
     clinics = Clinic.objects.all()
 
@@ -131,7 +145,11 @@ def create_profile(request):
     Provides a profile creation form for the user to add personal i
     details to their profile.
     """
-    user = User.objects.get(email=request.user.email)
+    try:
+        user = User.objects.get(email=request.user.email)
+    except User.DoesNotExist:
+        raise Http404("This User does not exit")
+
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -245,7 +263,10 @@ def update_mods(request, user_id):
 
 @login_required
 def update_clinic(request, user_id):
-    clinic = Clinic.objects.get(practitioner=user_id)
+    try:
+        clinic = Clinic.objects.get(practitioner=user_id)
+    except Clinic.DoesNotExist:
+        raise Http404("This clinic does not exist")
 
     clinic.name = request.POST['name']
     clinic.web = request.POST['web']

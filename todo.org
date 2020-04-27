@@ -12,8 +12,9 @@ GoannaPMS - Todo
   - clinics should be able to be updated from the user profile of the
     practitioner
 * TODO Fix user profiles so the look better and users can update their details
-* DONE fix practitioner profiles so that they can be updated by users
-  CLOSED: [2020-04-11 Sat 15:59]
+* DONE fix practitioner profiles so that they can be updated by user
+* TODO Remove Home and Logout until complete_signup
+* TODO Catch and redirect attempts to navigate away from signup
 * TODO Add more decriptive labels in all sign up forms
   1. Make the phonenumer field more descriptive
   2. remove required field messages

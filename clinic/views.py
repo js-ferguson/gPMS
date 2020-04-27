@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchVector
-from django.http import Http404, HttpResponseNotFound
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
@@ -15,10 +15,6 @@ from .models import Clinic, Reviews
 
 User = get_user_model()
 api_key = settings.GOOGLE_MAPS_API_KEY
-
-
-def handler404(request, exception):
-    return render(request, '404.html', data)
 
 
 def register_clinic(request):
@@ -50,26 +46,6 @@ def register_clinic(request):
     else:
         form = RegisterClinicForm()
     return render(request, 'register_clinic.html', {'form': form})
-
-
-#     clinics = Clinic.objects.all()
-
-#     def list_of_coords():
-#         latlng = []
-#         for clinic in clinics:
-#             if clinic.lat:
-#                 latlng.append({
-#                     'lat': clinic.lat,
-#                     'lng': clinic.lng,
-#                     'name': clinic.name,
-#                 })
-#         return latlng
-
-#     return render(request, 'clinic_listing.html', {
-#         'clinics': clinics,
-#         'api_key': api_key,
-#         'latlng': list_of_coords(),
-#     })
 
 
 def search(request):
@@ -130,8 +106,11 @@ def clinic_profile(request, clinic_id):
     clinic = Clinic.objects.filter(pk=clinic_id)
 
     if clinic.count() == 0:
-        print("returns 0")
-        raise Http404()
+        messages.warning(
+            request,
+            "The clinic you are looking for does not exist",
+        )
+        return redirect('index')
 
     form = ReviewForm()
     clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
@@ -139,7 +118,6 @@ def clinic_profile(request, clinic_id):
     # Test if clinic_id in session['initial'] matches the current clinic_id
     # if not, remove 'initial' from request.session
     if 'initial' in request.session:
-        print(clinic_id)
         if request.session['initial']['clinic_id'] != clinic_id:
             del request.session['initial']
     edit = False
@@ -160,7 +138,6 @@ def clinic_profile(request, clinic_id):
 
     if request.user.is_active:
         if 'initial' in request.session:
-            print("It's in here")
             edit = True
             form = ReviewForm(initial=request.session['initial'])
 
@@ -204,11 +181,16 @@ def create_review(request, clinic_id):
 
 
 def edit_review(request, review_id):
-    review = Reviews.objects.get(pk=review_id)
+    try:
+        review = Reviews.objects.get(pk=review_id)
+    except Reviews.DoesNotExist:
+        raise Http404("This review does not exist")
+
     clinic_id = review.clinic.id
     title_data = review.title
     body_data = review.body
     print(review.author)
+
     if request.method == 'POST' and review.author == request.user:
         review.title = request.POST['title']
         review.body = request.POST['body']
@@ -233,9 +215,12 @@ def edit_review(request, review_id):
 
 
 def delete_review(request, review_id):
-    review = Reviews.objects.get(pk=review_id)
+    try:
+        review = Reviews.objects.get(pk=review_id)
+    except Reviews.DoesNotExist:
+        raise Http404("This review does not exist")
+
     clinic_id = review.clinic.id
-    print(review.id)
     if review.author == request.user:
         review.delete()
     return redirect('clinic_profile', clinic_id=clinic_id)

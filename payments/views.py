@@ -3,12 +3,12 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.utils import timezone
 
 from .forms import MakePaymentForm
 #from .forms import MakePaymentForm, OrderForm
-from .models import Customer, Plans, Products, Subscription
+from .models import Customer, Plans, Subscription
 
 User = get_user_model()
 
@@ -17,14 +17,23 @@ api_key = settings.GOOGLE_MAPS_API_KEY
 
 
 def get_customer(request):
-    customer = Customer.objects.filter(user=request.user)
+    try:
+        customer = Customer.objects.filter(user=request.user)
+    except Customer.DoesNotExist:
+        raise Http404("This customer does not exist")
+
     if customer.exists():
         return customer.first()
     return None
 
 
 def get_subscription(request):
-    subscription = Subscription.objects.filter(customer=get_customer(request))
+    try:
+        subscription = Subscription.objects.filter(
+            customer=get_customer(request))
+    except Subscription.DoesNotExist:
+        raise Http404("Subscription does not exist")
+
     if subscription.exists():
         subscription = subscription.first()
         return subscription
@@ -33,7 +42,12 @@ def get_subscription(request):
 
 def get_plan(request):
     plan_type = request.session['selected_plan_type']
-    selected_plan = Plans.objects.filter(plan_type=plan_type)
+
+    try:
+        selected_plan = Plans.objects.filter(plan_type=plan_type)
+    except Plans.DoesNotExist:
+        raise Http404("This plan does not exit")
+
     if selected_plan.exists():
         return selected_plan.first()
     return None
@@ -66,8 +80,13 @@ def create_sub(request, *args):
 
 @login_required
 def subscription(request):
-    user = User.objects.get(email=request.user.email)
+    try:
+        user = User.objects.get(email=request.user.email)
+    except User.DoesNotExist:
+        raise Http404("User does not exist")
+
     plans = Plans.objects.all()
+
     if request.method == "POST":
         token = request.POST['stripeToken']
         request.session['selected_plan_type'] = request.POST['sublist']

@@ -11,11 +11,6 @@ stripe.api_key = settings.STRIPE_SECRET
 PLAN_CHOICES = (('monthly', 'Monthly'), ('yearly', 'Yearly'), ('free', 'Free'))
 
 
-class Products(models.Model):
-    name = models.CharField(max_length=30)
-    stripe_product_id = models.CharField(max_length=50)
-
-
 class Plans(models.Model):  # Membership
     slug = models.SlugField()
     stripe_plan_id = models.CharField(max_length=50)
@@ -61,7 +56,7 @@ class Subscription(models.Model):  # Subscription
     terminated_on = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.user_customer.user.email
+        return self.customer.user.email
 
     @property
     def get_created_date(self):
