@@ -68,7 +68,6 @@ def search(request):
         search=search_term).values()
     if mqs:
         for i in mqs:
-            print(i)
             result.append(i)
         # if Modalities.objects.filter(name__icontains=search_term).exists():
         #     s_users = Profile.objects.filter(
@@ -84,9 +83,22 @@ def search(request):
                     practitioner=i['user_id']).get_clinic_details())
         return (r_array)
 
-    def colate_results(sv_result, mod_result):
-        search_result = sv_result + mod_result
-        return search_result
+    def colate_results(search_result, find_clinics_result):
+        seen_names = set()
+        # search_result = search_result + find_clinics_result
+        search_results = []
+        for obj in search_result:
+            if obj['name'] not in seen_names:
+                search_results.append(obj)
+                seen_names.add(obj['name'])
+
+        for obj in find_clinics_result:
+            if obj['name'] not in seen_names:
+                search_results.append(obj)
+                seen_names.add(obj['name'])
+
+        print(search_results)
+        return search_results
 
     def get_coords(search_result):
         coords = []
