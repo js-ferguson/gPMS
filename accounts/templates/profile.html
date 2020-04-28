@@ -26,7 +26,48 @@
             <div class="sub-details">
                 <legend>Subscription Details</legend>
                 <hr>
-                Current Subscription: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
+                Current plan: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
+            </div>
+            <div class="col-sm-12 col-md-12" id="sub-update-form">
+                <br/>
+                <form method="post" action="{% url 'payments:update_plan' user_id=user.id %}" class="accountform">
+                    <fieldset>
+                        {% csrf_token %}
+                        {{ sub_form | as_bootstrap }}
+                        <input class="btn btn-primary mb-5" type="submit" name="change_plan" value="Update plan" />
+                    </fieldset>
+                </form>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel-sub-modal">
+                    Cancel Subscription
+                </button>
+
+                <!-- Modal - Cancel subscription confirmation -->
+                <div class="modal fade" id="cancel-sub-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to cancel your subscription?
+                            </div>
+                            <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-primary">Cancel Subscription</button> -->
+                                <fieldset>
+                                <form action="{% url 'payments:cancel_sub' user_id=user.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" name="cancel_sub" value="Cancel Subscription" />
+                                </form>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
             </div>
         </div>
         <!-- Forms to update user details are hidden by default -->
@@ -48,44 +89,45 @@
             </form>
         </div>
         <div class="col-sm-12 col-md-6" id="clinic-profile">
-                <h2>Clinic Profile</h2>
-                <hr>
-                <legend>{{ user.clinic.name }}</legend>
-                {% if user.clinic.web %}
-                <p>{{ user.clinic.web }}</p>
-                {% endif %}
-                <p>{{ user.clinic.phone }}</p>
-                <p>{{ user.clinic.email }}</p>
-                <legend>Description</legend>
-                <p>{{ user.clinic.description }}</p>
-                <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
-                <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
-                <legend>Available Therapies</legend>
-                <div class="profile-mods">
-                    <div class="mod-list">
-                        {% for mod in mods %}
-                        <li>{{ mod.name }}</li>
-                        {% endfor %}
-                    </div>
-                    <div class="col-sm-12 col-md-6" id="mod-list-form">
-                        <form method="post" action="{% url 'update_mods' user_id=user.id %}" class="accountform">
-                            <fieldset class="form-group">
-                                {% csrf_token %}
-                                {{  mods_form | as_bootstrap }}
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
+            <h2>Clinic Profile</h2>
+            <hr>
+            <legend>{{ user.clinic.name }}</legend>
+            {% if user.clinic.web %}
+            <p>{{ user.clinic.web }}</p>
+            {% endif %}
+            <p>{{ user.clinic.phone }}</p>
+            <p>{{ user.clinic.email }}</p>
+            <legend>Description</legend>
+            <p>{{ user.clinic.description }}</p>
+            <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
+            <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
+            <legend>Available Therapies</legend>
+            <div class="profile-mods">
+                <div class="mod-list">
+                    {% for mod in mods %}
+                    <li>{{ mod.name }}</li>
+                    {% endfor %}
                 </div>
-                <div class="location">
-                    <br>
-                    <legend>Location</legend>
-                    <p>You can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
-                    Location: <span id="current"></span>
-                    <div id="save-loc"></div>
+                <div class="col-sm-12 col-md-6" id="mod-list-form">
+                    <form method="post" action="{% url 'update_mods' user_id=user.id %}" class="accountform">
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                            {{  mods_form | as_bootstrap }}
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </fieldset>
+                    </form>
                 </div>
-            <div id="clinic-profile-form">
+                <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
+            </div>
+            <div class="location">
+                <br>
+                <legend>Location</legend>
+                <p>You can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
+                <span id="current"></span>
+                <div id="save-loc"></div>
+            </div>
+        </div>
+            <div class="col-sm-12 col-md-6" id="clinic-profile-form">
                 <form method="post" action="{% url 'update_clinic' user_id=user.id %}" class="accountform">
                     <fieldset class="form-group">
                         <legend>Register your clinic</legend>
@@ -95,7 +137,7 @@
                     </fieldset>
                 </form>
             </div>
-        </div>
+        
         <form method="post" action="{% url 'create_profile' %}" class="accountform">
             <fieldset class="form-group">
             </fieldset>

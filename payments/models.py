@@ -52,7 +52,7 @@ class Subscription(models.Model):  # Subscription
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     stripe_subscription_id = models.CharField(max_length=50)
     active = models.BooleanField(default=False)
-    initiated_on = models.DateField(null=True, blank=True)
+    initiated_on = models.DateField(auto_now_add=True)
     terminated_on = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):

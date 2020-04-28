@@ -10,7 +10,7 @@ from clinic.models import Clinic
 from djGoannaPMS import settings
 
 from .forms import (ModsUpdateForm, ProfileForm, ProfileUpdateForm,
-                    UserUpdateForm)
+                    SubUpdateForm, UserUpdateForm)
 from .models import Modalities
 
 User = get_user_model()
@@ -74,6 +74,8 @@ def profile(request):
 
     mods_form = ModsUpdateForm(initial=mods_form_initial)
 
+    sub_form = SubUpdateForm()
+
     return render(
         request, 'profile.html', {
             'user': user,
@@ -84,6 +86,7 @@ def profile(request):
             'user_form': user_form,
             'clinic_form': clinic_form,
             'mods_form': mods_form,
+            'sub_form': sub_form,
         })
 
 

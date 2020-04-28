@@ -39,6 +39,13 @@ $color-primary-dark: darken($color-primary, 15%);
 body {
   background-color: $color-background;
   color: #000000;
+  a {
+      color: $color-primary;
+      &:hover {
+          text-decoration: none;
+          color: $color-background-dark;
+      }
+  }
   .navbar {
       background-color: $color-primary-dark;
       .btn {
@@ -64,7 +71,9 @@ body {
       box-shadow: 0 0 1px 2px rgba(0,0,0,0.2);
       border-radius: 4px;
       margin-top: 50px;
+      margin-bottom: 50px;
       padding-top: 50px;
+      padding-bottom: 50px;
       background-color: white;
   }
 }
@@ -98,6 +107,12 @@ body {
 // ----------------- Profile ---------------- //
 
 .profile {
+    #user-profile {
+        padding: 0 20px 0 35px;
+    }
+    #clinic-profile {
+        padding: 0 35px 0 20px;
+    }
     button{
         @include gpms-button;
     }

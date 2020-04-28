@@ -14,6 +14,11 @@
 body {
   background-color: #eee6f8;
   color: #000000; }
+  body a {
+    color: #173a60; }
+    body a:hover {
+      text-decoration: none;
+      color: #c5aae7; }
   body .navbar {
     background-color: #081522; }
     body .navbar .btn {
@@ -34,7 +39,9 @@ body {
     box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     margin-top: 50px;
+    margin-bottom: 50px;
     padding-top: 50px;
+    padding-bottom: 50px;
     background-color: white; }
 
 .landing-page {
@@ -58,6 +65,10 @@ body {
     .landing-page .form p {
       margin-top: 15px; }
 
+.profile #user-profile {
+  padding: 0 20px 0 35px; }
+.profile #clinic-profile {
+  padding: 0 35px 0 20px; }
 .profile button {
   background-color: #173a60;
   border-color: #173a60; }

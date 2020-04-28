@@ -53,6 +53,12 @@ def get_plan(request):
     return None
 
 
+def get_current_plan(request):
+    customer = get_customer(request)
+    plan = customer.sub.stripe_plan_id
+    return plan
+
+
 def create_sub(request, *args):
     token = args[0]
     customer = get_customer(request)
@@ -138,3 +144,28 @@ def subscription(request):
             'plans': plans,
             'publishable': settings.STRIPE_PUBLISHABLE,
         })
+
+
+@login_required
+def update_plan(request, user_id):
+    plan = get_current_plan(request)
+    print(plan)
+
+    # update plan in stripe
+
+    # update plan in db
+    return redirect('profile')
+
+
+@login_required
+def cancel_sub(request, user_id):
+    subscription = get_subscription(request)
+    subscription.active = False
+    subscription.terminated_on
+    subscription.save()
+    # cancel sub with stripe
+
+    # Update db to reflect change
+
+    print(subscription.stripe_subscription_id)
+    return redirect('profile')

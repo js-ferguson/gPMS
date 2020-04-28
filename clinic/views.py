@@ -85,7 +85,6 @@ def search(request):
 
     def colate_results(search_result, find_clinics_result):
         seen_names = set()
-        # search_result = search_result + find_clinics_result
         search_results = []
         for obj in search_result:
             if obj['name'] not in seen_names:
@@ -97,7 +96,6 @@ def search(request):
                 search_results.append(obj)
                 seen_names.add(obj['name'])
 
-        print(search_results)
         return search_results
 
     def get_coords(search_result):
