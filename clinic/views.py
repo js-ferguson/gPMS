@@ -72,11 +72,6 @@ def search(request):
         if mqs:
             for i in mqs:
                 result.append(i)
-            # if Modalities.objects.filter(name__icontains=search_term).exists():
-            #     s_users = Profile.objects.filter(
-            #         mods__name__icontains=search_term).values()
-            #     for i in s_users:
-            #         result.append(i)
 
     def find_clinics(result):
         r_array = []
@@ -111,13 +106,8 @@ def search(request):
         return coords
 
     if request.method == 'POST':
-        #if 'search_phrase' in request.POST:
-
         search_term = request.POST.get('search_term')
-
         search(search_term)
-
-        #elif 'city' in request.POST
 
         return render(
             request, 'clinic_listing.html', {
