@@ -35,3 +35,8 @@ class RegisterClinicForm(forms.ModelForm):
             'street',
             'city',
         )
+        widgets = {
+            'phone':
+            TextInput(
+                attrs={'placeholder': "Phone number in international format"}),
+        }
