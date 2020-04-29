@@ -13,14 +13,20 @@ GoannaPMS - Todo
     practitioner
 * TODO Fix user profiles so the look better and users can update their details
 * DONE fix practitioner profiles so that they can be updated by user
-* TODO Remove Home and Logout until complete_signup
+* TODO create a search page with nearby clinics
+  - redirect users to this page is the are already logged in
+* DONE Remove Home and Logout until complete_signup
+  CLOSED: [2020-04-29 Wed 11:09]
 * TODO Catch and redirect attempts to navigate away from signup
-* TODO Add more decriptive labels in all sign up forms
+* DONE Add more decriptive labels in all sign up forms
+  CLOSED: [2020-04-29 Wed 11:09]
   1. Make the phonenumer field more descriptive
   2. remove required field messages
 
-* TODO figure out some nice styling
-* TODO inform user if no result from search
+* DONE figure out some nice styling
+  CLOSED: [2020-04-29 Wed 11:09]
+* DONE inform user if no result from search
+  CLOSED: [2020-04-29 Wed 11:09]
 * TODO Redirect logged in users away from the landing page.
   - maybe send them to a listing of local clinics
 * TODO Separate search function into it's own module/class

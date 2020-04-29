@@ -24,4 +24,7 @@ urlpatterns = [
     path('profile/update_mods/<int:user_id>/',
          views.update_mods,
          name='update_mods'),
+    path('profile/update_city/<int:user_id>/',
+         views.update_city,
+         name='update_city'),
 ]

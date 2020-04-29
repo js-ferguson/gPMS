@@ -12,7 +12,7 @@ User = get_user_model()
 class ProfileForm(ModelForm):
 
     mods = forms.CharField(
-        max_length=50,
+        max_length=500,
         required=False,
         label="Modalities",
         widget=forms.TextInput(
@@ -28,12 +28,7 @@ class ProfileForm(ModelForm):
             'phone',
             'street',
             'city',
-            'consent',
         )
-        labels = {
-            'consent':
-            "Do you consent to have your clinic's details listed publically",
-        }
         widgets = {
             'phone':
             TextInput(
@@ -41,6 +36,12 @@ class ProfileForm(ModelForm):
             'bio':
             Textarea(attrs={'placeholder': "Tell us a little about your self"})
         }
+
+
+class UserProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['city']
 
 
 class UserUpdateForm(ModelForm):

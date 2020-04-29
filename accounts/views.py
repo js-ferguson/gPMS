@@ -225,6 +225,7 @@ def update_user(request, user_id):
 
 @login_required
 def update_profile(request, user_id):
+    print(request.POST)
     profile = Profile.objects.get(user=user_id)
     profile.bio = request.POST['bio']
     profile.phone = request.POST['phone']
@@ -232,6 +233,15 @@ def update_profile(request, user_id):
     profile.city = request.POST['city']
     profile.save()
     return redirect('profile')
+
+
+@login_required
+def update_city(request, user_id):
+    print(request.POST)
+    profile = Profile.objects.get(user=user_id)
+    profile.city = request.POST['city']
+    profile.save()
+    return redirect('search')
 
 
 @login_required

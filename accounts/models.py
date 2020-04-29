@@ -20,11 +20,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=5000, blank=True)
     mods = models.ManyToManyField(Modalities, blank=True)
-    phone = PhoneNumberField()
-    clinics = models.ManyToManyField(Clinic)
-    street = models.CharField(max_length=50)
-    city = models.CharField(max_length=50)
-    consent = models.BooleanField(blank=True)
+    phone = PhoneNumberField(blank=True)
+    clinics = models.ManyToManyField(Clinic, blank=True)
+    street = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=50, blank=True)
 
     # sub_type = models.CharField(max_length=20, blank=False, default=0)
 

@@ -7,6 +7,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
+from accounts.forms import UserProfileForm
 from accounts.models import Modalities, Profile
 from djGoannaPMS import settings
 
@@ -49,31 +50,33 @@ def register_clinic(request):
 
 
 def search(request):
-    search_term = request.POST.get('search_term')
+    user = User.objects.get(email=request.user.email)
     search_result = []
     result = []
-    search_vector = SearchVector('name', 'practitioner__first_name',
-                                 'description', 'street', 'city')
-    qs = Clinic.objects.annotate(search=search_vector).filter(
-        search=search_term).values()
-    # if qs:
-    for i in qs:
-        search_result.append(
-            Clinic.objects.get(
-                practitioner=i['practitioner_id']).get_clinic_details())
-    # else:
-    mods_vector = SearchVector('mods__name')
 
-    mqs = Profile.objects.annotate(search=mods_vector).filter(
-        search=search_term).values()
-    if mqs:
-        for i in mqs:
-            result.append(i)
-        # if Modalities.objects.filter(name__icontains=search_term).exists():
-        #     s_users = Profile.objects.filter(
-        #         mods__name__icontains=search_term).values()
-        #     for i in s_users:
-        #         result.append(i)
+    def search(search_term):
+        search_vector = SearchVector('name', 'practitioner__first_name',
+                                     'description', 'street', 'city')
+        qs = Clinic.objects.annotate(search=search_vector).filter(
+            search=search_term).values()
+        # if qs:
+        for i in qs:
+            search_result.append(
+                Clinic.objects.get(
+                    practitioner=i['practitioner_id']).get_clinic_details())
+            # else:
+        mods_vector = SearchVector('mods__name')
+
+        mqs = Profile.objects.annotate(search=mods_vector).filter(
+            search=search_term).values()
+        if mqs:
+            for i in mqs:
+                result.append(i)
+            # if Modalities.objects.filter(name__icontains=search_term).exists():
+            #     s_users = Profile.objects.filter(
+            #         mods__name__icontains=search_term).values()
+            #     for i in s_users:
+            #         result.append(i)
 
     def find_clinics(result):
         r_array = []
@@ -95,7 +98,6 @@ def search(request):
             if obj['name'] not in seen_names:
                 search_results.append(obj)
                 seen_names.add(obj['name'])
-
         return search_results
 
     def get_coords(search_result):
@@ -108,15 +110,41 @@ def search(request):
             })
         return coords
 
-    return render(
-        request, 'clinic_listing.html', {
-            'api_key':
-            api_key,
-            'result':
-            colate_results(search_result, find_clinics(result)),
-            'latlng':
-            get_coords(colate_results(search_result, find_clinics(result))),
-        })
+    if request.method == 'POST':
+        #if 'search_phrase' in request.POST:
+
+        search_term = request.POST.get('search_term')
+
+        search(search_term)
+
+        #elif 'city' in request.POST
+
+        return render(
+            request, 'clinic_listing.html', {
+                'api_key':
+                api_key,
+                'result':
+                colate_results(search_result, find_clinics(result)),
+                'latlng':
+                get_coords(colate_results(search_result,
+                                          find_clinics(result))),
+            })
+    else:
+        search(user.profile.city)
+        city_form = UserProfileForm()
+        return render(
+            request, 'clinic_listing.html', {
+                'api_key':
+                api_key,
+                'user':
+                user,
+                'city_form':
+                city_form,
+                'result':
+                colate_results(search_result, find_clinics(result)),
+                'latlng':
+                get_coords(colate_results(search_result, find_clinics(result)))
+            })
 
 
 def clinic_profile(request, clinic_id):

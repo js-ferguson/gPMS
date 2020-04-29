@@ -3,9 +3,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login
 from django.shortcuts import redirect, render, reverse
 
-from accounts.forms import ProfileForm
+from accounts.forms import ProfileForm, UserProfileForm
 from clinic.models import Clinic
-from forms import NavSearchForm
 from home.forms import SignUpForm
 
 User = get_user_model()
@@ -54,13 +53,18 @@ def index(request):
                 })
 
             else:
+                form = UserProfileForm()
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+
                 user.complete_signup = True
                 user.save()
 
                 messages.success(
                     request,
                     f'You can now update your details or begin your search')
-                return redirect(reverse('user_profile'))
+                return redirect(reverse("search"))
 
     else:
         form = SignUpForm(request.POST or None)
