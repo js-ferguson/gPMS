@@ -117,29 +117,41 @@ def user_profile(request):
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
         raise Http404("This user does not exist")
-
-    form = UserUpdateForm()
     clinics = Clinic.objects.all()
 
-    def list_of_clinics():
-        c_list = []
-        for clinic in clinics:
-            if clinic.lat:
-                c_list.append({
-                    'lat': clinic.lat,
-                    'lng': clinic.lng,
-                    'name': clinic.name,
-                    'url': "clinic/" + str(clinic.id)
-                })
-        print(c_list)
-        return c_list
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect(reverse('user_profile'))
+    else:
 
-    return render(request, 'user_profile.html', {
-        'user': user,
-        'form': form,
-        'latlng': list_of_clinics,
-        'api_key': api_key
-    })
+        def list_of_clinics():
+            c_list = []
+            for clinic in clinics:
+                if clinic.lat:
+                    c_list.append({
+                        'lat': clinic.lat,
+                        'lng': clinic.lng,
+                        'name': clinic.name,
+                        'url': "clinic/" + str(clinic.id)
+                    })
+            return c_list
+
+        initial = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+        }
+
+        form = UserUpdateForm(initial=initial)
+
+        return render(
+            request, 'user_profile.html', {
+                'user': user,
+                'form': form,
+                'latlng': list_of_clinics,
+                'api_key': api_key
+            })
 
 
 @login_required

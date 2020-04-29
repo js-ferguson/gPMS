@@ -13,13 +13,19 @@
 </div>
 
 <div class="container">
-<p>
-    <ul>
-        <h2>{{ user.get_full_name }}</h2>
-        <p>{{ user.email }}</p>
-    </ul>
-    {% csrf_token %}
-    {{ form | as_bootstrap }}
-</p>
+    <div class="row user-profile">
+        <div class="col-sm-4">
+            <h2>{{ user.get_full_name }}</h2>
+            <p>{{ user.email }}</p>
+            <form method="post" action="{% url 'user_profile' %}" class="accountform">
+                <fieldset>
+                    {% csrf_token %}
+                    {{ form | as_bootstrap }}
+                    <input class="btn btn-primary mb-2" type="submit" name="update-user" value="Update" />
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

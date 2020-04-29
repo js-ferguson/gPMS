@@ -17,18 +17,22 @@
 </div>
 
 <div class="container">
-<div class="row listing-body">
-    <div class="col-sm listing-frame">
-        <ul>
+    <div class="row clinic">
+        {% for ob in clinic %}
+        <div class="col-sm-12">
+            <h2>{{ ob.name }}</h2>
+            <hr/>
+        </div>
+        {% endfor %}
+        <div class="col-sm-12 col-md-6 listing-frame">
             {% for ob in clinic %}
             <div class="profile-card">
-                <h2>{{ ob.name }}</h2>
                 <p>{{ ob.description }}</p>
-                <h4>Available Therapies</h4>
+                <h4 class="mt-3">Available Therapies</h4>
                 {% for m in mods %}
                 <li>{{ m }}</li> 
                 {% endfor %}
-                <h4>Contact</h4>
+                <h4 class="mt-3">Contact</h4>
                 <p>
                     {% if ob.web %}
                     Web: <a  href="{{ ob.web }}" target="_blank">{{ ob.name }}</a><br>
@@ -39,58 +43,76 @@
                 </p>
             </div>
             {% endfor %}
-        </ul>
-        <hr>
-    </div>
-</div>
-<div class="row reviews">
-    <div class="col-sm review-form">
-        {% if edit %}
-        {% for r in reviews %}
-        {% if r.author == user %}
-        <form method="POST" action="{% url 'edit_review' review_id=r.id %}">
+        </div>
+        <!-- Button trigger modal -->
+
+        <div class="col-sm-12 col-md-6 review-frame">
+            <h4 class="mb-4">Reviews</h4>
+            {% if not reviews %}
+            <p>There are no reviews yet.</p>
+            <p>You could be the first!</p>
             {% endif %}
-        {% endfor %}
-        {% else %}    
-        <form method="POST" action="create_review/">
-        {% endif %}    
-            {% csrf_token %}
-            <fieldset class="form-group">
-                {% for ob in clinic %}
-                <legend>Leave a review for {{ ob.name }}</legend>
-                {% endfor %}
-                {{ form | as_bootstrap}}
-                {% if edit %}
-                <button type="submit" class="btn btn-primary">Update</button>
-                {% else %}
-                <button type="submit" class="btn btn-primary">Save</button>
-                {% endif %}
-            </fieldset>
-        </form>
-    </div>
-
-    <div class="col-sm review-frame">
-        {% if not reviews %}
-        <p>There are no reviews yet.</p>
-        <p>You could be the first!</p>
-        {% endif %}
-
-        {% for r in reviews %}
-        <div class="review-slip col-sm">
-            <div>
-                <h5 class="review-title">{{ r.title }}</h5> 
-                {% if r.author == user %}
-                <button class="btn-small btn-danger"><a href="{% url 'delete_review' review_id=r.id %}">Delete</a></button>
-                <button class="btn-small btn-primary"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
+            {% for r in reviews %}
+            <!-- Modal -->
+            <div class="modal fade" id="modal{{r.id}}" tabindex="-1" role="dialog" aria-labelledby="DeleteReviewConfirmation" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Delete Comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this comment?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary"><a href="{% url 'delete_review' review_id=r.id %}">Delete comment</a></button>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div>
+                <div class="edit-buttons">
+                    {% if r.author == user %}
+                    <button type="button" class="btn-small" data-toggle="modal" data-target="#modal{{r.id}}">
+                        Delete
+                    </button>
+                    <!-- <button class="btn-small"><a href="{% url 'delete_review' review_id=r.id %}">Delete</a></button> -->
+                    <button class="btn-small"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
+                </div>
+            </div>
+            <h6 class="review-title">{{ r.title }}</h6>
             {% endif %}
             <div>
                 <p>{{ r.body }}</p>
             </div>
+            {% endfor %}
+            <div class="review-form">
+                {% if edit %}
+                {% for r in reviews %}
+                {% if r.author == user %}
+                <form method="POST" action="{% url 'edit_review' review_id=r.id %}">
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <form method="POST" action="create_review/">
+                    {% endif %}
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {% for ob in clinic %}
+                        <h6>Leave a review</h6>
+                        {% endfor %}
+                        {{ form | as_bootstrap}}
+                        {% if edit %}
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        {% endif %}
+                    </fieldset>
+                </form>
+            </div>
         </div>
-        <hr>
-        {% endfor %}
     </div>
-</div>
-</div>
 {% endblock %}

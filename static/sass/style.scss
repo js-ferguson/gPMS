@@ -3,9 +3,30 @@
 @mixin gpms-button {
     background-color: $color-primary;
     border-color: $color-primary;
+    color: white;
     &:hover {
         background-color: $color-background;
         color: $color-primary;
+    }
+    a {
+        color: inherit;
+        &:hover {
+            color: $color-primary;
+        }
+    }
+}
+
+@mixin gpms-btn-small {
+    &:hover {
+        color: $color-primary;
+    }
+    border-radius: 4px;
+    border: 1px solid $color-primary;
+    a {
+        color: inherit;
+        &:hover {
+            color: $color-primary;
+        }
     }
 }
 
@@ -104,7 +125,7 @@ body {
     }
 }
 
-// ----------------- Profile ---------------- //
+// ----------------- Profiles ---------------- //
 
 .profile {
     #user-profile {
@@ -127,6 +148,46 @@ body {
     }
 }
 
+.user-profile {
+    padding-left: 40px;
+    .btn-primary {
+        @include gpms-button;
+    }
+}
+
+// ----------------- Clinic ----------------- //
+
+.clinic {
+    h {
+        margin: 0;
+    }
+    button {
+        @include gpms-button;
+    }
+    .btn-small {
+        @include gpms-btn-small;
+    }
+    .listing-frame {
+        padding: 0 25px 0 40px;
+    }
+    .profile-card {
+        margin-top: 15px;
+    }
+    .edit-buttons {
+        float: right
+    }
+    .review-title {
+        padding-bottom: 10px;
+    }
+    .review-frame {
+        margin-top: 15px;
+        padding: 0 40px 0 25px;
+    }
+    .review-form {
+        margin-top: 50px;
+    }
+}
+
 // ----------------- Search ----------------- //
 
 .search {
@@ -144,7 +205,7 @@ body {
         height: 100%;
         display: inline-block;
         hr {
-            margin: 0 25px 0 25px;
+            margin: 0 10px 15px 0;
         }
 
         .listing-card {
@@ -154,6 +215,9 @@ body {
             li {
                 //padding-left: 15px;
                 list-style-position: inside;
+            }
+            p {
+                margin-top: 15px;
             }
         }
         .profile-card {

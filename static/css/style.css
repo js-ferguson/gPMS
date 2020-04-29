@@ -58,10 +58,15 @@ body {
       margin-top: 25px; }
     .landing-page .form button {
       background-color: #173a60;
-      border-color: #173a60; }
+      border-color: #173a60;
+      color: white; }
       .landing-page .form button:hover {
         background-color: #eee6f8;
         color: #173a60; }
+      .landing-page .form button a {
+        color: inherit; }
+        .landing-page .form button a:hover {
+          color: #173a60; }
     .landing-page .form p {
       margin-top: 15px; }
 
@@ -71,16 +76,71 @@ body {
   padding: 0 35px 0 20px; }
 .profile button {
   background-color: #173a60;
-  border-color: #173a60; }
+  border-color: #173a60;
+  color: white; }
   .profile button:hover {
     background-color: #eee6f8;
     color: #173a60; }
+  .profile button a {
+    color: inherit; }
+    .profile button a:hover {
+      color: #173a60; }
 .profile .profile-mods {
   padding-left: 0; }
   .profile .profile-mods .mod-list {
     padding-left: 25px; }
   .profile .profile-mods .btn {
     margin-top: 15px; }
+
+.user-profile {
+  padding-left: 40px; }
+  .user-profile .btn-primary {
+    background-color: #173a60;
+    border-color: #173a60;
+    color: white; }
+    .user-profile .btn-primary:hover {
+      background-color: #eee6f8;
+      color: #173a60; }
+    .user-profile .btn-primary a {
+      color: inherit; }
+      .user-profile .btn-primary a:hover {
+        color: #173a60; }
+
+.clinic h {
+  margin: 0; }
+.clinic button {
+  background-color: #173a60;
+  border-color: #173a60;
+  color: white; }
+  .clinic button:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+  .clinic button a {
+    color: inherit; }
+    .clinic button a:hover {
+      color: #173a60; }
+.clinic .btn-small {
+  border-radius: 4px;
+  border: 1px solid #173a60; }
+  .clinic .btn-small:hover {
+    color: #173a60; }
+  .clinic .btn-small a {
+    color: inherit; }
+    .clinic .btn-small a:hover {
+      color: #173a60; }
+.clinic .listing-frame {
+  padding: 0 25px 0 40px; }
+.clinic .profile-card {
+  margin-top: 15px; }
+.clinic .edit-buttons {
+  float: right; }
+.clinic .review-title {
+  padding-bottom: 10px; }
+.clinic .review-frame {
+  margin-top: 15px;
+  padding: 0 40px 0 25px; }
+.clinic .review-form {
+  margin-top: 50px; }
 
 .search {
   width: 100%;
@@ -93,13 +153,15 @@ body {
     height: 100%;
     display: inline-block; }
     .search .listing-frame hr {
-      margin: 0 25px 0 25px; }
+      margin: 0 10px 15px 0; }
     .search .listing-frame .listing-card {
       padding: 15px;
       border-radius: 5px;
       margin-top: 15px; }
       .search .listing-frame .listing-card li {
         list-style-position: inside; }
+      .search .listing-frame .listing-card p {
+        margin-top: 15px; }
     .search .listing-frame .profile-card {
       background-color: #fafafa;
       padding: 15px;
@@ -124,10 +186,15 @@ body {
 
 .login button {
   background-color: #173a60;
-  border-color: #173a60; }
+  border-color: #173a60;
+  color: white; }
   .login button:hover {
     background-color: #eee6f8;
     color: #173a60; }
+  .login button a {
+    color: inherit; }
+    .login button a:hover {
+      color: #173a60; }
 .login p {
   margin-top: 10px; }
 
