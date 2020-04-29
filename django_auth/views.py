@@ -27,7 +27,7 @@ def login(request):
                 elif user.is_practitioner:
                     return redirect('/profile/')
                 else:
-                    return redirect('/user_profile/')
+                    return redirect('/search/')
 
             else:
                 login_form.add_error(
