@@ -53,6 +53,7 @@ def search(request):
     user = User.objects.get(email=request.user.email)
     search_result = []
     result = []
+    is_search = False
 
     def search(search_term):
         search_vector = SearchVector('name', 'practitioner__first_name',
@@ -106,13 +107,16 @@ def search(request):
         return coords
 
     if request.method == 'POST':
-        search_term = request.POST.get('search_term')
+        is_search = True
+        search_term = request.POST['search_term']
         search(search_term)
 
         return render(
             request, 'clinic_listing.html', {
                 'api_key':
                 api_key,
+                'is_search':
+                is_search,
                 'result':
                 colate_results(search_result, find_clinics(result)),
                 'latlng':
@@ -121,20 +125,22 @@ def search(request):
             })
     else:
         search(user.profile.city)
-        city_form = UserProfileForm()
-        return render(
-            request, 'clinic_listing.html', {
-                'api_key':
-                api_key,
-                'user':
-                user,
-                'city_form':
-                city_form,
-                'result':
-                colate_results(search_result, find_clinics(result)),
-                'latlng':
-                get_coords(colate_results(search_result, find_clinics(result)))
-            })
+        form = UserProfileForm()
+    return render(
+        request, 'clinic_listing.html', {
+            'api_key':
+            api_key,
+            'user':
+            user,
+            'form':
+            form,
+            'is_search':
+            is_search,
+            'result':
+            colate_results(search_result, find_clinics(result)),
+            'latlng':
+            get_coords(colate_results(search_result, find_clinics(result)))
+        })
 
 
 def clinic_profile(request, clinic_id):
