@@ -85,6 +85,8 @@ body {
     color: inherit; }
     .profile button a:hover {
       color: #173a60; }
+.profile #sub-update-form {
+  padding: 0; }
 .profile .profile-mods {
   padding-left: 0; }
   .profile .profile-mods .mod-list {

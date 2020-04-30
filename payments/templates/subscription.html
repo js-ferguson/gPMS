@@ -9,6 +9,9 @@
 
 {% endblock %}
 <div class="container">
+    <div class="row subscription">
+        
+
     <h1>Choose your plan</h1>
     {% for plan in plans %}
     {% if plan.plan_type != 'free' %}
@@ -34,7 +37,7 @@
 
 
 <form   method="POST" id="payment-form" action="/subscription/" >
-{% csrf_token %}
+    {% csrf_token %}
     <input type="hidden" name="token" />
 
     <input id="sublist" type="hidden" name="sublist" value="monthly">
@@ -87,7 +90,8 @@
       <div class="success"></div>
     </div>
   </form>
-</div>
+    </div>
+    </div>
   {% block body_js %}
 
 

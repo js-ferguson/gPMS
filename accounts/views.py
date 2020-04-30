@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import stripe
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -8,9 +11,11 @@ from accounts.models import Profile
 from clinic.forms import RegisterClinicForm
 from clinic.models import Clinic
 from djGoannaPMS import settings
+from payments.models import Customer, Subscription
+from payments.views import get_subscription
 
 from .forms import (ModsUpdateForm, ProfileForm, ProfileUpdateForm,
-                    SubUpdateForm, UserUpdateForm)
+                    UserUpdateForm)
 from .models import Modalities
 
 User = get_user_model()
@@ -29,7 +34,6 @@ def profile(request):
     except User.DoesNotExist:
         raise Http404("This user does not exit")
 
-        print("clinic id: " + str(user.clinic.id))
     mods = user.profile.mods.all()
     latlng = {
         "lat": user.clinic.lat,
@@ -74,7 +78,26 @@ def profile(request):
 
     mods_form = ModsUpdateForm(initial=mods_form_initial)
 
-    sub_form = SubUpdateForm()
+    def subscription_end_date():
+        subscription = get_subscription(request)
+        if subscription:
+            stripesub = stripe.Subscription.retrieve(
+                subscription.stripe_subscription_id)
+            return datetime.fromtimestamp(
+                stripesub['current_period_end']).strftime("%B %-d, %Y")
+
+    def is_active():
+        status = "Not active"
+        customer = Customer.objects.get(user=request.user)
+        try:
+            subscription = Subscription.objects.get(customer=customer)
+            if subscription.active:
+                status = "Active"
+
+        except Subscription.DoesNotExist:
+            status = "No subscription"
+
+        return status
 
     return render(
         request, 'profile.html', {
@@ -86,7 +109,8 @@ def profile(request):
             'user_form': user_form,
             'clinic_form': clinic_form,
             'mods_form': mods_form,
-            'sub_form': sub_form,
+            'period_ends': subscription_end_date(),
+            'sub_is_active': is_active(),
         })
 
 
@@ -200,7 +224,7 @@ def create_profile(request):
 
             if user.is_practitioner:
                 messages.success(request, f'Now set up your subscription')
-                return redirect(reverse('subscription'))
+                return redirect(reverse('payments:subscription'))
 
             messages.success(request, f'Thank you for updating your details')
             user.complete_signup = True

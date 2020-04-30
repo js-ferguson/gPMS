@@ -26,21 +26,18 @@
             <div class="sub-details">
                 <legend>Subscription Details</legend>
                 <hr>
-                Current plan: {{ user.customer.sub.plan_type.capitalize }} {{ user.customer.active }}
+                Current plan: {{ user.customer.sub.plan_type.capitalize }} ({{ sub_is_active }})<br/>
+                Current billing period ends: {{ period_ends }}
             </div>
             <div class="col-sm-12 col-md-12" id="sub-update-form">
                 <br/>
-                <form method="post" action="{% url 'payments:update_plan' user_id=user.id %}" class="accountform">
-                    <fieldset>
-                        {% csrf_token %}
-                        {{ sub_form | as_bootstrap }}
-                        <input class="btn btn-primary mb-5" type="submit" name="change_plan" value="Update plan" />
-                    </fieldset>
-                </form>
-                <!-- Button trigger modal -->
+                {% if sub_is_active == "Not active" %}
+                <button type="button" class="btn btn-primary"><a href="{% url 'payments:subscription' %}">New Subscription</a></button>
+                {% else %}
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel-sub-modal">
                     Cancel Subscription
                 </button>
+                {% endif %}
 
                 <!-- Modal - Cancel subscription confirmation -->
                 <div class="modal fade" id="cancel-sub-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

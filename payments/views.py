@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import stripe
 from django.conf import settings
 from django.contrib import messages
@@ -51,12 +53,6 @@ def get_plan(request):
     if selected_plan.exists():
         return selected_plan.first()
     return None
-
-
-def get_current_plan(request):
-    customer = get_customer(request)
-    plan = customer.sub.stripe_plan_id
-    return plan
 
 
 def create_sub(request, *args):
@@ -123,7 +119,10 @@ def subscription(request):
                 request,
                 "Thank you for subscribing to gCMS. You can now register your clinic"
             )
-            return redirect(reverse('register_clinic'))
+            if user.complete_signup:
+                return redirect(reverse('profile'))
+            else:
+                return redirect(reverse('register_clinic'))
 
         return render(
             request, "subscription.html", {
@@ -147,25 +146,15 @@ def subscription(request):
 
 
 @login_required
-def update_plan(request, user_id):
-    plan = get_current_plan(request)
-    print(plan)
-
-    # update plan in stripe
-
-    # update plan in db
-    return redirect('profile')
-
-
-@login_required
 def cancel_sub(request, user_id):
     subscription = get_subscription(request)
     subscription.active = False
-    subscription.terminated_on
+    subscription.terminated_on = datetime.today()
+    # print(datetime.date())
     subscription.save()
+
     # cancel sub with stripe
-
-    # Update db to reflect change
-
+    stripe.Subscription.delete(subscription.stripe_subscription_id)
+    messages.success(request, "Your subscription has been cancelled")
     print(subscription.stripe_subscription_id)
     return redirect('profile')

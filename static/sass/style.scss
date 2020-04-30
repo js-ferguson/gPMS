@@ -137,6 +137,9 @@ body {
     button{
         @include gpms-button;
     }
+    #sub-update-form {
+        padding: 0;
+    }
     .profile-mods {
         padding-left: 0;
         .mod-list {
