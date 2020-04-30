@@ -108,6 +108,13 @@ body {
       .user-profile .btn-primary a:hover {
         color: #173a60; }
 
+.subscription .card-wrapper {
+  margin: 0 auto;
+  text-align: center;
+  display: flex; }
+.subscription .form-col {
+  margin: 0; }
+
 .clinic h {
   margin: 0; }
 .clinic button {

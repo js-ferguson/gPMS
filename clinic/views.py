@@ -50,7 +50,17 @@ def register_clinic(request):
 
 
 def search(request):
-    user = User.objects.get(email=request.user.email)
+
+    if request.user.is_authenticated:
+        print("Authenticated")
+        User.objects.get(email=request.user.email)
+    else:
+        print("Not authenticated")
+    # else:  # user = User.objects.get(user=request.user)
+    #     messages.warning(
+    #         request,
+    #         "Please consider signing up... It's free and you can leave comments!"
+    #     )
     search_result = []
     result = []
     is_search = False

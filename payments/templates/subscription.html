@@ -10,93 +10,94 @@
 {% endblock %}
 <div class="container">
     <div class="row subscription">
-        
-
-    <h1>Choose your plan</h1>
-    {% for plan in plans %}
-    {% if plan.plan_type != 'free' %}
-    <div class="row col-md-6 col-sm-6 sub-row">
-        {% if plan.plan_type == 'monthly' %}
-        <div class="sub-card jumbotron" id="year">
-        {% else %}
-        <div class="sub-card jumbotron" id="month">
-        {% endif %}
-            <h4>{{ plan.plan_type.capitalize }}</h4>
-            <hr/>
-            <p>
-                {{ plan.price }}kr/{{ plan.duration }}<br/><small>{{ plan.description }}</small>
-            </p>
-            <button id="select-button" class="btn btn-primary btn-lg" onclick="toggleSublist('{{ plan.plan_type }}')">This one!</button>
+        <h1 class="col-sm-12" style="text-align: center">Choose your plan</h1>
+        <div class="col-sm-8 card-wrapper">
+            <!-- Subscription choice cards -->
+            {% for plan in plans %}
+            {% if plan.plan_type != 'free' %}
+            <div class="row col-sm-6 col-md-6 sub-row">
+                {% if plan.plan_type == 'monthly' %}
+                <div class="sub-card jumbotron" id="year">
+                    {% else %}
+                    <div class="sub-card jumbotron" id="month">
+                        {% endif %}
+                        <h4>{{ plan.plan_type.capitalize }}</h4>
+                        <hr/>
+                        <p>
+                            {{ plan.price }}kr/{{ plan.duration }}<br/><small>{{ plan.description }}</small>
+                        </p>
+                        <button id="select-button" class="btn btn-primary btn-lg" onclick="toggleSublist('{{ plan.plan_type }}')">This one!</button>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {#</div>#}
+        <div class="wrapper col-md-12 mb-4">
+            <div id="display-selected-sub" class="is-hidden"><h4>Selected subscription: <span class="selected-sub"></span></h4></div>
+            <h4>Payment details: </h4>
+        </div>
+        <div class="form-wrapper col-sm-12">
+            <form   method="POST" id="payment-form" action="/subscription/" >
+                {% csrf_token %}
+                <input type="hidden" name="token" />
+                <input id="sublist" type="hidden" name="sublist" value="monthly">
+                <div>
+                    <label>
+                        <div class="card-label">Card</div>
+                        <div id="card-element" class="field"></div>
+                        <div id="card-errors" role="alert"></div>
+                    </label>
+                </div>
+                <div class="form-col col-md-6">
+                    <div>
+                        <label>
+                            <span class="form-label">Name</span>
+                            <input id="name" name="name" class="field" placeholder="{{ user.get_full_name }}" />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span class="form-label">Address</span>
+                            <input id="address-line1" name="address_line1" class="field" placeholder="{{ user.profile.street }}" />
+                        </label>
+                        <label>
+                            <span class="form-label">Address (cont.)</span>
+                            <input id="address-line2" name="address_line2" class="field" placeholder="" />
+                        </label>
+                    </div>
+                </div>
+                <div class="form-col col-md-6"> 
+                    <label>
+                        <span class="form-label">City</span>
+                        <input id="address-city" name="address_city" class="field" placeholder="{{ user.profile.city }}" />
+                    </label>
+                    <label>
+                        <span class="form-label">State</span>
+                        <input id="address-state" name="address_state" class="field" placeholder="" />
+                    </label>
+                    <label>
+                        <span class="form-label">Postcode</span>
+                        <input id="address-zip" name="address_zip" class="field" placeholder="" />
+                    </label>
+                    <label>
+                        <span class="form-label">Country</span>
+                        <input id="address-country" name="address_country" class="field" placeholder="Sweden" />
+                    </label>
+                </div>
+                <button type="submit">Pay Now</button>
+                <div class="outcome">
+                    <div class="error"></div>
+                    <div class="success"></div>
+                </div>
+            </form>
         </div>
     </div>
-    {% endif %}
-    {% endfor %}
-    <div class="wrapper">
-        <div id="display-selected-sub" class="is-hidden">Selected subscription: <span class="selected-sub"></span></div>
     </div>
-
-
-<form   method="POST" id="payment-form" action="/subscription/" >
-    {% csrf_token %}
-    <input type="hidden" name="token" />
-
-    <input id="sublist" type="hidden" name="sublist" value="monthly">
-    <!-- <select id="sub_type" name="sublist" form="payment-form">
-        <option value="monthly">Monthly</option>
-        <option value="yearly">Yearly</option>
-    </select> -->
-    <div class="group">
-      <label>
-        <div class="card-label">Card</div>
-        <div id="card-element" class="field"></div>
-          <div id="card-errors" role="alert"></div>
-      </label>
-    </div>
-    <div class="group">
-      <label>
-        <span class="form-label">Name</span>
-        <input id="name" name="name" class="field" placeholder="{{ user.get_full_name }}" />
-      </label>
-    </div>
-    <div class="group">
-      <label>
-          <span class="form-label">Address</span>
-        <input id="address-line1" name="address_line1" class="field" placeholder="{{ user.profile.street }}" />
-      </label>
-      <label>
-          <span class="form-label">Address (cont.)</span>
-        <input id="address-line2" name="address_line2" class="field" placeholder="" />
-      </label>
-      <label>
-          <span class="form-label">City</span>
-        <input id="address-city" name="address_city" class="field" placeholder="{{ user.profile.city }}" />
-      </label>
-      <label>
-          <span class="form-label">State</span>
-        <input id="address-state" name="address_state" class="field" placeholder="" />
-      </label>
-      <label>
-          <span class="form-label">Postcode</span>
-        <input id="address-zip" name="address_zip" class="field" placeholder="" />
-      </label>
-      <label>
-          <span class="form-label">Country</span>
-        <input id="address-country" name="address_country" class="field" placeholder="Sweden" />
-      </label>
-    </div>
-    <button type="submit">Pay Now</button>
-    <div class="outcome">
-      <div class="error"></div>
-      <div class="success"></div>
-    </div>
-  </form>
-    </div>
-    </div>
-  {% block body_js %}
-
-
-  <script src="https://js.stripe.com/v3/"></script>
-  <script src="{% static 'js/sub.js' %}"></script>
-  {% endblock %}
+{#</div>#}
+{% block body_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/sub.js' %}"></script>
+{% endblock %}
 {% endblock %}
 

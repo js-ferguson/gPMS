@@ -46,6 +46,7 @@
                 {% endfor %}
         </div>
     </div>
+    {% if user.is_authenticated  %}
     {% if not user.profile.city %}
     <!-- Modal -->
     <div class="modal fade" id="getCityModal" tabindex="-1" role="dialog" aria-labelledby="getCityModal" aria-hidden="true">
@@ -79,5 +80,6 @@
         $('#getCityModal').modal('show');
     });
 </script>
+{% endif %}
 {% endif %}
 {% endblock %}
