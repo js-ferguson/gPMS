@@ -26,13 +26,18 @@ api_key = settings.GOOGLE_MAPS_API_KEY
 def profile(request):
     """
     Displays the practitioners profile and allows them to
-    update their details as well as their clinics details.
+    update both personal and clinic details. It also provides
+    a place for subscription management
     """
 
     try:
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
         raise Http404("This user does not exit")
+
+    # Redirect regular users to user_profile
+    if not user.is_practitioner:
+        return redirect(reverse('user_profile'))
 
     mods = user.profile.mods.all()
     latlng = {
@@ -141,12 +146,20 @@ def user_profile(request):
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
         raise Http404("This user does not exist")
+
+    # Redirect practitioners to profile
+    if user.is_practitioner:
+        return redirect(reverse('profile'))
+
     clinics = Clinic.objects.all()
 
     if request.method == "POST":
         form = UserUpdateForm(request.POST)
-        if form.is_valid():
-            form.save()
+        user.email = request.POST['email']
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.save()
+
         return redirect(reverse('user_profile'))
     else:
 
@@ -165,6 +178,7 @@ def user_profile(request):
         initial = {
             'first_name': user.first_name,
             'last_name': user.last_name,
+            'email': user.email,
         }
 
         form = UserUpdateForm(initial=initial)
@@ -218,9 +232,9 @@ def create_profile(request):
 
             add_modalities(mod_list)
 
-            #if user.is_practitioner:
-            #    messages.success(request, f'Now register your clinic')
-            #    return redirect(reverse('register_clinic'))
+            # if user.is_practitioner:
+            # messages.success(request, f'Now register your clinic')
+            # return redirect(reverse('register_clinic'))
 
             if user.is_practitioner:
                 messages.success(request, f'Now set up your subscription')
@@ -249,7 +263,6 @@ def update_user(request, user_id):
 
 @login_required
 def update_profile(request, user_id):
-    print(request.POST)
     profile = Profile.objects.get(user=user_id)
     profile.bio = request.POST['bio']
     profile.phone = request.POST['phone']
@@ -261,7 +274,6 @@ def update_profile(request, user_id):
 
 @login_required
 def update_city(request, user_id):
-    print(request.POST)
     profile = Profile.objects.get(user=user_id)
     profile.city = request.POST['city']
     profile.save()

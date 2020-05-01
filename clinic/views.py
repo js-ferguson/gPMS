@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
@@ -18,6 +19,7 @@ User = get_user_model()
 api_key = settings.GOOGLE_MAPS_API_KEY
 
 
+@login_required
 def register_clinic(request):
     form = RegisterClinicForm(request.POST)
     locator = GoogleV3(api_key=api_key)
@@ -51,11 +53,6 @@ def register_clinic(request):
 
 def search(request):
 
-    if request.user.is_authenticated:
-        print("Authenticated")
-        User.objects.get(email=request.user.email)
-    else:
-        print("Not authenticated")
     # else:  # user = User.objects.get(user=request.user)
     #     messages.warning(
     #         request,
@@ -134,6 +131,11 @@ def search(request):
                                           find_clinics(result))),
             })
     else:
+        if request.user.is_authenticated:
+            print("Authenticated")
+            user = User.objects.get(email=request.user.email)
+        else:
+            print("Not authenticated")
         search(user.profile.city)
         form = UserProfileForm()
     return render(
@@ -153,6 +155,7 @@ def search(request):
         })
 
 
+@login_required
 def clinic_profile(request, clinic_id):
 
     clinic = Clinic.objects.filter(pk=clinic_id)
@@ -212,6 +215,7 @@ def clinic_profile(request, clinic_id):
         })
 
 
+@login_required
 def create_review(request, clinic_id):
     form = ReviewForm(request.POST)
     if request.method == 'POST':
@@ -232,6 +236,7 @@ def create_review(request, clinic_id):
     return redirect('clinic_profile', clinic_id=clinic_id)
 
 
+@login_required
 def edit_review(request, review_id):
     try:
         review = Reviews.objects.get(pk=review_id)
@@ -266,6 +271,7 @@ def edit_review(request, review_id):
         return redirect('clinic_profile', clinic_id=clinic_id)
 
 
+@login_required
 def delete_review(request, review_id):
     try:
         review = Reviews.objects.get(pk=review_id)

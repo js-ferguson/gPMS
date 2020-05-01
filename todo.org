@@ -1,35 +1,11 @@
 
 GoannaPMS - Todo
 
-* DONE Think of a new name now that the focus has changed
-  CLOSED: [2020-04-11 Sat 16:00]
-
-* TODO going to the url /user_profile as a practitioner should redirect you to the regular profile 
-* DONE Add user reviews section to clinic profile pages
-  CLOSED: [2020-04-11 Sat 15:59]
-* DONE Edit clinics
-  CLOSED: [2020-04-11 Sat 15:59]
-  - clinics should be able to be updated from the user profile of the
-    practitioner
-* TODO Fix user profiles so the look better and users can update their details
-* DONE fix practitioner profiles so that they can be updated by user
-* TODO create a search page with nearby clinics
-  - redirect users to this page is the are already logged in
-* DONE Remove Home and Logout until complete_signup
-  CLOSED: [2020-04-29 Wed 11:09]
+* TODO Fix user profiles so the look better and users can update their details including password update
+* TODO Automatically geocode and update database if a new address is saved for a clinic
 * TODO Catch and redirect attempts to navigate away from signup
-* DONE Add more decriptive labels in all sign up forms
-  CLOSED: [2020-04-29 Wed 11:09]
-  1. Make the phonenumer field more descriptive
-  2. remove required field messages
-
-* DONE figure out some nice styling
-  CLOSED: [2020-04-29 Wed 11:09]
-* DONE inform user if no result from search
-  CLOSED: [2020-04-29 Wed 11:09]
-* TODO Redirect logged in users away from the landing page.
-  - maybe send them to a listing of local clinics
 * TODO Separate search function into it's own module/class
+  - this is half done. Search is now a function that can be called from anywhere
 
 * TODO responsive design
 
@@ -46,8 +22,40 @@ GoannaPMS - Todo
 
 * TODO Create unit tests for home/views.py
 
-* TODO Create a notification system using messages/email to alert users about new reviews.brb 
+* TODO Create a notification system using messages/email to alert users about new reviews 
   
+* TODO fix form layout on payments page and apply boarder/button colours. 
+* TODO Email password resets for the login screen
+* DONE redirect users to the search page if they are already logged in
+  CLOSED: [2020-05-01 Fri 07:21]
+* DONE going to the url /user_profile as a practitioner should redirect you to the regular profile 
+  CLOSED: [2020-05-01 Fri 07:19]
+* DONE Think of a new name now that the focus has changed
+  CLOSED: [2020-04-11 Sat 16:00]
+
+* DONE Add user reviews section to clinic profile pages
+  CLOSED: [2020-04-11 Sat 15:59]
+* DONE Edit clinics
+  CLOSED: [2020-04-11 Sat 15:59]
+  - clinics should be able to be updated from the user profile of the
+    practitioner
+* DONE fix practitioner profiles so that they can be updated by user
+* DONE create a search page with nearby clinics
+  CLOSED: [2020-04-30 Thu 22:03]
+* DONE Remove Home and Logout until complete_signup
+  CLOSED: [2020-04-29 Wed 11:09]
+* DONE Add more decriptive labels in all sign up forms
+  CLOSED: [2020-04-29 Wed 11:09]
+  1. Make the phonenumer field more descriptive
+  2. remove required field messages
+
+* DONE figure out some nice styling
+  CLOSED: [2020-04-29 Wed 11:09]
+* DONE inform user if no result from search
+  CLOSED: [2020-04-29 Wed 11:09]
+* DONE Redirect logged in users away from the landing page.
+  CLOSED: [2020-04-30 Thu 22:04]
+  - maybe send them to a listing of local clinics
 * DONE Change profile creation so that regular users dont have to write a bio
   CLOSED: [2020-02-24 Mon 11:04]
 * DONE fix map view in clinic profile. It should center on the clinic, not the users location

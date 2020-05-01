@@ -149,10 +149,18 @@ body {
             margin-top: 15px;
         }
     }
+    #mod-list-form {
+        display: none;
+        padding: 0;
+    }
 }
 
 .user-profile {
     padding-left: 40px;
+    .user-profile-wrapper {
+        display: inline-block;
+        margin: 0 auto;
+    }
     .btn-primary {
         @include gpms-button;
     }
@@ -316,9 +324,6 @@ body {
     display: none;
 }
 
-#mod-list-form {
-    display: none;
-}
 
 .card-label {
     width: 30em;

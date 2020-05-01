@@ -30,6 +30,10 @@ def list_of_clinics():
 
 
 def index(request):
+
+    if request.user.is_authenticated:
+        return redirect(reverse('search'))
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         profile_form = ProfileForm(request.POST)

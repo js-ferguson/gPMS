@@ -93,9 +93,15 @@ body {
     padding-left: 25px; }
   .profile .profile-mods .btn {
     margin-top: 15px; }
+.profile #mod-list-form {
+  display: none;
+  padding: 0; }
 
 .user-profile {
   padding-left: 40px; }
+  .user-profile .user-profile-wrapper {
+    display: inline-block;
+    margin: 0 auto; }
   .user-profile .btn-primary {
     background-color: #173a60;
     border-color: #173a60;
@@ -234,9 +240,6 @@ body {
   display: none; }
 
 #clinic-profile-form {
-  display: none; }
-
-#mod-list-form {
   display: none; }
 
 .card-label {
