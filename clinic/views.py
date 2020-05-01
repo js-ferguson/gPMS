@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -9,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
 from accounts.forms import UserProfileForm
-from accounts.models import Modalities, Profile
+from accounts.models import Profile
 from djGoannaPMS import settings
 
 from .forms import RegisterClinicForm, ReviewForm

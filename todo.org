@@ -2,6 +2,17 @@
 GoannaPMS - Todo
 
 * TODO Fix user profiles so the look better and users can update their details including password update
+* TODO hitting back in brower in the signup process causes an error
+* TODO Going to the loging page if already authenticated should redirect
+* TODO show visually which sub is selected by scaling the div and adding colour
+* TODO Put contact details on prac profile into rows to make them more readable
+  - also make the key a little faded compared to the value
+* TODO Use more rows in my layouts...
+* TODO Practitioners profile info should not have two saves
+  - use conditionals to compare the submited values to those in the database to decide what model to save.
+* TODO fix comments section weird indentation, disapearing titles, and more difinition between individual comments
+* TODO create some more space between the available therapies and contact info on the clinic page.
+* TODO fix subscription renewal to make it additive
 * TODO Automatically geocode and update database if a new address is saved for a clinic
 * TODO Catch and redirect attempts to navigate away from signup
 * TODO Separate search function into it's own module/class
