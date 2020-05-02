@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load bootstrap_tags %}
 {% block content %}
-<div class="container">
-    <div class="row login">
-        <div class="col-sm-6">
+<div class="d-flex align-items-center" style="height: 100%">
+    
+    <div class="container align-items-center col-md-4">
+        <div style="height: 100%">
+            
+            <div class="row login">
+        <div class="col-sm-12">
             <form method="post" action="{% url 'login' %}" class="accountform">
                 <fieldset class="form-group">
                     <legend>Login</legend>
@@ -15,5 +19,8 @@
             </form>
         </div>
     </div>
+</div>
+
+</div>
 </div>
 {% endblock %}

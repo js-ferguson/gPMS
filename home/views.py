@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.shortcuts import redirect, render, reverse
 
 from accounts.forms import ProfileForm, UserProfileForm
+from accounts.models import Profile
 from clinic.models import Clinic
 from home.forms import SignUpForm
+from payments.models import Customer, Subscription
 
 User = get_user_model()
 
@@ -30,6 +32,26 @@ def list_of_clinics():
 
 
 def index(request):
+
+    if not request.user.is_anonymous and request.user.is_practitioner:
+        try:
+            Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            return redirect(reverse('create_profile'))
+
+        try:
+            customer = Customer.objects.get(user=request.user)
+            try:
+                Subscription.objects.get(customer=customer)
+            except Subscription.DoesNotExist:
+                return redirect(reverse('payments:subscription'))
+        except Customer.DoesNotExist:
+            pass
+
+        try:
+            Clinic.objects.get(practitioner=request.user)
+        except Clinic.DoesNotExist:
+            return redirect(reverse('register_clinic'))
 
     if request.user.is_authenticated:
         return redirect(reverse('search'))
