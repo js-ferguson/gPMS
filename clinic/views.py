@@ -132,6 +132,23 @@ def search(request):
         if request.user.is_authenticated:
             print("Authenticated")
             user = User.objects.get(email=request.user.email)
+
+            # if user is authenticated but not finished registration:
+            if not user.completed_signup:
+                try:
+                    user.profile.city
+                except Profile.DoesNotExist:
+                    return redirect(reverse('create_profile'))
+                # and not user.profile.city:
+                # return redirect(reverse('create_profile'))
+
+            # if user has no profile:
+            # redirect to create_profile
+            # else if user has no sub:
+            # redirect to sub
+            # else if user has no clinic
+            # redirect to create_clinic
+
         else:
             print("Not authenticated")
         search(user.profile.city)

@@ -13,6 +13,10 @@ def logout(request):
 
 def login(request):
     """Provide a login page"""
+
+    if request.user.is_authenticated:
+        return redirect(reverse('search'))
+
     if request.method == 'POST':
         login_form = UserLoginForm(request.POST)
 

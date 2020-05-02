@@ -22,6 +22,20 @@ User = get_user_model()
 api_key = settings.GOOGLE_MAPS_API_KEY
 
 
+def is_active(request):
+    status = "Not active"
+    customer = Customer.objects.get(user=request.user)
+    try:
+        subscription = Subscription.objects.get(customer=customer)
+        if subscription.active:
+            status = "Active"
+
+    except Subscription.DoesNotExist:
+        status = "No subscription"
+
+    return status
+
+
 @login_required
 def profile(request):
     """
@@ -202,6 +216,14 @@ def create_profile(request):
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
         raise Http404("This User does not exit")
+
+    try:
+        profile = Profile.objects.get(user=request.user)
+
+        if profile and is_active(request) == "No subscription":
+            return redirect(reverse('payments:subscription'))
+    except Profile.DoesNotExist:
+        pass
 
     if request.method == 'POST':
         form = ProfileForm(request.POST)

@@ -6,10 +6,12 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.shortcuts import redirect, render, reverse
+
+# from accounts.views import is_active
+from clinic.models import Clinic
 
 from .forms import MakePaymentForm
-#from .forms import MakePaymentForm, OrderForm
 from .models import Customer, Plans, Subscription
 
 User = get_user_model()
@@ -70,7 +72,7 @@ def create_sub(request, *args):
                                                   selected_plan.stripe_plan_id
                                               }])
 
-    ## Update customer with the selected subscription
+    # Update customer with the selected subscription
     customer.sub = selected_plan
     customer.save()
 
@@ -85,7 +87,18 @@ def subscription(request):
     try:
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
-        raise Http404("User does not exist")
+        messages.warning(request,
+                         "Create an account before you try to subscribe.")
+        return redirect(reverse('index'))
+
+    if get_subscription(request):
+        try:
+            clinic = Clinic.objects.get(practitioner=request.user)
+            print(clinic)
+        except Clinic.DoesNotExist:
+            return redirect(reverse('register_clinic'))
+
+    # if is_active(request) == "Active" and not clinic:
 
     plans = Plans.objects.all()
 

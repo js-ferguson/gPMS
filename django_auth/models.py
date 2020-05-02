@@ -91,4 +91,4 @@ class CustomUser(AbstractBaseUser):
 
     @property
     def completed_signup(self):
-        return self.completed_signup
+        return self.complete_signup
