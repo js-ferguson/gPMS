@@ -30,12 +30,18 @@
     }
 }
 
+@mixin table-style {
+    color: $color-primary-light;
+    width: 50px;
+}
+
 // ----------------- Colours ------------------ //
 
 $color-background: #eee6f8;
 $color-background-dark: darken($color-background, 15%);
 $color-primary: #173a60;
 $color-primary-dark: darken($color-primary, 15%);
+$color-primary-light: lighten($color-primary, 15%);
 
 // ----------------- Banner ------------------- //
 
@@ -197,6 +203,9 @@ body {
     .profile-card {
         margin-top: 15px;
     }
+    .td-key {
+        @include table-style;
+    }
     .edit-buttons {
         float: right
     }
@@ -215,8 +224,8 @@ body {
 // ----------------- Search ----------------- //
 
 .search {
-    width: 100%;
     margin: 0;
+    padding: 25px;
     // height: 500px;
     margin-top: 20px;
     .no-result {
@@ -228,6 +237,9 @@ body {
         width: 40%;
         height: 100%;
         display: inline-block;
+        .card-content {
+            padding-left: 30px;
+        }
         hr {
             margin: 0 10px 15px 0;
         }
@@ -242,6 +254,9 @@ body {
             }
             p {
                 margin-top: 15px;
+            }
+            table {
+                @include table-style;
             }
         }
         .profile-card {
@@ -276,7 +291,10 @@ body {
     }
 }
 
+// ----------------- Login ------------------ //
+
 .login {
+
     button {
         @include gpms-button;
     }
@@ -284,6 +302,8 @@ body {
         margin-top: 10px
     }
 }
+
+// ----------------- Reviews ---------------- //
 
 .reviews {
     padding: 25px;
