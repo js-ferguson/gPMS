@@ -32,24 +32,36 @@
                 You can also search for a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name
             </p> 
             {% endif %}
-                {% for clinic in result %}
-                <div class="listing-card">
+            {% for clinic in result %}
+            <div class=" row listing-card">
+                <div class="col-sm-10">
                     <h4><a href="{% url 'clinic_profile' clinic_id=clinic.id %}">{{ clinic.name }}</a></h4>
                     <hr/>
-                    <p>{{ clinic.prac_name }}</p>
-                    {% for m in clinic.mods %}
-                    <li>{{ m }}</li>
-                    {% endfor %}
-                    <p>Phone: {{ clinic.phone }}<br>
-                        Address: {{ clinic.street }}, {{ clinic.city }}</p>
                 </div>
-                {% endfor %}
+                <div class="row card-content">
+                    <div class="col-sm-5">
+                        <p>{{ clinic.prac_name }}</p>
+                        {% for m in clinic.mods %}
+                        <li>{{ m }}</li>
+                        {% endfor %}
+                    </div>
+                    <div class="search-contact mt-4 col-sm-2">
+                        Phone:<br/>
+                        Address:<br/>
+                    </div>
+                    <div class="col-sm-5 mt-4">
+                        {{ clinic.phone }}<br/>
+                        {{ clinic.street }}, {{ clinic.city }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
     {% if user.is_authenticated  %}
     {% if not user.profile.city %}
     <!-- Modal -->
-    <div class="modal fade" id="getCityModal" tabindex="-1" role="dialog" aria-labelledby="getCityModal" aria-hidden="true">
+    <div c66ass="modal fade" id="getCityModal" tabindex="-1" role="dialog" aria-labelledby="getCityModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">

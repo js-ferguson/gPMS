@@ -147,6 +147,9 @@ body {
   padding: 0 25px 0 40px; }
 .clinic .profile-card {
   margin-top: 15px; }
+.clinic .td-key {
+  color: #265f9e;
+  width: 50px; }
 .clinic .edit-buttons {
   float: right; }
 .clinic .review-title {
@@ -158,8 +161,8 @@ body {
   margin-top: 50px; }
 
 .search {
-  width: 100%;
   margin: 0;
+  padding: 25px;
   margin-top: 20px; }
   .search .no-result p {
     margin-bottom: 50px; }
@@ -167,6 +170,8 @@ body {
     width: 40%;
     height: 100%;
     display: inline-block; }
+    .search .listing-frame .card-content {
+      padding-left: 30px; }
     .search .listing-frame hr {
       margin: 0 10px 15px 0; }
     .search .listing-frame .listing-card {
@@ -177,6 +182,9 @@ body {
         list-style-position: inside; }
       .search .listing-frame .listing-card p {
         margin-top: 15px; }
+      .search .listing-frame .listing-card table {
+        color: #265f9e;
+        width: 50px; }
     .search .listing-frame .profile-card {
       background-color: #fafafa;
       padding: 15px;
