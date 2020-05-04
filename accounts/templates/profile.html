@@ -18,10 +18,10 @@
             <hr>
             <legend>{{ user.get_full_name }}</legend>
             <p>{{ user.email }}</p>
+            <p>{{ user.profile.phone }}</p>
+            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
             <p><span class="section-heading">Biography</span></p>
             <p>{{ user.profile.bio }}</p>
-            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
-            <p>{{ user.profile.phone }}</p>
             <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
             <div class="sub-details">
                 <p><span class="section-heading">Biography</span></p>
