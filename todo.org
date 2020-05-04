@@ -1,42 +1,26 @@
 
 GoannaPMS - Todo
 
+* TODO Practitioners profile info should not have two saves
+  - use conditionals to compare the submited values to those in the database to decide what model to save.
 * TODO Fix user profiles so the look better and users can update their details including password update
-* TODO hitting back in brower in the signup process causes an error
-* TODO Going to the loging page if already authenticated should redirect
 * TODO show visually which sub is selected by scaling the div and adding colour
 * TODO Put contact details on prac profile into rows to make them more readable
   - also make the key a little faded compared to the value
 * TODO Use more rows in my layouts...
-* TODO Practitioners profile info should not have two saves
-  - use conditionals to compare the submited values to those in the database to decide what model to save.
 * TODO fix comments section weird indentation, disapearing titles, and more difinition between individual comments
 * TODO create some more space between the available therapies and contact info on the clinic page.
 * TODO fix subscription renewal to make it additive
 * TODO Automatically geocode and update database if a new address is saved for a clinic
-* TODO Catch and redirect attempts to navigate away from signup
-* TODO Separate search function into it's own module/class
-  - this is half done. Search is now a function that can be called from anywhere
-
 * TODO responsive design
 
-* TODO create contacts page
-- and a method to add patients as being related to a specific practitioner.
-
-           
-- Stuff for after assessment - 
- 
-* TODO start planning the scheduler
-1. The scheduler is the calendaring app.
-2. It should be a single page javascript application
-3. It should use CSS grid
-
-* TODO Create unit tests for home/views.py
-
-* TODO Create a notification system using messages/email to alert users about new reviews 
-  
 * TODO fix form layout on payments page and apply boarder/button colours. 
-* TODO Email password resets for the login screen
+* DONE hitting back in brower in the signup process causes an error
+  CLOSED: [2020-05-02 Sat 14:34]
+* DONE Catch and redirect attempts to navigate away from signup
+  CLOSED: [2020-05-02 Sat 14:36]
+* DONE Going to the loging page if already authenticated should redirect
+  CLOSED: [2020-05-02 Sat 09:49]
 * DONE redirect users to the search page if they are already logged in
   CLOSED: [2020-05-01 Fri 07:21]
 * DONE going to the url /user_profile as a practitioner should redirect you to the regular profile 
@@ -110,3 +94,20 @@ GoannaPMS - Todo
    
 * DONE extend user model for practitioners
   CLOSED: [2020-01-19 Sun 12:09]
+* TODO Create a notification system using messages/email to alert users about new reviews 
+* TODO start planning the scheduler
+1. The scheduler is the calendaring app.
+2. It should be a single page javascript application
+3. It should use CSS grid
+
+* TODO Separate search function into it's own module/class
+  - this is half done. Search is now a function that can be called from anywhere
+
+* TODO Email password resets for the login screen
+* TODO Create unit tests for home/views.py
+* TODO create contacts page
+- and a method to add patients as being related to a specific practitioner.
+
+           
+- Stuff for after assessment - 
+ 
