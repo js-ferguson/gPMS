@@ -74,6 +74,14 @@ body {
   padding: 0 20px 0 35px; }
 .profile #clinic-profile {
   padding: 0 35px 0 20px; }
+.profile .section-heading {
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 45px; }
+.profile .disabled {
+  pointer-events: none;
+  background-color: grey;
+  border: none; }
 .profile button {
   background-color: #173a60;
   border-color: #173a60;
@@ -85,8 +93,24 @@ body {
     color: inherit; }
     .profile button a:hover {
       color: #173a60; }
+.profile .btn {
+  background-color: #173a60;
+  border-color: #173a60;
+  color: white;
+  border-radius: 5px; }
+  .profile .btn:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+  .profile .btn a {
+    color: inherit; }
+    .profile .btn a:hover {
+      color: #173a60; }
+  .profile .btn .btn-save {
+    margin-bottom: 25px; }
 .profile #sub-update-form {
   padding: 0; }
+.profile .location {
+  margin-top: 0; }
 .profile .profile-mods {
   padding-left: 0; }
   .profile .profile-mods .mod-list {

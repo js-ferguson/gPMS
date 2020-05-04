@@ -140,11 +140,31 @@ body {
     #clinic-profile {
         padding: 0 35px 0 20px;
     }
+    .section-heading {
+        font-weight: 600;
+        display: inline-block;
+        margin-top: 45px;
+    }
+    .disabled {
+        pointer-events: none;
+        background-color: grey;
+        border: none;
+    }
     button{
         @include gpms-button;
     }
+    .btn {
+        @include gpms-button;
+        border-radius: 5px;
+        .btn-save {
+            margin-bottom: 25px;
+        }
+    }
     #sub-update-form {
         padding: 0;
+    }
+    .location{
+        margin-top: 0;
     }
     .profile-mods {
         padding-left: 0;

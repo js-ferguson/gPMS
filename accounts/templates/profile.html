@@ -18,21 +18,27 @@
             <hr>
             <legend>{{ user.get_full_name }}</legend>
             <p>{{ user.email }}</p>
-            <p>{{ user.profile.phone }}</p>
-            <legend>Bio</legend>
+            <p><span class="section-heading">Biography</span></p>
             <p>{{ user.profile.bio }}</p>
             <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
+            <p>{{ user.profile.phone }}</p>
             <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
             <div class="sub-details">
-                <legend>Subscription Details</legend>
+                <p><span class="section-heading">Biography</span></p>
+
                 <hr>
+                <p>If you cancel your subscription your clinic will still be shown in search results until the end of the current billing period</p>
                 Current plan: {{ user.customer.sub.plan_type.capitalize }} ({{ sub_is_active }})<br/>
                 Current billing period ends: {{ period_ends }}
             </div>
             <div class="col-sm-12 col-md-12" id="sub-update-form">
                 <br/>
-                {% if sub_is_active == "Not active" %}
+                {% if sub_is_active == "Not active" and allow_new_sub %}
                 <button type="button" class="btn btn-primary"><a href="{% url 'payments:subscription' %}">New Subscription</a></button>
+                {% elif sub_is_active == "Not active" and not allow_new_sub %}
+
+                <button type="button" class="btn btn-primary disabled">New Subscription</button>
+                <p class="mt-3">You cant begin a new subscription during a current billing period</p>
                 {% else %}
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel-sub-modal">
                     Cancel Subscription
@@ -74,13 +80,7 @@
                     <legend>Update your details</legend>
                     {% csrf_token %}
                     {{ user_form | as_bootstrap }}
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </fieldset>
-            </form>
-            <form method="post" action="{% url 'update_profile' user_id=user.id %}" class="accountform">
-                <fieldset class="form-group">
-                    {% csrf_token %}
-                    {{  profile_form | as_bootstrap }}
+                    {{ profile_form | as_bootstrap }}
                     <button type="submit" class="btn btn-primary">Save</button>
                 </fieldset>
             </form>
@@ -90,15 +90,15 @@
             <hr>
             <legend>{{ user.clinic.name }}</legend>
             {% if user.clinic.web %}
+            <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
             <p>{{ user.clinic.web }}</p>
             {% endif %}
             <p>{{ user.clinic.phone }}</p>
             <p>{{ user.clinic.email }}</p>
-            <legend>Description</legend>
+            <p><span class="section-heading">Clinic Description</span></p>
             <p>{{ user.clinic.description }}</p>
-            <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
             <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
-            <legend>Available Therapies</legend>
+            <p><span class="section-heading">Available Therapies</span></p>
             <div class="profile-mods">
                 <div class="mod-list">
                     {% for mod in mods %}
@@ -118,8 +118,8 @@
             </div>
             <div class="location">
                 <br>
-                <legend>Location</legend>
-                <p>You can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
+                <p><span class="section-heading">Location</span></p>
+                <p>In case we locate your clinic incorrectly, you can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
                 <span id="current"></span>
                 <div id="save-loc"></div>
             </div>
