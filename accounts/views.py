@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
+from geopy.geocoders import GoogleV3
 
 from accounts.models import Profile
 from clinic.forms import RegisterClinicForm
@@ -100,10 +101,18 @@ def profile(request):
     def subscription_end_date():
         subscription = get_subscription(request)
         if subscription:
-            stripesub = stripe.Subscription.retrieve(
-                subscription.stripe_subscription_id)
-            return datetime.fromtimestamp(
-                stripesub['current_period_end']).strftime("%B %-d, %Y")
+            try:
+                stripesub = stripe.Subscription.retrieve(
+                    subscription.stripe_subscription_id)
+                return datetime.fromtimestamp(stripesub['current_period_end'])
+            except stripesub.DoesNotExist:
+                return "No Subscription"
+
+    def allow_new_sub():
+        today = datetime.now()
+        end_date = subscription_end_date()
+        if today >= end_date:
+            return True
 
     def is_active():
         status = "Not active"
@@ -128,8 +137,9 @@ def profile(request):
             'user_form': user_form,
             'clinic_form': clinic_form,
             'mods_form': mods_form,
-            'period_ends': subscription_end_date(),
+            'period_ends': subscription_end_date().strftime("%B %-d, %Y"),
             'sub_is_active': is_active(),
+            'allow_new_sub': allow_new_sub(),
         })
 
 
@@ -274,24 +284,21 @@ def create_profile(request):
 
 @login_required
 def update_user(request, user_id):
-    user = User.objects.get(pk=user_id)
+    if request.method == 'POST':
+        user = User.objects.get(pk=user_id)
 
-    user.first_name = request.POST['first_name']
-    user.last_name = request.POST['last_name']
-    user.email = request.POST['email']
-    user.save()
-    return redirect('profile')
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.email = request.POST['email']
+        user.save()
 
-
-@login_required
-def update_profile(request, user_id):
-    profile = Profile.objects.get(user=user_id)
-    profile.bio = request.POST['bio']
-    profile.phone = request.POST['phone']
-    profile.street = request.POST['street']
-    profile.city = request.POST['city']
-    profile.save()
-    return redirect('profile')
+        profile = Profile.objects.get(user=user_id)
+        profile.bio = request.POST['bio']
+        profile.phone = request.POST['phone']
+        profile.street = request.POST['street']
+        profile.city = request.POST['city']
+        profile.save()
+        return redirect('profile')
 
 
 @login_required
@@ -346,16 +353,23 @@ def update_mods(request, user_id):
 
 @login_required
 def update_clinic(request, user_id):
+    locator = GoogleV3(api_key=api_key)
+
     try:
         clinic = Clinic.objects.get(practitioner=user_id)
     except Clinic.DoesNotExist:
         raise Http404("This clinic does not exist")
-
     clinic.name = request.POST['name']
     clinic.web = request.POST['web']
     clinic.phone = request.POST['phone']
     clinic.description = request.POST['description']
     clinic.street = request.POST['street']
     clinic.city = request.POST['city']
+
+    address = request.POST['street'] + " " + request.POST['city']
+    coords = locator.geocode(address)
+    clinic.lat = coords.latitude
+    clinic.lng = coords.longitude
+
     clinic.save()
     return redirect('profile')

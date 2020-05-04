@@ -62,11 +62,3 @@ class ProfileUpdateForm(ModelForm):
 
 class ModsUpdateForm(forms.Form):
     mods = forms.CharField(label='Modalities', max_length=500)
-
-
-PLAN_CHOICES = [('monthly', 'Monthly'), ('yearly', 'Yearly')]
-
-
-class SubUpdateForm(forms.Form):
-    sub = forms.CharField(label="Change plan",
-                          widget=forms.Select(choices=PLAN_CHOICES))
