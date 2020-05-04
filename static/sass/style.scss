@@ -192,6 +192,19 @@ body {
     }
 }
 
+.password-reset {
+    .btn {
+        @include gpms-button;
+    }
+    .password-form {
+        padding-right: 60px;
+        .password-button {
+            @include gpms-button;
+            float: right; 
+        }
+    }
+}
+
 .subscription {
     .card-wrapper {
         margin: 0 auto;

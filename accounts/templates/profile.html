@@ -18,10 +18,10 @@
             <hr>
             <legend>{{ user.get_full_name }}</legend>
             <p>{{ user.email }}</p>
+            <p>{{ user.profile.phone }}</p>
+            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
             <p><span class="section-heading">Biography</span></p>
             <p>{{ user.profile.bio }}</p>
-            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
-            <p>{{ user.profile.phone }}</p>
             <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
             <div class="sub-details">
                 <p><span class="section-heading">Biography</span></p>
@@ -45,6 +45,8 @@
                 </button>
                 {% endif %}
 
+
+
                 <!-- Modal - Cancel subscription confirmation -->
                 <div class="modal fade" id="cancel-sub-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -63,7 +65,7 @@
                                 <fieldset>
                                 <form action="{% url 'payments:cancel_sub' user_id=user.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="submit" name="cancel_sub" value="Cancel Subscription" />
+                                    <input type="submit" name="cancel_sub" value="Cancel Subscription"/>
                                 </form>
                                 </fieldset>
                             </div>
@@ -71,6 +73,39 @@
                     </div>
                 </div>
                 <!-- End Modal -->
+            </div>
+            <div class="password-reset">
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#passwordResetModal">
+                    Reset Password
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="passwordResetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Reset Password</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <fieldset>
+                                    <form method="post" action="{% url 'change_password' %}">
+                                        {% csrf_token %}
+                                        {{ password_form | as_bootstrap }}
+                                        <input class="btn btn-primary" name="change_password" type="submit" value="Reset Password"/>
+                                    </form>
+                                </fieldset> 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Forms to update user details are hidden by default -->

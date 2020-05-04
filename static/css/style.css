@@ -138,6 +138,32 @@ body {
       .user-profile .btn-primary a:hover {
         color: #173a60; }
 
+.password-reset .btn {
+  background-color: #173a60;
+  border-color: #173a60;
+  color: white; }
+  .password-reset .btn:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+  .password-reset .btn a {
+    color: inherit; }
+    .password-reset .btn a:hover {
+      color: #173a60; }
+.password-reset .password-form {
+  padding-right: 60px; }
+  .password-reset .password-form .password-button {
+    background-color: #173a60;
+    border-color: #173a60;
+    color: white;
+    float: right; }
+    .password-reset .password-form .password-button:hover {
+      background-color: #eee6f8;
+      color: #173a60; }
+    .password-reset .password-form .password-button a {
+      color: inherit; }
+      .password-reset .password-form .password-button a:hover {
+        color: #173a60; }
+
 .subscription .card-wrapper {
   margin: 0 auto;
   text-align: center;

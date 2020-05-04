@@ -2,8 +2,9 @@ from datetime import datetime
 
 import stripe
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 from geopy.geocoders import GoogleV3
@@ -90,6 +91,8 @@ def profile(request):
     }
 
     clinic_form = RegisterClinicForm(initial=clinic_form_initial)
+    password_form = PasswordChangeForm(request.user)
+
     mod_list = []
     for mod in mods:
         mod_list.append(str(mod))
@@ -137,6 +140,7 @@ def profile(request):
             'user_form': user_form,
             'clinic_form': clinic_form,
             'mods_form': mods_form,
+            'password_form': password_form,
             'period_ends': subscription_end_date().strftime("%B %-d, %Y"),
             'sub_is_active': is_active(),
             'allow_new_sub': allow_new_sub(),
@@ -206,13 +210,15 @@ def user_profile(request):
         }
 
         form = UserUpdateForm(initial=initial)
+        password_form = PasswordChangeForm(request.user)
 
         return render(
             request, 'user_profile.html', {
                 'user': user,
                 'form': form,
                 'latlng': list_of_clinics,
-                'api_key': api_key
+                'api_key': api_key,
+                'password_form': password_form,
             })
 
 
@@ -373,3 +379,19 @@ def update_clinic(request, user_id):
 
     clinic.save()
     return redirect('profile')
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password has been updated')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please corrct the error below')
+    else:
+        form = PasswordChangeForm(request.user)
+    return redirect(reverse('profile'))
