@@ -1,22 +1,28 @@
 
 GoannaPMS - Todo
 
-* TODO Practitioners profile info should not have two saves
-  - use conditionals to compare the submited values to those in the database to decide what model to save.
 * TODO Fix user profiles so the look better and users can update their details including password update
 * TODO show visually which sub is selected by scaling the div and adding colour
-* TODO Put contact details on prac profile into rows to make them more readable
-  - also make the key a little faded compared to the value
 * TODO Use more rows in my layouts...
 * TODO fix comments section weird indentation, disapearing titles, and more difinition between individual comments
 * TODO create some more space between the available therapies and contact info on the clinic page.
-* TODO fix subscription renewal to make it additive
-* TODO Automatically geocode and update database if a new address is saved for a clinic
 * TODO responsive design
-
 * TODO fix form layout on payments page and apply boarder/button colours. 
+* TODO paginate search results
+* TODO restrict clinic view only to those with active sub
+
+* DONE Put contact details on prac profile into rows to make them more readable
+  CLOSED: [2020-05-04 Mon 14:03]
+  - also make the key a little faded compared to the value
+* DONE fix subscription renewal to make it additive (actually prevented new subs before end billing date)
+  CLOSED: [2020-05-04 Mon 19:31]
 * DONE hitting back in brower in the signup process causes an error
   CLOSED: [2020-05-02 Sat 14:34]
+* DONE Automatically geocode and update database if a new address is saved for a clinic
+  CLOSED: [2020-05-04 Mon 14:01]
+* DONE Practitioners profile info should not have two saves
+  CLOSED: [2020-05-04 Mon 13:35]
+  - use conditionals to compare the submited values to those in the database to decide what model to save.
 * DONE Catch and redirect attempts to navigate away from signup
   CLOSED: [2020-05-02 Sat 14:36]
 * DONE Going to the loging page if already authenticated should redirect

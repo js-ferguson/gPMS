@@ -72,12 +72,20 @@ def create_sub(request, *args):
                                                   selected_plan.stripe_plan_id
                                               }])
 
+    def subscription_end_date():
+        subscription = get_subscription(request)
+        if subscription:
+            stripesub = stripe.Subscription.retrieve(
+                subscription.stripe_subscription_id)
+            return datetime.fromtimestamp(stripesub['current_period_end'])
+
     # Update customer with the selected subscription
     customer.sub = selected_plan
     customer.save()
 
     sub, created = Subscription.objects.get_or_create(customer=customer)
     sub.stripe_subscription_id = subscription.id
+    sub.end_billing_period = subscription_end_date()
     sub.active = True
     sub.save()
 
@@ -105,18 +113,11 @@ def subscription(request):
     if request.method == "POST":
         token = request.POST['stripeToken']
         request.session['selected_plan_type'] = request.POST['sublist']
-        print(user.customer.sub.stripe_plan_id)
-        print(request.POST)
-        # customer = get_customer(request)
-        # selected_plan = get_plan(request)
         create_sub(request, token)
 
         amount = 1000
         if request.POST.get('sublist') == 'yearly':
             amount = 10000
-        print(amount)
-
-        print(request.POST['sublist'])
 
         intent = stripe.PaymentIntent.create(amount=amount,
                                              currency='sek',
@@ -125,7 +126,6 @@ def subscription(request):
                                              customer=user.customer)
 
         request.session['payment_intent_id'] = intent.id
-        print(intent)
         stripe.PaymentIntent.confirm(intent.id, payment_method="pm_card_visa")
         if request.POST['stripeToken']:
             messages.success(
@@ -169,5 +169,4 @@ def cancel_sub(request, user_id):
     # cancel sub with stripe
     stripe.Subscription.delete(subscription.stripe_subscription_id)
     messages.success(request, "Your subscription has been cancelled")
-    print(subscription.stripe_subscription_id)
     return redirect('profile')
