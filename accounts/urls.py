@@ -27,4 +27,5 @@ urlpatterns = [
     path('profile/update_city/<int:user_id>/',
          views.update_city,
          name='update_city'),
+    path('change_password', views.change_password, name='change_password')
 ]
