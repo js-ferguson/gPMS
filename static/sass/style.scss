@@ -144,9 +144,20 @@ body {
         #cancel-button {
             @include gpms-button;
         }
+        .reset-button {
+            margin-top: 55px;
+        }
     }
     #clinic-profile {
         padding: 0 35px 0 20px;
+        .mod-span {
+            margin-left: 15px;
+        }
+        .social-span {
+            display: inline-block;
+            margin-left: 15px;
+            padding-bottom: 15px;
+        }
     }
     .section-heading {
         @include section-heading;
@@ -175,7 +186,7 @@ body {
     .profile-mods {
         padding-left: 0;
         .mod-list {
-            padding-left: 25px;
+            padding-left: 0;
         }
         .btn  {
             margin-top: 15px;
@@ -226,8 +237,16 @@ body {
 // ----------------- Clinic ----------------- //
 
 .clinic {
-    h {
-        margin: 0;
+    h2 {
+        margin-right: 0;
+        float: left
+    }
+    .social-row {
+        float: right;
+        .social-span {
+            display: inline-block;
+            margin-left: 15px;
+        }
     }
     .section-heading {
         @include section-heading;
@@ -249,6 +268,7 @@ body {
     }
     .td-key {
         @include table-style;
+        padding-left: 0;
     }
     .td-value {
         padding-top: 16px;

@@ -15,6 +15,10 @@ class Clinic(models.Model):
     description = models.TextField(max_length=5000)
     street = models.CharField(max_length=128, )
     city = models.CharField(max_length=128, )
+    instagram = models.CharField(max_length=100, blank=True, null=True)
+    facebook = models.CharField(max_length=100, blank=True, null=True)
+    twitter = models.CharField(max_length=100, blank=True, null=True)
+    linkedin = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name

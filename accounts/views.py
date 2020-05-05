@@ -87,7 +87,11 @@ def profile(request):
         'phone': user.clinic.phone,
         'web': user.clinic.web,
         'street': user.clinic.street,
-        'city': user.clinic.city
+        'city': user.clinic.city,
+        'facebook': user.clinic.facebook,
+        'instagram': user.clinic.instagram,
+        'twitter': user.clinic.twitter,
+        'linkedin': user.clinic.linkedin,
     }
 
     clinic_form = RegisterClinicForm(initial=clinic_form_initial)
@@ -380,6 +384,10 @@ def update_clinic(request, user_id):
     clinic.name = request.POST['name']
     clinic.web = request.POST['web']
     clinic.phone = request.POST['phone']
+    clinic.facebook = request.POST['facebook']
+    clinic.instagram = request.POST['instagram']
+    clinic.twitter = request.POST['twitter']
+    clinic.linkedin = request.POST['linkedin']
     clinic.description = request.POST['description']
     clinic.street = request.POST['street']
     clinic.city = request.POST['city']

@@ -83,8 +83,16 @@ body {
       color: inherit; }
       .profile #user-profile #cancel-button a:hover {
         color: #173a60; }
+  .profile #user-profile .reset-button {
+    margin-top: 55px; }
 .profile #clinic-profile {
   padding: 0 35px 0 20px; }
+  .profile #clinic-profile .mod-span {
+    margin-left: 15px; }
+  .profile #clinic-profile .social-span {
+    display: inline-block;
+    margin-left: 15px;
+    padding-bottom: 15px; }
 .profile .section-heading {
   font-weight: 600;
   display: inline-block;
@@ -125,7 +133,7 @@ body {
 .profile .profile-mods {
   padding-left: 0; }
   .profile .profile-mods .mod-list {
-    padding-left: 25px; }
+    padding-left: 0; }
   .profile .profile-mods .btn {
     margin-top: 15px; }
 .profile #mod-list-form {
@@ -182,8 +190,14 @@ body {
 .subscription .form-col {
   margin: 0; }
 
-.clinic h {
-  margin: 0; }
+.clinic h2 {
+  margin-right: 0;
+  float: left; }
+.clinic .social-row {
+  float: right; }
+  .clinic .social-row .social-span {
+    display: inline-block;
+    margin-left: 15px; }
 .clinic .section-heading {
   font-weight: 600;
   display: inline-block;
@@ -216,7 +230,8 @@ body {
   margin-top: 15px; }
 .clinic .td-key {
   color: #265f9e;
-  width: 50px; }
+  width: 50px;
+  padding-left: 0; }
 .clinic .td-value {
   padding-top: 16px;
   padding-left: 0; }
