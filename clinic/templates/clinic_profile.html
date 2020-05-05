@@ -27,46 +27,47 @@
         <div class="col-sm-12 col-md-6 listing-frame">
             {% for ob in clinic %}
             <div class="profile-card">
+                <p><span class="section-heading">About</span></p>
                 <p>{{ ob.description }}</p>
-                <h4 class="mt-4">Available Therapies</h4>
+                <p><span class="section-heading">Available Therapies</span></p>
                 {% for m in mods %}
-                <li>{{ m }}</li> 
+                <i class="fa fa-star"></i><span class="mod-span">{{ m }}</span><br/> 
                 {% endfor %}
-                <h4 class="mt-4">Contact</h4>
+                <p><span class="section-heading">Contact</span></p>
                 {% if ob.web %}
-                <small>Click the map marker for directions!</small>
                 <table class="table table-borderless mt-4">
                     <tr>
-                        <td class="td-key">Web:</td>
-                        <td><a  href="{{ ob.web }}" target="_blank">{{ ob.name }}</a><br></td>
+                        <td class="td-key"><i class="fa fa-globe fa-2x"></i></td>
+                        <td class="td-value"><a  href="{{ ob.web }}" target="_blank">{{ ob.name }}</a><br></td>
                     </tr>
                     <tr>
-                        <td class="td-key">Email:</td>
-                        <td>{{ ob.practitioner }}</td>
+                        <td class="td-key"><i class="fa fa-envelope fa-2x"></i></td>
+                        <td class="td-value">{{ ob.practitioner }}</td>
                     </tr>
                     <tr>
-                        <td class="td-key">Phone:</td>
-                        <td>{{ ob.phone }}</td>
+                        <td class="td-key"><i class="fa fa-phone fa-2x"></i></td>
+                        <td class="td-value">{{ ob.phone }}</td>
                     </tr>
                     <tr>
-                        <td class="td-key">Address:</td>
-                        <td>{{ ob.street }} {{ ob.city }}</td>
+                        <td class="td-key"><i class="fa fa-bicycle fa-2x"></i></td>
+                        <td class="td-value">{{ ob.street }} {{ ob.city }}</td>
                     </tr>
                 </table>
                 {% endif %}
             </div>
             {% endfor %}
+            <small>Click the map marker for directions!</small>
         </div>
         <!-- Button trigger modal -->
 
         <div class="col-sm-12 col-md-6 review-frame">
-            <h4 class="mb-4">Reviews</h4>
+            <p><span class="section-heading">Reviews</span></p>
             {% if not reviews %}
             <p>There are no reviews yet.</p>
             <p>You could be the first!</p>
             {% endif %}
             {% for r in reviews %}
-            <!-- Modal -->
+            <!-- Delete confirmation Modal -->
             <div class="modal fade" id="modal{{r.id}}" tabindex="-1" role="dialog" aria-labelledby="DeleteReviewConfirmation" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -86,20 +87,20 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="edit-buttons">
-                    {% if r.author == user %}
-                    <button type="button" class="btn-small" data-toggle="modal" data-target="#modal{{r.id}}">
-                        Delete
-                    </button>
-                    <!-- <button class="btn-small"><a href="{% url 'delete_review' review_id=r.id %}">Delete</a></button> -->
-                    <button class="btn-small"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
-                </div>
+            <!-- End Delete confirmation modal -->
+            {% if r.author == user %}
+            <div class="edit-buttons">
+                <button type="button" class="btn-small" data-toggle="modal" data-target="#modal{{r.id}}">
+                    Delete
+                </button>
+                <button class="btn-small"><a href="{% url 'edit_review' review_id=r.id %}">Edit</a></button> 
             </div>
-            <h6 class="review-title">{{ r.title }}</h6>
             {% endif %}
-            <div>
-                <p>{{ r.body }}</p>
+            <div class="review-wrapper">
+                <h6 class="review-title">{{ r.title }}</h6>
+                <div>
+                    <p>{{ r.body }}</p>
+                </div>
             </div>
             {% endfor %}
             <div class="review-form">

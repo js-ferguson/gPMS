@@ -35,6 +35,11 @@
     width: 50px;
 }
 
+@mixin section-heading {
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 45px;
+}
 // ----------------- Colours ------------------ //
 
 $color-background: #eee6f8;
@@ -144,9 +149,7 @@ body {
         padding: 0 35px 0 20px;
     }
     .section-heading {
-        font-weight: 600;
-        display: inline-block;
-        margin-top: 45px;
+        @include section-heading;
     }
     .disabled {
         pointer-events: none;
@@ -226,8 +229,14 @@ body {
     h {
         margin: 0;
     }
+    .section-heading {
+        @include section-heading;
+    }
     button {
         @include gpms-button;
+    }
+    .mod-span {
+        margin-left: 15px;
     }
     .btn-small {
         @include gpms-btn-small;
@@ -241,7 +250,13 @@ body {
     .td-key {
         @include table-style;
     }
+    .td-value {
+        padding-top: 16px;
+        padding-left: 0;
+    }
     .edit-buttons {
+        margin-top: 10px;
+        margin-right: 10px;
         float: right
     }
     .review-title {
@@ -250,7 +265,13 @@ body {
     .review-frame {
         margin-top: 15px;
         padding: 0 40px 0 25px;
-    }
+        .review-wrapper {
+            background-color: #8080801a;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    } 
     .review-form {
         margin-top: 50px;
     }
