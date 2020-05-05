@@ -136,6 +136,9 @@ body {
 .profile {
     #user-profile {
         padding: 0 20px 0 35px;
+        #cancel-button {
+            @include gpms-button;
+        }
     }
     #clinic-profile {
         padding: 0 35px 0 20px;
@@ -150,7 +153,7 @@ body {
         background-color: grey;
         border: none;
     }
-    button{
+    button {
         @include gpms-button;
     }
     .btn {
@@ -181,6 +184,7 @@ body {
     }
 }
 
+
 .user-profile {
     padding-left: 40px;
     .user-profile-wrapper {
@@ -210,12 +214,10 @@ body {
         margin: 0 auto;
         text-align: center;
         display: flex;
-        
     }
     .form-col {
         margin: 0;
     }
-                     
 }
 
 // ----------------- Clinic ----------------- //
@@ -322,6 +324,10 @@ body {
         }
 
     }
+}
+
+.btn {
+    @include gpms-button;
 }
 
 // ----------------- Login ------------------ //

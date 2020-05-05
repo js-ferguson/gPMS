@@ -72,6 +72,17 @@ body {
 
 .profile #user-profile {
   padding: 0 20px 0 35px; }
+  .profile #user-profile #cancel-button {
+    background-color: #173a60;
+    border-color: #173a60;
+    color: white; }
+    .profile #user-profile #cancel-button:hover {
+      background-color: #eee6f8;
+      color: #173a60; }
+    .profile #user-profile #cancel-button a {
+      color: inherit; }
+      .profile #user-profile #cancel-button a:hover {
+        color: #173a60; }
 .profile #clinic-profile {
   padding: 0 35px 0 20px; }
 .profile .section-heading {
@@ -256,6 +267,18 @@ body {
     .search .map-frame #map {
       height: 500px;
       width: 100%; }
+
+.btn {
+  background-color: #173a60;
+  border-color: #173a60;
+  color: white; }
+  .btn:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+  .btn a {
+    color: inherit; }
+    .btn a:hover {
+      color: #173a60; }
 
 .login button {
   background-color: #173a60;

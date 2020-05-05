@@ -61,11 +61,10 @@
                                 Are you sure you want to cancel your subscription?
                             </div>
                             <div class="modal-footer">
-                                <!-- <button type="button" class="btn btn-primary">Cancel Subscription</button> -->
                                 <fieldset>
                                 <form action="{% url 'payments:cancel_sub' user_id=user.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="submit" name="cancel_sub" value="Cancel Subscription"/>
+                                    <input id="cancel-button" class="btn btn-primary" type="submit" name="cancel_sub" value="Cancel Subscription"/>
                                 </form>
                                 </fieldset>
                             </div>

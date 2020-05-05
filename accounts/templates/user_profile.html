@@ -21,6 +21,7 @@
                 <fieldset>
                     {% csrf_token %}
                     {{ form | as_bootstrap }}
+                    {{ city_form | as_bootstrap }}
                     <input class="btn btn-primary mb-2" type="submit" name="update-user" value="Update" />
                 </fieldset>
             </form>
