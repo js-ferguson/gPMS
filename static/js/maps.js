@@ -48,9 +48,6 @@ function placeClinic(latlng) {
             map: map,
             title: latlng.name,
         });
-     //   map.setCenter(new google.maps.LatLng(obj['lat'], obj['lng']));
-     //   console.log("this is working");
-
         marker.addListener('click', function() {
             var getPosition = function (options) {
                 return new Promise(function (resolve, reject) {
@@ -85,10 +82,6 @@ function placeDraggable(latlng) {
         raiseOnDrag: true
     });
     console.log(latlng.url);
-    //marker.addListener('click', function() {
-    //    console.log(this.url);
-    //    window.location.pathname = this.url;
-    //});
     google.maps.event.addListener(marker, 'dragend', function(evt) {
         document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
 
@@ -106,13 +99,9 @@ function placeDraggable(latlng) {
     google.maps.event.addListener(marker, 'dragstart', function(evt) {
         document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
     });
-    //map.setCenter(marker.position);
-    //marker.setMap(map);
-    
 }
 
 function mapSelector(){
-//console.log(window.location.href.slice(-10, -4));
     var latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
     if (window.location.href.includes("clinic_listing")) {
