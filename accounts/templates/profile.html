@@ -14,9 +14,9 @@
 <div class="container">
     <div class="row profile">
         <div class="col-sm-12 col-md-6" id="user-profile">
-            <h2>User Profile</h2>
+            <legend>User Profile</legend>
             <hr>
-            <legend>{{ user.get_full_name }}</legend>
+            <p><span class="section-heading mt-3">{{ user.get_full_name }}</span></p>
             <p>{{ user.email }}</p>
             <p>{{ user.profile.phone }}</p>
             <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
@@ -24,9 +24,7 @@
             <p>{{ user.profile.bio }}</p>
             <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
             <div class="sub-details">
-                <p><span class="section-heading">Biography</span></p>
-
-                <hr>
+                <p><span class="section-heading">Subscription</span></p>
                 <p>If you cancel your subscription your clinic will still be shown in search results until the end of the current billing period</p>
                 Current plan: {{ user.customer.sub.plan_type.capitalize }} ({{ sub_is_active }})<br/>
                 Current billing period ends: {{ period_ends }}
@@ -75,12 +73,12 @@
             </div>
             <div class="password-reset">
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#passwordResetModal">
+                <!-- Password reset modal trigger -->
+                <button type="button" class="btn btn-primary reset-button" data-toggle="modal" data-target="#passwordResetModal">
                     Reset Password
                 </button>
 
-                <!-- Modal -->
+                <!-- Password reset Modal -->
                 <div class="modal fade" id="passwordResetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -105,6 +103,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- End password reset modal -->
             </div>
         </div>
         <!-- Forms to update user details are hidden by default -->
@@ -119,10 +118,11 @@
                 </fieldset>
             </form>
         </div>
+        <!-- End update user details form -->
         <div class="col-sm-12 col-md-6" id="clinic-profile">
-            <h2>Clinic Profile</h2>
+            <legend>Clinic Profile</legend>
             <hr>
-            <legend>{{ user.clinic.name }}</legend>
+            <p><span class="section-heading mt-3">{{ user.clinic.name }}</span></p>
             {% if user.clinic.web %}
             <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
             <p>{{ user.clinic.web }}</p>
@@ -131,12 +131,30 @@
             <p>{{ user.clinic.email }}</p>
             <p><span class="section-heading">Clinic Description</span></p>
             <p>{{ user.clinic.description }}</p>
-            <button class=" btn btn-primary mb-3" onclick="editClinic()">Edit</button>
+            <div class="social">
+                <div class="col-sm-6" style="float: left">
+                    {% if user.clinic.facebook %}
+                    <a href="{{ user.clinic.facebook }}"><i class="fa fa-facebook-square fa-2x"></i><div class="social-span">Facebook</div></a><br/>
+                    {% endif %}
+                    {% if user.clinic.instagram %}
+                    <a href="{{ user.clinic.instagram }}"><i class="fa fa-instagram fa-2x"></i><div class="social-span">Instagram</div></a><br/>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6" style="float: right">
+                    {% if user.clinic.twitter %}
+                    <a href="{{ user.clinic.twitter }}"><i class="fa fa-twitter-square fa-2x"></i><div class="social-span">Twitter</div></a><br/>
+                    {% endif %}
+                    {% if user.clinic.linkedin %}
+                    <a href="{{ user.clinic.linkedin }}"><i class="fa fa-linkedin-square fa-2x"></i><div class="social-span">Linkedin</div></a><br/>
+                    {% endif %}
+                </div>
+            </div>
+            <button class=" btn btn-primary mt-3" onclick="editClinic()">Edit</button>
             <p><span class="section-heading">Available Therapies</span></p>
             <div class="profile-mods">
                 <div class="mod-list">
                     {% for mod in mods %}
-                    <li>{{ mod.name }}</li>
+                    <i class="fa fa-star"></i><span class="mod-span">{{ mod.name }}</span><br/>
                     {% endfor %}
                 </div>
                 <div class="col-sm-12" id="mod-list-form">
@@ -151,7 +169,6 @@
                 <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
             </div>
             <div class="location">
-                <br>
                 <p><span class="section-heading">Location</span></p>
                 <p>In case we locate your clinic incorrectly, you can adjust the position of your clinic on the map by dragging the marker and saving a new location</p>
                 <span id="current"></span>
@@ -161,7 +178,7 @@
             <div class="col-sm-12 col-md-6" id="clinic-profile-form">
                 <form method="post" action="{% url 'update_clinic' user_id=user.id %}" class="accountform">
                     <fieldset class="form-group">
-                        <legend>Register your clinic</legend>
+                        <legend>Update clinic details</legend>
                         {% csrf_token %}
                         {{  clinic_form | as_bootstrap }}
                         <button type="submit" class="btn btn-primary">Save</button>

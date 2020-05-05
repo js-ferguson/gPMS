@@ -20,8 +20,21 @@
     <div class="row clinic">
         {% for ob in clinic %}
         <div class="col-sm-12">
-            <h2>{{ ob.name }}</h2>
-            <hr/>
+            <h2 class="col-sm-6" style="float: left">{{ ob.name }}</h2>
+            <div class="social-row col-sm-3" style="float: right">
+                {% if ob.facebook %}
+                <a href="{{ ob.facebook }}"><span class="social-span"><i class="fa fa-facebook-square fa-3x"></i></span></a>
+                {% endif %}
+                {% if ob.instagram %}
+                <a href="{{ ob.instagram }}"><span class="social-span"><i class="fa fa-instagram fa-3x"></i></span></a>
+                {% endif %}
+                {% if ob.twitter %}
+                <a href="{{ ob.twitter }}"><span class="social-span"><i class="fa fa-twitter-square fa-3x"></i></span></a>
+                {% endif %}
+                {% if ob.linkedin %}
+                <a href="{{ ob.linkedin }}"><span class="social-span"><i class="fa fa-linkedin-square fa-3x"></i></span></a>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
         <div class="col-sm-12 col-md-6 listing-frame">

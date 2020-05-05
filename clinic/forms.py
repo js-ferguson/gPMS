@@ -32,6 +32,10 @@ class RegisterClinicForm(forms.ModelForm):
             'phone',
             'description',
             'web',
+            'facebook',
+            'instagram',
+            'twitter',
+            'linkedin',
             'street',
             'city',
         )
