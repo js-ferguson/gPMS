@@ -17,7 +17,7 @@ from payments.models import Customer, Subscription
 from payments.views import get_subscription
 
 from .forms import (ModsUpdateForm, ProfileForm, ProfileUpdateForm,
-                    UserUpdateForm)
+                    UserProfileForm, UserUpdateForm)
 from .models import Modalities
 
 User = get_user_model()
@@ -175,6 +175,11 @@ def user_profile(request):
     except User.DoesNotExist:
         raise Http404("This user does not exist")
 
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        raise Http404("This clinic does not exist")
+
     # Redirect practitioners to profile
     if user.is_practitioner:
         return redirect(reverse('profile'))
@@ -183,10 +188,13 @@ def user_profile(request):
 
     if request.method == "POST":
         form = UserUpdateForm(request.POST)
+        city_form = UserProfileForm(request.POST)
         user.email = request.POST['email']
         user.first_name = request.POST['first_name']
         user.last_name = request.POST['last_name']
+        profile.city = request.POST['city']
         user.save()
+        profile.save()
 
         return redirect(reverse('user_profile'))
     else:
@@ -209,7 +217,10 @@ def user_profile(request):
             'email': user.email,
         }
 
+        initial_profile = {'city': user.profile.city}
+
         form = UserUpdateForm(initial=initial)
+        city_form = UserProfileForm(initial=initial_profile)
         password_form = PasswordChangeForm(request.user)
 
         return render(
@@ -219,6 +230,7 @@ def user_profile(request):
                 'latlng': list_of_clinics,
                 'api_key': api_key,
                 'password_form': password_form,
+                'city_form': city_form
             })
 
 
