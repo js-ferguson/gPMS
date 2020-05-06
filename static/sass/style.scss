@@ -438,6 +438,37 @@ body {
     .sub-card {
         display: inline-block;
         width: 250px;
+        button {
+            background-color: $color-background;
+            color: $color-primary;
+        }
+        &:hover {
+            transform: scale(1.2);
+            background-color: $color-background;
+            button {
+                background-color: $color-background;
+                color: $color-primary;
+                &:hover {
+                    color: $color-background;
+                    background-color: $color-primary;
+                }
+            }
+
+        }
+    }
+}
+
+.payment {
+    button {
+        @include gpms-button;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 20px;
+    }
+    input {
+        border: 1px solid $color-primary;
+        padding: 5px;
+        border-radius: 5px;
     }
 }
 
@@ -445,4 +476,10 @@ body {
     display: inline-block;
     width: 70px;
     margin-top: 10px;
+}
+
+#card-element {
+    border: 1px solid $color-primary;
+    padding: 10px;
+    border-radius: 5px;
 }

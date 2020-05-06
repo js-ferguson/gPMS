@@ -26,25 +26,23 @@
                         <p>
                             {{ plan.price }}kr/{{ plan.duration }}<br/><small>{{ plan.description }}</small>
                         </p>
-                        <button id="select-button" class="btn btn-primary btn-lg" onclick="toggleSublist('{{ plan.plan_type }}')">This one!</button>
+                        <button id="select-button" class="btn btn-primary btn-lg" onclick="toggleSublist('{{ plan.plan_type }}')">Subscribe!</button>
                     </div>
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
-        {#</div>#}
-        <div class="wrapper col-md-12 mb-4">
-            <div id="display-selected-sub" class="is-hidden"><h4>Selected subscription: <span class="selected-sub"></span></h4></div>
-            <h4>Payment details: </h4>
         </div>
-        <div class="form-wrapper col-sm-12">
-            <form   method="POST" id="payment-form" action="/subscription/" >
+    <div class="row payment">
+       
+        <div class="form-wrapper col-sm-7" style="margin: 0 auto">
+            <form method="POST" id="payment-form" action="/subscription/">
                 {% csrf_token %}
                 <input type="hidden" name="token" />
                 <input id="sublist" type="hidden" name="sublist" value="monthly">
-                <div>
+                <div class="mb-3">
                     <label>
-                        <div class="card-label">Card</div>
+                        <div class="card-label"></div>
                         <div id="card-element" class="field"></div>
                         <div id="card-errors" role="alert"></div>
                     </label>
@@ -60,10 +58,6 @@
                         <label>
                             <span class="form-label">Address</span>
                             <input id="address-line1" name="address_line1" class="field" placeholder="{{ user.profile.street }}" />
-                        </label>
-                        <label>
-                            <span class="form-label">Address (cont.)</span>
-                            <input id="address-line2" name="address_line2" class="field" placeholder="" />
                         </label>
                     </div>
                 </div>
@@ -88,8 +82,9 @@
                 </div>
             </form>
         </div>
+
     </div>
-    </div>
+</div>
 {#</div>#}
 {% block body_js %}
 <script src="https://js.stripe.com/v3/"></script>

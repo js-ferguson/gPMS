@@ -99,6 +99,9 @@ def subscription(request):
                          "Create an account before you try to subscribe.")
         return redirect(reverse('index'))
 
+    if not user.is_practitioner:
+        return redirect(reverse('search'))
+
     if get_subscription(request):
         try:
             clinic = Clinic.objects.get(practitioner=request.user)
