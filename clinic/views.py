@@ -51,11 +51,6 @@ def register_clinic(request):
 
 def search(request):
 
-    # else:  # user = User.objects.get(user=request.user)
-    #     messages.warning(
-    #         request,
-    #         "Please consider signing up... It's free and you can leave comments!"
-    #     )
     search_result = []
     result = []
     is_search = False
@@ -65,12 +60,12 @@ def search(request):
                                      'description', 'street', 'city')
         qs = Clinic.objects.annotate(search=search_vector).filter(
             search=search_term).values()
-        # if qs:
+
         for i in qs:
             search_result.append(
                 Clinic.objects.get(
                     practitioner=i['practitioner_id']).get_clinic_details())
-            # else:
+
         mods_vector = SearchVector('mods__name')
 
         mqs = Profile.objects.annotate(search=mods_vector).filter(
@@ -78,10 +73,19 @@ def search(request):
         if mqs:
             for i in mqs:
                 result.append(i)
+        print(search_result)
+
+    def remove_inactive_clinics():
+        pass
 
     def find_clinics(result):
         r_array = []
         for i in result:
+
+            #get the clinics practitoner as user
+            #get the customer or user
+            #get the sub of customer
+            # if is_searchable
             r_array.append(
                 Clinic.objects.get(
                     practitioner=i['user_id']).get_clinic_details())
@@ -91,14 +95,18 @@ def search(request):
         seen_names = set()
         search_results = []
         for obj in search_result:
-            if obj['name'] not in seen_names:
-                search_results.append(obj)
-                seen_names.add(obj['name'])
+            if obj['is_searchable']:
+                if obj['name'] not in seen_names:
+                    search_results.append(obj)
+                    seen_names.add(obj['name'])
+                else:
+                    print(obj['name'])
 
         for obj in find_clinics_result:
-            if obj['name'] not in seen_names:
-                search_results.append(obj)
-                seen_names.add(obj['name'])
+            if obj['is_searchable']:
+                if obj['name'] not in seen_names:
+                    search_results.append(obj)
+                    seen_names.add(obj['name'])
         return search_results
 
     def get_coords(search_result):
@@ -217,6 +225,10 @@ def clinic_profile(request, clinic_id):
             # matches the page you are on before pre-filling the form.
             # Also... delete 'initial' from session when your done.
 
+    def is_searchable():
+        if clinic.is_searchable():
+            return
+
     return render(
         request, 'clinic_profile.html', {
             'clinic': clinic,
@@ -226,7 +238,8 @@ def clinic_profile(request, clinic_id):
             'reviews': clinic_reviews,
             'form': form,
             'edit': edit,
-            'user': request.user
+            'user': request.user,
+            'is_searchable': is_searchable,
         })
 
 

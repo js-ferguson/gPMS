@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+
+from payments.models import Customer, Subscription
 
 User = get_user_model()
 
@@ -26,7 +30,15 @@ class Clinic(models.Model):
     def save(self):
         super().save()
 
+    def is_searchable(self):
+        user = self.practitioner
+        customer = Customer.objects.get(user=user)
+        subscription = Subscription.objects.get(customer=customer)
+        if subscription.end_billing_period >= datetime.today().date():
+            return True
+
     def get_clinic_details(self):
+        is_searchable = self.is_searchable()
         from accounts.models import Profile
         phone = str(self.phone)
         name = self.practitioner.get_full_name()
@@ -45,7 +57,8 @@ class Clinic(models.Model):
             "mods": mods,
             "description": self.description,
             "street": self.street,
-            "city": self.city
+            "city": self.city,
+            "is_searchable": is_searchable,
         }
 
 

@@ -70,3 +70,11 @@ class Subscription(models.Model):  # Subscription
         subscription = stripe.Subscription.retrieve(
             self.stripe_subscription_id)
         return datetime.fromtimestamp(subscription.current_period_end)
+
+    # @property
+    # def is_searchable(self):
+    #     if self.end_billing_period >= datetime.today().date():
+    #         print(
+    #             f'{self.end_billing_period} is greater than {datetime.today().date()}'
+    #         )
+    #         return self

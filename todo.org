@@ -1,16 +1,22 @@
 
 GoannaPMS - Todo
 
-* TODO Fix user profiles so the look better and users can update their details including password update
 * TODO show visually which sub is selected by scaling the div and adding colour
+* TODO paginate search results
 * TODO Use more rows in my layouts...
-* TODO fix comments section weird indentation, disapearing titles, and more difinition between individual comments
-* TODO create some more space between the available therapies and contact info on the clinic page.
 * TODO responsive design
 * TODO fix form layout on payments page and apply boarder/button colours. 
-* TODO paginate search results
-* TODO restrict clinic view only to those with active sub
+* TODO Finish README
+* TODO remove unneeded files from repository
 
+* DONE fix comments section weird indentation, disapearing titles, and more difinition between individual comments
+  CLOSED: [2020-05-06 Wed 05:39]
+* DONE restrict search results to show only clinics with active sub
+  CLOSED: [2020-05-06 Wed 11:15]
+* DONE create some more space between the available therapies and contact info on the clinic page.
+  CLOSED: [2020-05-06 Wed 05:42]
+* DONE Fix user profiles so the look better and users can update their details including password update
+  CLOSED: [2020-05-06 Wed 05:38]
 * DONE Put contact details on prac profile into rows to make them more readable
   CLOSED: [2020-05-04 Mon 14:03]
   - also make the key a little faded compared to the value
@@ -110,10 +116,8 @@ GoannaPMS - Todo
   - this is half done. Search is now a function that can be called from anywhere
 
 * TODO Email password resets for the login screen
-* TODO Create unit tests for home/views.py
+* TODO Create unit tests for views
 * TODO create contacts page
-- and a method to add patients as being related to a specific practitioner.
 
            
-- Stuff for after assessment - 
  

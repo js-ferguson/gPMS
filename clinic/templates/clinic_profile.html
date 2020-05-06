@@ -19,6 +19,7 @@
 <div class="container">
     <div class="row clinic">
         {% for ob in clinic %}
+        {% if ob.is_searchable %}
         <div class="col-sm-12">
             <h2 class="col-sm-6" style="float: left">{{ ob.name }}</h2>
             <div class="social-row col-sm-3" style="float: right">
@@ -36,9 +37,15 @@
                 {% endif %}
             </div>
         </div>
+        {% else %}
+        <div>
+            <h4 class="ml-4">This clinic is not currently availble for viewing</h4>
+        </div>
+        {% endif %}
         {% endfor %}
         <div class="col-sm-12 col-md-6 listing-frame">
             {% for ob in clinic %}
+            {% if ob.is_searchable %}
             <div class="profile-card">
                 <p><span class="section-heading">About</span></p>
                 <p>{{ ob.description }}</p>
@@ -68,7 +75,10 @@
                 </table>
                 {% endif %}
             </div>
+            {% endif %}
             {% endfor %}
+            {% for ob in clinic %}
+            {% if ob.is_searchable %}
             <small>Click the map marker for directions!</small>
         </div>
         <!-- Button trigger modal -->
@@ -140,6 +150,8 @@
                     </fieldset>
                 </form>
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
