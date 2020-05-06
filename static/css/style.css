@@ -366,10 +366,46 @@ body {
   .sub-row .sub-card {
     display: inline-block;
     width: 250px; }
+    .sub-row .sub-card button {
+      background-color: #eee6f8;
+      color: #173a60; }
+    .sub-row .sub-card:hover {
+      transform: scale(1.2);
+      background-color: #eee6f8; }
+      .sub-row .sub-card:hover button {
+        background-color: #eee6f8;
+        color: #173a60; }
+        .sub-row .sub-card:hover button:hover {
+          color: #eee6f8;
+          background-color: #173a60; }
+
+.payment button {
+  background-color: #173a60;
+  border-color: #173a60;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px; }
+  .payment button:hover {
+    background-color: #eee6f8;
+    color: #173a60; }
+  .payment button a {
+    color: inherit; }
+    .payment button a:hover {
+      color: #173a60; }
+.payment input {
+  border: 1px solid #173a60;
+  padding: 5px;
+  border-radius: 5px; }
 
 .form-label {
   display: inline-block;
   width: 70px;
   margin-top: 10px; }
+
+#card-element {
+  border: 1px solid #173a60;
+  padding: 10px;
+  border-radius: 5px; }
 
 /*# sourceMappingURL=style.css.map */

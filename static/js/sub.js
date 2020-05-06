@@ -11,7 +11,8 @@ var style = {
         fontSize: '16px',
         '::placeholder': {
             color: '#aab7c4'
-        }
+        },
+        'border-color': '#aab7c4',
     },
     invalid: {
         color: '#fa755a',
