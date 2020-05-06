@@ -8,6 +8,8 @@ GoannaPMS - Todo
 * TODO fix form layout on payments page and apply boarder/button colours. 
 * TODO Finish README
 * TODO remove unneeded files from repository
+* TODO comment and clean code
+* TODO run validations and linting
 
 * DONE fix comments section weird indentation, disapearing titles, and more difinition between individual comments
   CLOSED: [2020-05-06 Wed 05:39]
@@ -106,6 +108,9 @@ GoannaPMS - Todo
    
 * DONE extend user model for practitioners
   CLOSED: [2020-01-19 Sun 12:09]
+  
+
+---------------------- for after assesment
 * TODO Create a notification system using messages/email to alert users about new reviews 
 * TODO start planning the scheduler
 1. The scheduler is the calendaring app.
