@@ -85,8 +85,10 @@ def create_sub(request, *args):
 
     sub, created = Subscription.objects.get_or_create(customer=customer)
     sub.stripe_subscription_id = subscription.id
-    sub.end_billing_period = subscription_end_date()
     sub.active = True
+    sub.save()
+
+    sub.end_billing_period = subscription_end_date()
     sub.save()
 
 
