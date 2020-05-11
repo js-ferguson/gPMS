@@ -71,6 +71,7 @@
     {% endfor %}
     </div>
     <div class="pagination">
+        {% if result %}
         <span class="step-links">
             {% if result.has_previous %}
             <a href="?page=1">&laquo; first</a>
@@ -81,11 +82,12 @@
                 Page {{ result.number }} of {{ result.paginator.num_pages }}.
             </span>
 
-            {% if has_next %}
+            {% if result.has_next %}
             <a href="?page={{ result.next_page_number }}">next</a>
             <a href="?page={{ result.paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </span>
+        {% endif %}
     </div>
     <!-- <ul class="pagination">
          {% if result.has_previous %}

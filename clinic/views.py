@@ -78,7 +78,6 @@ def search(request):
                     Clinic.objects.get(
                         practitioner=i['user_id']).get_clinic_details())
 
-        print(search_result)
         seen_names = set()
         set_results = []
         for obj in search_result:
@@ -105,11 +104,12 @@ def search(request):
         paginator = Paginator(search_result_list, 6)
         try:
             results = paginator.page(page)
-            print(results.has_other_pages())
+            # print(results.has_other_pages())
         except PageNotAnInteger:
             results = paginator.page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
+        print(list(results))
         return list(results)
 
     if request.method == 'POST':
@@ -135,15 +135,6 @@ def search(request):
                     user.profile.city
                 except Profile.DoesNotExist:
                     return redirect(reverse('create_profile'))
-                # and not user.profile.city:
-                # return redirect(reverse('create_profile'))
-
-            # if user has no profile:
-            # redirect to create_profile
-            # else if user has no sub:
-            # redirect to sub
-            # else if user has no clinic
-            # redirect to create_clinic
 
         else:
             print("Not authenticated")
