@@ -1,15 +1,24 @@
 .map-banner {
   width: 100%;
   margin: 0; }
+  @media (max-width: 576px) {
+    .map-banner {
+      height: 200px; } }
   .map-banner .map-frame {
     height: 300px;
     width: 100%;
     display: block;
     margin: 0;
     padding: 0; }
+    @media (max-width: 576px) {
+      .map-banner .map-frame {
+        height: 200px; } }
     .map-banner .map-frame #map {
       height: 300px;
       width: 100%; }
+      @media (max-width: 576px) {
+        .map-banner .map-frame #map {
+          height: 200px; } }
 
 body {
   background-color: #eee6f8;
@@ -43,15 +52,29 @@ body {
     padding-top: 50px;
     padding-bottom: 50px;
     background-color: white; }
+    @media (max-width: 576px) {
+      body .container {
+        border-radius: 0;
+        margin: 0; } }
 
 .landing-page {
-  width: 100%;
   padding: 0 25px 0 25px; }
+  @media (max-width: 576px) {
+    .landing-page {
+      margin: 0;
+      padding: 0; } }
   .landing-page .welcome {
-    width: 50%;
     padding: 0 10px 0 30px; }
+    @media (max-width: 576px) {
+      .landing-page .welcome {
+        padding: 0 10px 0 10px; }
+        .landing-page .welcome h1 {
+          font-size: 25px; } }
   .landing-page .form {
     padding: 0 30px 0 10px; }
+    @media (max-width: 576px) {
+      .landing-page .form {
+        padding: 15px; } }
     .landing-page .form input {
       border-color: #173a60; }
     .landing-page .form .checkbox {
@@ -72,6 +95,9 @@ body {
 
 .profile #user-profile {
   padding: 0 20px 0 35px; }
+  @media (max-width: 576px) {
+    .profile #user-profile {
+      padding: 0 15px 0 15px; } }
   .profile #user-profile #cancel-button {
     background-color: #173a60;
     border-color: #173a60;
@@ -87,6 +113,9 @@ body {
     margin-top: 55px; }
 .profile #clinic-profile {
   padding: 0 35px 0 20px; }
+  @media (max-width: 576px) {
+    .profile #clinic-profile {
+      margin-top: 25px; } }
   .profile #clinic-profile .mod-span {
     margin-left: 15px; }
   .profile #clinic-profile .social-span {
@@ -112,6 +141,9 @@ body {
     color: inherit; }
     .profile button a:hover {
       color: #173a60; }
+@media (max-width: 576px) {
+  .profile #edit-modalities-button {
+    margin-top: 25px; } }
 .profile .btn {
   background-color: #173a60;
   border-color: #173a60;
@@ -127,14 +159,11 @@ body {
   .profile .btn .btn-save {
     margin-bottom: 25px; }
 .profile #sub-update-form {
-  padding: 0; }
-.profile .location {
-  margin-top: 0; }
-.profile .profile-mods {
+  padding: 0;
   padding-left: 0; }
-  .profile .profile-mods .mod-list {
+  .profile #sub-update-form .mod-list {
     padding-left: 0; }
-  .profile .profile-mods .btn {
+  .profile #sub-update-form .btn {
     margin-top: 15px; }
 .profile #mod-list-form {
   display: none;
@@ -195,9 +224,17 @@ body {
   float: left; }
 .clinic .social-row {
   float: right; }
+  @media (max-width: 576px) {
+    .clinic .social-row {
+      float: none;
+      width: 210px;
+      margin: 0 auto; } }
   .clinic .social-row .social-span {
     display: inline-block;
     margin-left: 15px; }
+    @media (max-width: 576px) {
+      .clinic .social-row .social-span {
+        margin: 0; } }
 .clinic .section-heading {
   font-weight: 600;
   display: inline-block;
@@ -256,48 +293,57 @@ body {
   margin: 0;
   padding: 25px;
   margin-top: 20px; }
+  @media (max-width: 576px) {
+    .search {
+      padding: 0;
+      margin-top: 0; } }
   .search .no-result p {
     margin-bottom: 50px; }
-  .search .listing-frame {
-    width: 40%;
-    height: 100%;
-    display: inline-block; }
-    .search .listing-frame .card-content {
-      padding-left: 30px; }
-    .search .listing-frame hr {
-      margin: 0 10px 15px 0; }
-    .search .listing-frame .listing-card {
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 15px; }
-      .search .listing-frame .listing-card li {
-        list-style-position: inside; }
-      .search .listing-frame .listing-card p {
-        margin-top: 15px; }
-      .search .listing-frame .listing-card table {
-        color: #265f9e;
-        width: 50px; }
-    .search .listing-frame .profile-card {
-      background-color: #fafafa;
-      padding: 15px;
-      border-radius: 5px;
-      height: 100%; }
-      .search .listing-frame .profile-card h4 {
-        margin-top: 15px; }
-      .search .listing-frame .profile-card li {
-        list-style-position: inside; }
-  .search #listing-map {
+
+.listing-card {
+  padding: 0 15px 15px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  height: 250px;
+  background-color: #fafafa;
+  border-radius: 5px;
+  width: 48%; }
+  @media (max-width: 576px) {
+    .listing-card {
+      width: 100%; } }
+  .listing-card .clinic-title {
+    font-weight: 600; }
+  .listing-card li {
+    list-style-position: inside; }
+  .listing-card p {
+    margin-top: 15px; }
+
+.float-left {
+  margin-right: 4%; }
+
+.profile-card {
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 5px;
+  height: 100%; }
+  .profile-card h4 {
+    margin-top: 15px; }
+  .profile-card li {
+    list-style-position: inside; }
+
+#listing-map {
+  height: 500px;
+  width: 50%;
+  display: inline-block; }
+
+.map-frame {
+  height: 500px;
+  width: 50%;
+  display: inline-block;
+  float: right; }
+  .map-frame #map {
     height: 500px;
-    width: 50%;
-    display: inline-block; }
-  .search .map-frame {
-    height: 500px;
-    width: 50%;
-    display: inline-block;
-    float: right; }
-    .search .map-frame #map {
-      height: 500px;
-      width: 100%; }
+    width: 100%; }
 
 .btn {
   background-color: #173a60;
@@ -366,6 +412,9 @@ body {
   .sub-row .sub-card {
     display: inline-block;
     width: 250px; }
+    @media (max-width: 576px) {
+      .sub-row .sub-card {
+        width: 160px; } }
     .sub-row .sub-card button {
       background-color: #eee6f8;
       color: #173a60; }
@@ -379,6 +428,9 @@ body {
           color: #eee6f8;
           background-color: #173a60; }
 
+@media (max-width: 576px) {
+  .payment .form-wrapper #card-element {
+    width: 370px; } }
 .payment button {
   background-color: #173a60;
   border-color: #173a60;

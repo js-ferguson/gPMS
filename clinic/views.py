@@ -1,7 +1,10 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
@@ -51,20 +54,19 @@ def register_clinic(request):
 
 def search(request):
 
-    search_result = []
-    result = []
     is_search = False
 
     def search(search_term):
+        search_result = []
         search_vector = SearchVector('name', 'practitioner__first_name',
                                      'description', 'street', 'city')
         qs = Clinic.objects.annotate(search=search_vector).filter(
             search=search_term).values()
-
-        for i in qs:
-            search_result.append(
-                Clinic.objects.get(
-                    practitioner=i['practitioner_id']).get_clinic_details())
+        if qs:
+            for i in qs:
+                search_result.append(
+                    Clinic.objects.get(practitioner=i['practitioner_id']).
+                    get_clinic_details())
 
         mods_vector = SearchVector('mods__name')
 
@@ -72,69 +74,55 @@ def search(request):
             search=search_term).values()
         if mqs:
             for i in mqs:
-                result.append(i)
+                search_result.append(
+                    Clinic.objects.get(
+                        practitioner=i['user_id']).get_clinic_details())
+
         print(search_result)
-
-    def remove_inactive_clinics():
-        pass
-
-    def find_clinics(result):
-        r_array = []
-        for i in result:
-
-            #get the clinics practitoner as user
-            #get the customer or user
-            #get the sub of customer
-            # if is_searchable
-            r_array.append(
-                Clinic.objects.get(
-                    practitioner=i['user_id']).get_clinic_details())
-        return (r_array)
-
-    def colate_results(search_result, find_clinics_result):
         seen_names = set()
-        search_results = []
+        set_results = []
         for obj in search_result:
             if obj['is_searchable']:
                 if obj['name'] not in seen_names:
-                    search_results.append(obj)
+                    set_results.append(obj)
                     seen_names.add(obj['name'])
-                else:
-                    print(obj['name'])
+        return (set_results)
 
-        for obj in find_clinics_result:
-            if obj['is_searchable']:
-                if obj['name'] not in seen_names:
-                    search_results.append(obj)
-                    seen_names.add(obj['name'])
-        return search_results
+    coords = []
 
-    def get_coords(search_result):
-        coords = []
-        for i in search_result:
+    def paginate(search_term):
+        search_result_list = search(search_term)
+
+        for i in search_result_list:
             coords.append({
                 "lat": i['lat'],
                 "lng": i['lng'],
-                "url": f"clinic/{i['id']}"
+                "url": f"clinic/{i['id']}",
+                "name": i['name']
             })
-        return coords
+
+        page = request.GET.get('page', 1)
+        paginator = Paginator(search_result_list, 6)
+        try:
+            results = paginator.page(page)
+            print(results.has_other_pages())
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+        return list(results)
 
     if request.method == 'POST':
+        print("called me")
         is_search = True
         search_term = request.POST['search_term']
-        search(search_term)
 
         return render(
             request, 'clinic_listing.html', {
-                'api_key':
-                api_key,
-                'is_search':
-                is_search,
-                'result':
-                colate_results(search_result, find_clinics(result)),
-                'latlng':
-                get_coords(colate_results(search_result,
-                                          find_clinics(result))),
+                'api_key': api_key,
+                'is_search': is_search,
+                'result': paginate(search_term),
+                'latlng': coords,
             })
     else:
         if request.user.is_authenticated:
@@ -159,22 +147,15 @@ def search(request):
 
         else:
             print("Not authenticated")
-        search(user.profile.city)
         form = UserProfileForm()
     return render(
         request, 'clinic_listing.html', {
-            'api_key':
-            api_key,
-            'user':
-            user,
-            'form':
-            form,
-            'is_search':
-            is_search,
-            'result':
-            colate_results(search_result, find_clinics(result)),
-            'latlng':
-            get_coords(colate_results(search_result, find_clinics(result)))
+            'api_key': api_key,
+            'user': user,
+            'form': form,
+            'is_search': is_search,
+            'result': paginate(user.profile.city),
+            'latlng': coords,
         })
 
 

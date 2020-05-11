@@ -40,6 +40,39 @@
     display: inline-block;
     margin-top: 45px;
 }
+
+// ----------------- Media query mixins ------- //
+
+@mixin mobile {
+    @media (max-width: 576px) {
+        @content;
+    }
+}
+
+@mixin tablet-portrait {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin tablet-landscape {
+    @media (min-width: 992px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin big-desktop {
+    @media (min-width: 1800px) {
+        @content;
+    }
+}
+
 // ----------------- Colours ------------------ //
 
 $color-background: #eee6f8;
@@ -51,15 +84,24 @@ $color-primary-light: lighten($color-primary, 15%);
 // ----------------- Banner ------------------- //
 
 .map-banner {
+    @include mobile {
+        height: 200px;
+    }
     width: 100%;
     margin: 0;
     .map-frame {
+        @include mobile {
+            height: 200px;
+        }
         height: 300px;
         width: 100%;
         display: block;
         margin: 0;
         padding: 0;
         #map {
+            @include mobile {
+                height: 200px;
+            }
             height: 300px;
             width: 100%;
         }
@@ -99,6 +141,10 @@ body {
       background-color: $color-background;
   }
   .container {
+      @include mobile {
+          border-radius: 0;
+          margin: 0;
+      }
       color: $color-primary;
       box-shadow: 0 0 1px 2px rgba(0,0,0,0.2);
       border-radius: 4px;
@@ -113,13 +159,24 @@ body {
 // ----------------- Landing Page ------------- //
 
 .landing-page {
-    width: 100%;
+    @include mobile {
+        margin: 0;
+        padding: 0;
+    }
     padding: 0 25px 0 25px;
     .welcome {
-        width: 50%;
+        @include mobile {
+            padding: 0 10px 0 10px;
+            h1 {
+                font-size: 25px;
+            }
+        }
         padding: 0 10px 0 30px;
     }
     .form {
+        @include mobile {
+            padding: 15px;
+        }
         padding: 0 30px 0 10px;
         input {
             border-color: $color-primary
@@ -140,6 +197,9 @@ body {
 
 .profile {
     #user-profile {
+        @include mobile {
+            padding: 0 15px 0 15px;
+        }
         padding: 0 20px 0 35px;
         #cancel-button {
             @include gpms-button;
@@ -149,6 +209,9 @@ body {
         }
     }
     #clinic-profile {
+        @include mobile {
+            margin-top: 25px;
+        }
         padding: 0 35px 0 20px;
         .mod-span {
             margin-left: 15px;
@@ -170,6 +233,11 @@ body {
     button {
         @include gpms-button;
     }
+    #edit-modalities-button {
+        @include mobile {
+            margin-top: 25px;
+        }
+    }
     .btn {
         @include gpms-button;
         border-radius: 5px;
@@ -179,11 +247,6 @@ body {
     }
     #sub-update-form {
         padding: 0;
-    }
-    .location{
-        margin-top: 0;
-    }
-    .profile-mods {
         padding-left: 0;
         .mod-list {
             padding-left: 0;
@@ -243,7 +306,15 @@ body {
     }
     .social-row {
         float: right;
+        @include mobile {
+            float: none;
+            width: 210px;
+            margin: 0 auto;
+        }
         .social-span {
+            @include mobile {
+                margin: 0;
+            }
             display: inline-block;
             margin-left: 15px;
         }
@@ -300,6 +371,10 @@ body {
 // ----------------- Search ----------------- //
 
 .search {
+    @include mobile {
+        padding: 0;
+        margin-top: 0;
+    }
     margin: 0;
     padding: 25px;
     // height: 500px;
@@ -309,62 +384,61 @@ body {
             margin-bottom: 50px;
         }
     }
-    .listing-frame {
-        width: 40%;
-        height: 100%;
-        display: inline-block;
-        .card-content {
-            padding-left: 30px;
-        }
-        hr {
-            margin: 0 10px 15px 0;
-        }
-
-        .listing-card {
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            li {
-                //padding-left: 15px;
-                list-style-position: inside;
-            }
-            p {
-                margin-top: 15px;
-            }
-            table {
-                @include table-style;
-            }
-        }
-        .profile-card {
-            background-color: #fafafa;
-            padding: 15px;
-            border-radius: 5px;
-            height: 100%; 
-            h4 {
-                margin-top: 15px;
-            }
-            li {
-                list-style-position: inside;
-            }
-        }
+}
+.listing-card {
+    @include mobile {
+        width: 100%;
     }
+    padding: 0 15px 15px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    height: 250px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    width: 48%;
+    .clinic-title {
+        font-weight: 600;
+    }
+    li {
+        //padding-left: 15px;
+        list-style-position: inside;
+    }
+    p {
+        margin-top: 15px;
+    }
+}
+.float-left {
+    margin-right: 4%;
+}
+.profile-card {
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 5px;
+    height: 100%; 
+    h4 {
+        margin-top: 15px;
+    }
+    li {
+        list-style-position: inside;
+    }
+}
 
-    #listing-map {
+
+#listing-map {
+    height: 500px;
+    width: 50%;
+    display: inline-block;
+}
+.map-frame {
+    height: 500px;
+    width: 50%;
+    display: inline-block;
+    float: right;
+    #map {
         height: 500px;
-        width: 50%;
-        display: inline-block;
+        width: 100%;
     }
-    .map-frame {
-        height: 500px;
-        width: 50%;
-        display: inline-block;
-        float: right;
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-
-    }
+    
 }
 
 .btn {
@@ -429,6 +503,8 @@ body {
     width: 30em;
 }
 
+// ----------------- Subscriptions ------------------ //
+
 .sub-row {
     display: inline-block;
     width: 100%;
@@ -436,6 +512,9 @@ body {
     margin-bottom: 50px;
     text-align: center;
     .sub-card {
+        @include mobile {
+            width: 160px;
+        }
         display: inline-block;
         width: 250px;
         button {
@@ -453,12 +532,18 @@ body {
                     background-color: $color-primary;
                 }
             }
-
         }
     }
 }
 
 .payment {
+    .form-wrapper {
+        @include mobile {
+            #card-element {
+                width: 370px;
+            }
+        }
+    }
     button {
         @include gpms-button;
         border-radius: 5px;
