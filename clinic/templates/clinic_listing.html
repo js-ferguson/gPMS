@@ -23,8 +23,10 @@
             <h3>Your search did not return any results</h3>
             <p>Try searching a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name</p>
         </div>
-        {% endif %}
-        {% if not is_search %}
+    </div>
+    {% endif %}
+    {% if not is_search %}
+    <div class="row search">
         <div class="col-sm-12 col-md-6 listing-frame">
             <h3>
                 Clinics close to you
@@ -36,7 +38,7 @@
     </div>
     {% endif %}
     <div class="row search"> 
-        {% for clinic in result %}
+    {% for clinic in result %}
         <div class="listing-card {% if forloop.counter0|divisibleby:2 %}float-left{% else %}float-right{% endif %}">
             <div class="row">
                 <div class="col-sm-12">
@@ -66,8 +68,44 @@
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if result.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ result.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ result.number }} of {{ result.paginator.num_pages }}.
+            </span>
+
+            {% if has_next %}
+            <a href="?page={{ result.next_page_number }}">next</a>
+            <a href="?page={{ result.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <!-- <ul class="pagination">
+         {% if result.has_previous %}
+         <li><a href="?page={{ result.previous_page_number }}">&laquo;</a></li>
+         {% else %}
+         <li class="disabled"><span>&laquo;</span></li>
+         {% endif %}
+         {% for i in result.paginator.page_range %}
+         {% if result.number == i %}
+         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+         {% else %}
+         <li><a href="?page={{ i }}">{{ i }}</a></li>
+         {% endif %}
+         {% endfor %}
+         {% if result.has_next %}
+         <li><a href="?page={{ result.next_page_number }}">&raquo;</a></li>
+         {% else %}
+         <li class="disabled"><span>&raquo;</span></li>
+         {% endif %}
+         </ul> -->
 </div> 
     {% if user.is_authenticated  %}
     {% if not user.profile.city %}
@@ -105,24 +143,5 @@
 {% endif %}
 {% endif %}
 {% if result.has_other_pages %}
-<ul class="pagination">
-    {% if result.has_previous %}
-    <li><a href="?page={{ result.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-    <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in result.paginator.page_range %}
-    {% if result.number == i %}
-    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-    {% else %}
-    <li><a href="?page={{ i }}">{{ i }}</a></li>
-    {% endif %}
-    {% endfor %}
-    {% if result.has_next %}
-    <li><a href="?page={{ result.next_page_number }}">&raquo;</a></li>
-    {% else %}
-    <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-</ul>
 {% endif %}
 {% endblock %}
