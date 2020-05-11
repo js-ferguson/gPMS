@@ -17,48 +17,58 @@
 </div>
 
 <div class="container">
+    {% if not result %}
     <div class="row search">
-        {% if not result %}
         <div class="col-sm-12 no-result">
             <h3>Your search did not return any results</h3>
-        <p>Try searching a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name</p>
+            <p>Try searching a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name</p>
         </div>
         {% endif %}
+        {% if not is_search %}
         <div class="col-sm-12 col-md-6 listing-frame">
-            {% if not is_search %}
             <h3>
                 Clinics close to you
             </h3>
             <p>
                 You can also search for a therapy (e.g. Acupuncture), a clinic name, a street, city or suburb or even a therapists name
             </p> 
-            {% endif %}
-            {% for clinic in result %}
-            <div class=" row listing-card">
-                <div class="col-sm-10">
-                    <h4><a href="{% url 'clinic_profile' clinic_id=clinic.id %}">{{ clinic.name }}</a></h4>
-                    <hr/>
-                </div>
-                <div class="row card-content">
-                    <div class="col-sm-5">
-                        <p>{{ clinic.prac_name }}</p>
-                        {% for m in clinic.mods %}
-                        <li>{{ m }}</li>
-                        {% endfor %}
-                    </div>
-                    <div class="search-contact mt-4 col-sm-2">
-                        Phone:<br/>
-                        Address:<br/>
-                    </div>
-                    <div class="col-sm-5 mt-4">
-                        {{ clinic.phone }}<br/>
-                        {{ clinic.street }}, {{ clinic.city }}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
+    {% endif %}
+    <div class="row search"> 
+        {% for clinic in result %}
+        <div class="listing-card {% if forloop.counter0|divisibleby:2 %}float-left{% else %}float-right{% endif %}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><span class="clinic-title"><a href="{% url 'clinic_profile' clinic_id=clinic.id %}">{{ clinic.name }}</a></span></p>
+                </div>
+            </div>
+            <div class="row card-content">
+                <div class="col-sm-12">
+                    {% for m in clinic.mods %}
+                    <li>{{ m }}</li>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- <div row mt-3>
+                 <p>{{ clinic.prac_name }}</p> 
+                 </div> -->
+            <div class="row mt-3">
+                <div class="col-sm-4 col-md-4" style="width: 80px">
+                    Therapist:</br>
+                    Phone:<br/>
+                    Address:<br/>
+                </div>
+                <div class="col" style="float: right">
+                    {{ clinic.prac_name }}<br/>
+                    {{ clinic.phone }}<br/>
+                    {{ clinic.street }}, {{ clinic.city }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div> 
     {% if user.is_authenticated  %}
     {% if not user.profile.city %}
     <!-- Modal -->
@@ -74,11 +84,11 @@
                 <div class="modal-body">
                     To provide better search results, please enter your city!
                     <form method="post" action="{% url 'update_city' user_id=user.id %}" class="accountform">
-                    <fieldset class="form-group">
-                        {% csrf_token %}
-                        {{  form | as_bootstrap }}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </fieldset>
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                            {{  form | as_bootstrap }}
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </fieldset>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -87,12 +97,32 @@
             </div>
         </div>
     </div>
-</div>
 <script type="text/javascript">
     $(window).on('load',function(){
         $('#getCityModal').modal('show');
     });
 </script>
 {% endif %}
+{% endif %}
+{% if result.has_other_pages %}
+<ul class="pagination">
+    {% if result.has_previous %}
+    <li><a href="?page={{ result.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in result.paginator.page_range %}
+    {% if result.number == i %}
+    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+    {% else %}
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% if result.has_next %}
+    <li><a href="?page={{ result.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+</ul>
 {% endif %}
 {% endblock %}

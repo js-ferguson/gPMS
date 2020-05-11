@@ -1,7 +1,10 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
@@ -73,7 +76,6 @@ def search(request):
         if mqs:
             for i in mqs:
                 result.append(i)
-        print(search_result)
 
     def remove_inactive_clinics():
         pass
@@ -99,15 +101,13 @@ def search(request):
                 if obj['name'] not in seen_names:
                     search_results.append(obj)
                     seen_names.add(obj['name'])
-                else:
-                    print(obj['name'])
 
         for obj in find_clinics_result:
             if obj['is_searchable']:
                 if obj['name'] not in seen_names:
                     search_results.append(obj)
                     seen_names.add(obj['name'])
-        return search_results
+        return list(search_results)
 
     def get_coords(search_result):
         coords = []
@@ -118,6 +118,20 @@ def search(request):
                 "url": f"clinic/{i['id']}"
             })
         return coords
+
+    def paginate():
+        search_result_list = colate_results(search_result,
+                                            find_clinics(result))
+        page = request.GET.get('page', 1)
+        paginator = Paginator(search_result_list, 6)
+        try:
+            results = paginator.page(page)
+            print(results.has_other_pages())
+            return results
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
 
     if request.method == 'POST':
         is_search = True
@@ -131,7 +145,7 @@ def search(request):
                 'is_search':
                 is_search,
                 'result':
-                colate_results(search_result, find_clinics(result)),
+                paginate,
                 'latlng':
                 get_coords(colate_results(search_result,
                                           find_clinics(result))),
@@ -172,7 +186,7 @@ def search(request):
             'is_search':
             is_search,
             'result':
-            colate_results(search_result, find_clinics(result)),
+            paginate,
             'latlng':
             get_coords(colate_results(search_result, find_clinics(result)))
         })
