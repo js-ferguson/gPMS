@@ -55,7 +55,6 @@ def register_clinic(request):
 def search(request):
 
     search_result = []
-    result = []
     is_search = False
 
     def search(search_term):
@@ -75,25 +74,11 @@ def search(request):
             search=search_term).values()
         if mqs:
             for i in mqs:
-                result.append(i)
+                search_result.append(
+                    Clinic.objects.get(
+                        practitioner=i['user_id']).get_clinic_details())
 
-    def remove_inactive_clinics():
-        pass
-
-    def find_clinics(result):
-        r_array = []
-        for i in result:
-
-            #get the clinics practitoner as user
-            #get the customer or user
-            #get the sub of customer
-            # if is_searchable
-            r_array.append(
-                Clinic.objects.get(
-                    practitioner=i['user_id']).get_clinic_details())
-        return (r_array)
-
-    def colate_results(search_result, find_clinics_result):
+    def reduce_results(search_result):
         seen_names = set()
         search_results = []
         for obj in search_result:
@@ -101,13 +86,7 @@ def search(request):
                 if obj['name'] not in seen_names:
                     search_results.append(obj)
                     seen_names.add(obj['name'])
-
-        for obj in find_clinics_result:
-            if obj['is_searchable']:
-                if obj['name'] not in seen_names:
-                    search_results.append(obj)
-                    seen_names.add(obj['name'])
-        return list(search_results)
+        return (search_results)
 
     def get_coords(search_result):
         coords = []
@@ -120,14 +99,13 @@ def search(request):
         return coords
 
     def paginate():
-        search_result_list = colate_results(search_result,
-                                            find_clinics(result))
+        search_result_list = reduce_results(search_result)
         page = request.GET.get('page', 1)
         paginator = Paginator(search_result_list, 6)
         try:
             results = paginator.page(page)
             print(results.has_other_pages())
-            return results
+            return list(results)
         except PageNotAnInteger:
             results = paginator.page(1)
         except EmptyPage:
@@ -140,15 +118,10 @@ def search(request):
 
         return render(
             request, 'clinic_listing.html', {
-                'api_key':
-                api_key,
-                'is_search':
-                is_search,
-                'result':
-                paginate,
-                'latlng':
-                get_coords(colate_results(search_result,
-                                          find_clinics(result))),
+                'api_key': api_key,
+                'is_search': is_search,
+                'result': paginate,
+                'latlng': get_coords(reduce_results(search_result)),
             })
     else:
         if request.user.is_authenticated:
@@ -177,18 +150,12 @@ def search(request):
         form = UserProfileForm()
     return render(
         request, 'clinic_listing.html', {
-            'api_key':
-            api_key,
-            'user':
-            user,
-            'form':
-            form,
-            'is_search':
-            is_search,
-            'result':
-            paginate,
-            'latlng':
-            get_coords(colate_results(search_result, find_clinics(result)))
+            'api_key': api_key,
+            'user': user,
+            'form': form,
+            'is_search': is_search,
+            'result': paginate,
+            'latlng': get_coords(reduce_results(search_result))
         })
 
 
