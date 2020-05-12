@@ -8,6 +8,9 @@ User = get_user_model()
 
 
 class ReviewForm(forms.ModelForm):
+    '''
+    Form for users to submit clinic reviews.
+    '''
     class Meta:
         model = Reviews
         fields = (
@@ -25,6 +28,9 @@ class ReviewForm(forms.ModelForm):
 
 
 class RegisterClinicForm(forms.ModelForm):
+    '''
+    Form for practitioners to submit their clinic details during signup.
+    '''
     class Meta:
         model = Clinic
         fields = (

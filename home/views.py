@@ -11,13 +11,14 @@ from payments.models import Customer, Subscription
 
 User = get_user_model()
 
-# from accounts.models import Clinic
-
 api_key = settings.GOOGLE_MAPS_API_KEY
 clinics = Clinic.objects.all()
 
 
 def list_of_clinics():
+    '''
+    Return a dict containing clinic details.
+    '''
     c_list = []
     for clinic in clinics:
         if clinic.lat:
@@ -27,12 +28,13 @@ def list_of_clinics():
                 'name': clinic.name,
                 'url': "clinic/" + str(clinic.id)
             })
-    print(c_list)
     return c_list
 
 
 def index(request):
-
+    '''
+    Route for the landing/signup page.
+    '''
     if not request.user.is_anonymous and request.user.is_practitioner:
         try:
             Profile.objects.get(user=request.user)

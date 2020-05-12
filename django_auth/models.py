@@ -3,6 +3,9 @@ from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
+    '''
+    User manager for creation of users and superuser.
+    '''
     def create_user(self,
                     email,
                     password=None,
@@ -42,6 +45,9 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
+    '''
+    Model to save users using their email address as the username
+    '''
     email = models.EmailField(max_length=255, unique=True)
     password2 = models.CharField(max_length=128)
     first_name = models.CharField(max_length=50)

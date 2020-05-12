@@ -41,7 +41,6 @@ function placeMarkers(latlng) {
 function placeClinic(latlng) {
     map.setCenter({lat: latlng['lat'], lng: latlng['lng']});
     var obj = latlng;
-    console.log(obj['lat']);
     for (var key in obj) {
         var marker = new google.maps.Marker({
             position: obj,
@@ -81,7 +80,6 @@ function placeDraggable(latlng) {
         draggable: true,
         raiseOnDrag: true
     });
-    console.log(latlng.url);
     google.maps.event.addListener(marker, 'dragend', function(evt) {
         document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
 
@@ -92,7 +90,6 @@ function placeDraggable(latlng) {
             window.location.pathname = `profile/${evt.latLng.lat().toFixed(7)}/${evt.latLng.lng().toFixed(7)}/${latlng.clinic_id}`;
         };
         if ( !$('.btn-save').length ) {
-            console.log('nothing here');
             document.getElementById('save-loc').appendChild(saveButton);
         }
     });

@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render, reverse
 
-# from accounts.views import is_active
 from clinic.models import Clinic
 
 from .forms import MakePaymentForm
@@ -21,6 +20,9 @@ api_key = settings.GOOGLE_MAPS_API_KEY
 
 
 def get_customer(request):
+    '''
+    Helper function to get the customer model.
+    '''
     try:
         customer = Customer.objects.filter(user=request.user)
     except Customer.DoesNotExist:
@@ -32,6 +34,9 @@ def get_customer(request):
 
 
 def get_subscription(request):
+    '''
+    Helper function to get the customers subscription.
+    '''
     try:
         subscription = Subscription.objects.filter(
             customer=get_customer(request))
@@ -45,6 +50,9 @@ def get_subscription(request):
 
 
 def get_plan(request):
+    '''
+    helper function to get the subscription plan.
+    '''
     plan_type = request.session['selected_plan_type']
 
     try:
@@ -58,6 +66,9 @@ def get_plan(request):
 
 
 def create_sub(request, *args):
+    '''
+    Create the subscription in stripe and save it to the subscription model
+    '''
     token = args[0]
     customer = get_customer(request)
     selected_plan = get_plan(request)
@@ -94,6 +105,10 @@ def create_sub(request, *args):
 
 @login_required
 def subscription(request):
+    '''
+    Provides the route for the subscription page during signup
+    or when createing a new subscription after cancelling.
+    '''
     try:
         user = User.objects.get(email=request.user.email)
     except User.DoesNotExist:
@@ -107,15 +122,13 @@ def subscription(request):
     if get_subscription(request):
         try:
             clinic = Clinic.objects.get(practitioner=request.user)
-            print(clinic)
         except Clinic.DoesNotExist:
             return redirect(reverse('register_clinic'))
-
-    # if is_active(request) == "Active" and not clinic:
 
     plans = Plans.objects.all()
 
     if request.method == "POST":
+        # Create a stripe payment intent and confirm payment.
         token = request.POST['stripeToken']
         request.session['selected_plan_type'] = request.POST['sublist']
         create_sub(request, token)
@@ -135,7 +148,7 @@ def subscription(request):
         if request.POST['stripeToken']:
             messages.success(
                 request,
-                "Thank you for subscribing to gCMS. You can now register your clinic"
+                "Thank you for subscribing to gCLS. You can now register your clinic"
             )
             if user.complete_signup:
                 return redirect(reverse('profile'))
@@ -165,10 +178,12 @@ def subscription(request):
 
 @login_required
 def cancel_sub(request, user_id):
+    '''
+    route to post subscription cancellation.
+    '''
     subscription = get_subscription(request)
     subscription.active = False
     subscription.terminated_on = datetime.today()
-    # print(datetime.date())
     subscription.save()
 
     # cancel sub with stripe
