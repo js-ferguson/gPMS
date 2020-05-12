@@ -196,6 +196,9 @@ body {
 // ----------------- Profiles ---------------- //
 
 .profile {
+    legend {
+        width: 200px;
+    }
     #user-profile {
         @include mobile {
             padding: 0 15px 0 15px;

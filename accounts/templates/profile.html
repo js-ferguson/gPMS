@@ -14,15 +14,15 @@
 <div class="container">
     <div class="row profile">
         <div class="col-sm-12 col-md-6" id="user-profile">
-            <legend>User Profile</legend>
+            <legend class="float-left">User Profile</legend>
+            <button class="btn btn-primary float-right" onclick="editProfile()">Edit</button> 
             <hr>
             <p><span class="section-heading mt-3">{{ user.get_full_name }}</span></p>
-            <p>{{ user.email }}</p>
-            <p>{{ user.profile.phone }}</p>
-            <p>{{ user.profile.street }}, {{ user.profile.city }}</p>
+            {{ user.email }}<br/>
+            {{ user.profile.phone }}<br/>
+            {{ user.profile.street }}, {{ user.profile.city }}<br/>
             <p><span class="section-heading">Biography</span></p>
             <p>{{ user.profile.bio }}</p>
-            <button class="btn btn-primary" onclick="editProfile()">Edit</button> 
             <div class="sub-details">
                 <p><span class="section-heading">Subscription</span></p>
                 <p>If you cancel your subscription your clinic will still be shown in search results until the end of the current billing period</p>
@@ -120,15 +120,18 @@
         </div>
         <!-- End update user details form -->
         <div class="col-sm-12 col-md-6" id="clinic-profile">
-            <legend>Clinic Profile</legend>
+            <legend class="float-left">Clinic Profile</legend>
+            <button class=" btn btn-primary float-right" onclick="editClinic()">Edit</button>
             <hr>
             <p><span class="section-heading mt-3">{{ user.clinic.name }}</span></p>
+            {{ user.clinic.street }}, {{ user.clinic.city }}<br/>
             {% if user.clinic.web %}
-            <p>{{ user.clinic.street }}, {{ user.clinic.city }}</p>
-            <p>{{ user.clinic.web }}</p>
+            {{ user.clinic.web }}<br/>
             {% endif %}
-            <p>{{ user.clinic.phone }}</p>
-            <p>{{ user.clinic.email }}</p>
+            {{ user.clinic.phone }}<br/>
+            {% if user.clinic.email %}
+            {{ user.clinic.email }}<br/>
+            {% endif %}
             <p><span class="section-heading">Clinic Description</span></p>
             <p>{{ user.clinic.description }}</p>
             <div class="social">
@@ -149,7 +152,6 @@
                     {% endif %}
                 </div>
             </div>
-            <button class=" btn btn-primary mt-3" onclick="editClinic()">Edit</button>
             <p><span class="section-heading">Available Therapies</span></p>
             <div class="profile-mods">
                 <div class="mod-list">
@@ -166,7 +168,7 @@
                         </fieldset>
                     </form>
                 </div>
-                <button class="btn btn-primary" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
+                <button class="btn btn-primary mt-4" onclick="editMods()" id="edit-modalities-button">Edit Modalities</button>
             </div>
             <div class="location">
                 <p><span class="section-heading">Location</span></p>
