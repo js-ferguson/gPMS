@@ -177,7 +177,7 @@ quit out of python
 
 ### Configuring PostgreSQL
 
-gPMS uses PostgreSQL. Heroku provides a PostgreSQL plugin and I will detail how to add this to your Heroku deployment in the Deploy to Heroku section. It is also perfectly reasonable to install PostgreSQL on another service such as Digital Ocean, but I will not cover installation and configuration of a PostgreSQL server here.
+gCLS uses PostgreSQL. Heroku provides a PostgreSQL plugin and I will detail how to add this to your Heroku deployment in the Deploy to Heroku section. It is also perfectly reasonable to install PostgreSQL on another service such as Digital Ocean, but I will not cover installation and configuration of a PostgreSQL server here.
 
 ### Configuring Google Maps API
 
