@@ -200,6 +200,9 @@ body {
         @include mobile {
             padding: 0 15px 0 15px;
         }
+        hr {
+            margin-top: 52px;
+        }
         padding: 0 20px 0 35px;
         #cancel-button {
             @include gpms-button;
@@ -211,6 +214,9 @@ body {
     #clinic-profile {
         @include mobile {
             margin-top: 25px;
+        }
+        hr {
+            margin-top: 52px;
         }
         padding: 0 35px 0 20px;
         .mod-span {

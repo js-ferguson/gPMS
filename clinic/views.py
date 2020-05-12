@@ -85,12 +85,13 @@ def search(request):
                 if obj['name'] not in seen_names:
                     set_results.append(obj)
                     seen_names.add(obj['name'])
-        return (set_results)
+        return set_results
 
     coords = []
 
     def paginate(search_term):
         search_result_list = search(search_term)
+        print(search_result_list)
 
         for i in search_result_list:
             coords.append({
@@ -104,12 +105,12 @@ def search(request):
         paginator = Paginator(search_result_list, 6)
         try:
             results = paginator.page(page)
-            # print(results.has_other_pages())
         except PageNotAnInteger:
             results = paginator.page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
-        print(list(results))
+        print(results)
+
         return list(results)
 
     if request.method == 'POST':

@@ -98,6 +98,8 @@ body {
   @media (max-width: 576px) {
     .profile #user-profile {
       padding: 0 15px 0 15px; } }
+  .profile #user-profile hr {
+    margin-top: 52px; }
   .profile #user-profile #cancel-button {
     background-color: #173a60;
     border-color: #173a60;
@@ -116,6 +118,8 @@ body {
   @media (max-width: 576px) {
     .profile #clinic-profile {
       margin-top: 25px; } }
+  .profile #clinic-profile hr {
+    margin-top: 52px; }
   .profile #clinic-profile .mod-span {
     margin-left: 15px; }
   .profile #clinic-profile .social-span {
