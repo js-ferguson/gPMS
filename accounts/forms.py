@@ -61,4 +61,4 @@ class ProfileUpdateForm(ModelForm):
 
 
 class ModsUpdateForm(forms.Form):
-    mods = forms.CharField(label='Modalities', max_length=500)
+    mods = forms.CharField(label='Modalities', max_length=500, required=False)

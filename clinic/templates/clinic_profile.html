@@ -21,8 +21,8 @@
         {% for ob in clinic %}
         {% if ob.is_searchable %}
         <div class="col-sm-12">
-            <h2 class="col-sm-6" style="float: left">{{ ob.name }}</h2>
-            <div class="social-row col-sm-3" style="float: right">
+            <h2 class="col-sm-6 prac-name" style="float: left">{{ ob.name }}</h2>
+            <div class="social-row col-sm-3">
                 {% if ob.facebook %}
                 <a href="{{ ob.facebook }}"><span class="social-span"><i class="fa fa-facebook-square fa-3x"></i></span></a>
                 {% endif %}
