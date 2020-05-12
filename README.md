@@ -59,6 +59,8 @@ The finished project is somewhat different in design to the initial wireframes. 
 
 - Feature 10 - Users registering an account cannot wander away from the registration process. Doing so should return them to the registration page they tried to navigate away from.
 
+- Feature 11 - After signup, a regular user is directed to the search page. They are asked to enter a location to provide a default view of clinic that are nearby.
+
 
 ### Features Left to Implement
 
