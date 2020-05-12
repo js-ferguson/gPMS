@@ -5,15 +5,18 @@ from .forms import UserLoginForm
 
 
 def logout(request):
-    """Log the user out"""
+    '''
+    Log the user out
+    '''
     auth.logout(request)
     messages.success(request, "You have been logged out")
     return redirect(reverse('login'))
 
 
 def login(request):
-    """Provide a login page"""
-
+    '''
+    Provide a login page
+    '''
     if request.user.is_authenticated:
         return redirect(reverse('search'))
 

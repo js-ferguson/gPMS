@@ -1,10 +1,10 @@
 from django import forms
 
-from .models import Subscription
-
 
 class MakePaymentForm(forms.Form):
-
+    '''
+    Form to take payment for service subscription. 
+    '''
     MONTH_CHOICES = [(i, i) for i in range(1, 13)]
     YEAR_CHOICES = [(i, i) for i in range(2017, 2036)]
 
@@ -28,10 +28,3 @@ class MakePaymentForm(forms.Form):
                                     choices=YEAR_CHOICES,
                                     required=False)
     stripe_id = forms.CharField(widget=forms.HiddenInput)
-
-
-#class OrderForm(forms.ModelForm):
-#    class Meta:
-#        model = Subscription
-#        fields = ('full_name', 'phone_number', 'postcode', 'town_or_city',
-#                  'street_address1', 'street_address2')

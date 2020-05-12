@@ -1,23 +1,21 @@
 from django import forms
-from django.forms import ModelForm
 from django.contrib.auth import get_user_model
-
+from django.forms import ModelForm
 
 User = get_user_model()
 
 
 class SignUpForm(ModelForm):
-    """
+    '''
     Form to allow creating new users
-    """
+    '''
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password Confirmation',
                                 widget=forms.PasswordInput)
     first_name = forms.CharField(label='First Name', required=True)
     last_name = forms.CharField(label='Last Name', required=True)
     practitioner = forms.BooleanField(
-        label='Are you signing up as a practitioner?',
-        required=False)
+        label='Are you signing up as a practitioner?', required=False)
 
     class Meta:
         model = User

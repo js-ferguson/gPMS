@@ -1,5 +1,3 @@
-import json
-
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -22,6 +20,9 @@ api_key = settings.GOOGLE_MAPS_API_KEY
 
 @login_required
 def register_clinic(request):
+    '''
+    Route to save clinic details and geocode the clinics address.
+    '''
     form = RegisterClinicForm(request.POST)
     locator = GoogleV3(api_key=api_key)
     if request.method == 'POST':
@@ -53,10 +54,14 @@ def register_clinic(request):
 
 
 def search(request):
-
+    '''
+    Route for searching clinics
+    '''
     is_search = False
 
     def search(search_term):
+        # Takes a search term and uses PostgreSQL full-text search
+        # to return a list of dicts containing clinic details.
         search_result = []
         search_vector = SearchVector('name', 'practitioner__first_name',
                                      'description', 'street', 'city')
@@ -90,6 +95,7 @@ def search(request):
     coords = []
 
     def paginate(search_term):
+        # paginate the results of the search
         search_result_list = search(search_term)
 
         for i in search_result_list:
@@ -111,7 +117,6 @@ def search(request):
         return list(results)
 
     if request.method == 'POST':
-        print("called me")
         is_search = True
         search_term = request.POST['search_term']
 
@@ -124,7 +129,6 @@ def search(request):
             })
     else:
         if request.user.is_authenticated:
-            print("Authenticated")
             user = User.objects.get(email=request.user.email)
 
             # if user is authenticated but not finished registration:
@@ -134,8 +138,6 @@ def search(request):
                 except Profile.DoesNotExist:
                     return redirect(reverse('create_profile'))
 
-        else:
-            print("Not authenticated")
         form = UserProfileForm()
     return render(
         request, 'clinic_listing.html', {
@@ -150,7 +152,9 @@ def search(request):
 
 @login_required
 def clinic_profile(request, clinic_id):
-
+    '''
+    Provide a route to view the clinics public profile page.
+    '''
     clinic = Clinic.objects.filter(pk=clinic_id)
 
     if clinic.count() == 0:
@@ -189,12 +193,6 @@ def clinic_profile(request, clinic_id):
             edit = True
             form = ReviewForm(initial=request.session['initial'])
 
-            # This will populate the review form with the review to be edited
-            # on, and it populates on any page... Please set a session
-            # variable with the clinic_id to be edited and check that it
-            # matches the page you are on before pre-filling the form.
-            # Also... delete 'initial' from session when your done.
-
     def is_searchable():
         if clinic.is_searchable():
             return
@@ -215,6 +213,9 @@ def clinic_profile(request, clinic_id):
 
 @login_required
 def create_review(request, clinic_id):
+    '''
+    Provides a route for clinic reviews to be posted and saved.
+    '''
     form = ReviewForm(request.POST)
     if request.method == 'POST':
         if request.user.is_active:
@@ -236,6 +237,9 @@ def create_review(request, clinic_id):
 
 @login_required
 def edit_review(request, review_id):
+    '''
+    Provides a route to edit a review.
+    '''
     try:
         review = Reviews.objects.get(pk=review_id)
     except Reviews.DoesNotExist:
@@ -244,13 +248,12 @@ def edit_review(request, review_id):
     clinic_id = review.clinic.id
     title_data = review.title
     body_data = review.body
-    print(review.author)
 
     if request.method == 'POST' and review.author == request.user:
         review.title = request.POST['title']
         review.body = request.POST['body']
-        # review.author = request.user
         review.save()
+
         del request.session['initial']
         messages.success(request, f"Your review has been updated")
         return redirect('clinic_profile', clinic_id=clinic_id)
@@ -271,6 +274,9 @@ def edit_review(request, review_id):
 
 @login_required
 def delete_review(request, review_id):
+    '''
+    Provides a route for a review to be deleted by its author.
+    '''
     try:
         review = Reviews.objects.get(pk=review_id)
     except Reviews.DoesNotExist:
