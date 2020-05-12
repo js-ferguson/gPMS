@@ -94,7 +94,7 @@ There are many more features that I intend to implement. I would like to put the
 
 ## Technologies used
 
-This project is predominantly written Python, using the Django framework. There are also a number of django extensions and python packages used as well, which are detailed in the requirements.txt. Some of the more notable ones include; django-phonenumber-field which integrates with the django orm and keeps phone numbers in a consistant format. Geopy, which uses the google maps geocoding api to geocode clinic locations. Whitenoise which is used to cache static files. Underpinning the entire project is PostgreSQL, a relational database which both stores all the content on the site and provides full-text searching. 
+This project is predominantly written Python, using the Django framework. There are also a number of django extensions and python packages used as well, which are detailed in the requirements.txt. Some of the more notable ones include; django-phonenumber-field which integrates with the django orm and keeps phone numbers in a consistant format. Geopy, which uses the google maps geocoding api to geocode clinic locations. Whitenoise which is used to cache static files. Stripe, which provides an API for handling online payments. Underpinning the entire project is PostgreSQL, a relational database which both stores all the content on the site and provides full-text searching. 
 
 JavaScript was used to implement all maps functions and is also used to manipulate the DOM on profile pages to switch between the regular view and updating the users/clinics details.
 
@@ -114,11 +114,11 @@ The layout has been tested for responsive design across all the platforms and sc
 - Desktop Chrome on Windows, Linux and ChromeOS
 - Desktop Firefox on Windows and Linux
 
-### Validation and linting - Do validation
+### Validation and linting
 
-WC3 HTML validation is not passing due to Materialize.css using a deprecated media type. However, there are no flags for any of my own HTML
+W3C HTML is passing with no errors or warnings
 
-CSS Validation returns 31 errors and 782 warnings, all of which are in materialize.css and bootstrap.min.css. There was a single error in my own css, a stray comma. I fixed it.
+CSS Validation returns many many warning all related to bootstrap and font-awesome. There are 11 warnings in my CSS, all related to a mixin I use to style buttons throughout the site. The warning is: "Same color for background-color and border-color". Border-color needs to be specified in this case to overide the default styling of boostraps buttons.
 
 I am working in Emacs and PEP-8 linting occurs every time I save my work. I also ran it manually before submission with no errors.
 
