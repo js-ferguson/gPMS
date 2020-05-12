@@ -11,3 +11,7 @@ static/.sass-cache
 #*.png
 *.map
 *.pgsql
+architecture.html
+architecture.org
+todo.org
+data
