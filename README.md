@@ -19,20 +19,21 @@ The application will be used by two main groups. Clinic owners/practitioners tha
  
 ### Wireframes
 
-The finished project is somewhat different in design to the initial wireframes. Initially the project was inteded to be a full patient managemant system, providing patients with the ability to see available times at a clinic, and provide practitioners with a calendar/schedular to manage appointments as well as providing the ability to manage a patient contact list and case history. These features are still planned to be implimented in a future release.
+The finished project is somewhat different in function and scope to the initial plan shown in the wireframes. Initially the project was intended to be a full patient managemant system, providing patients with the ability to see available times at a clinic, and provide practitioners with a calendar/schedular to manage appointments as well as providing the ability to manage a patient contact list and case history. While these features are still planned to be implimented in a future release, the scope of the project was just too large for a milestone. The project was renamed gCLS - The goanna Clinic Listing Service and the scope reduced to providing a service for small clinic owner to list their clinic and the therapies they offer.
 
-![noFolio - Landing page](https://imgur.com/Ka8peKL.png)
+![gPMS - Patient Chart](https://imgur.com/B4gEn3X.png)
 
-![noFolio - Post view](https://imgur.com/nqYgq8U.png)
+![gPMS - Schedule Appointment](https://imgur.com/8RbgCwL.png)
 
-![noFolio - Create post](https://imgur.com/Nc30kk1.png)
-
+![gPMS - Appointment History](https://imgur.com/HY8h0ts.png)
 
 ### Screenshots
 
-![noFolio - Desktop Screenshot](https://imgur.com/ywANj0E.png)
+![gCLS - Sign up Page](https://imgur.com/i4f5cHI.png)
 
-![noFolio - Mobile Screenshot](https://imgur.com/xuPFsbe.jpg)
+![gCLS - Practitioner Profile](https://imgur.com/f0rTucJ.png)
+
+![gCLS - Search Page](https://imgur.com/e2o6ueN.png)
 
 ## Features
 
