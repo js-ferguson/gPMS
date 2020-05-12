@@ -48,7 +48,9 @@
             <div class="row card-content">
                 <div class="col-sm-12">
                     {% for m in clinic.mods %}
+                    {% if m %}
                     <li>{{ m }}</li>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
