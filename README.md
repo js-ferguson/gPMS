@@ -51,9 +51,13 @@ The finished project is somewhat different in design to the initial wireframes. 
 
 - Feature 6 - In the case that geopy gets the wrong coordinates, resulting in a map marker in the wrong location or if the clinic moves to a new premises, the coordinates can be updated by dragging the marker on the map to the new location and saving the change.
 
-- Feature 7 - All other personal and clinic details can be edited in the users/practitioners profile page. 
+- Feature 7 - Updating a clinics address in the practitioners profile geocodes the new address so the marker changes location to the new premises. 
 
-- Feature 8 - Clicking a map marker gives a different result depending on what page the user in on. On the landing page and search page, clicking a marker takes you to the clinics profile page, where the map displays only that clinic. Clicking a marker on the clinics profile page opens a new tab with directions from the current location to the clinic.
+- Feature 8 - All other personal and clinic details can be edited in the users/practitioners profile page. 
+
+- Feature 9 - Clicking a map marker gives a different result depending on what page the user in on. On the landing page and search page, clicking a marker takes you to the clinics profile page, where the map displays only that clinic. Clicking a marker on the clinics profile page opens a new tab with directions from the current location to the clinic.
+
+- Feature 10 - Users registering an account cannot wander away from the registration process. Doing so should return them to the registration page they tried to navigate away from.
 
 
 ### Features Left to Implement
@@ -94,7 +98,7 @@ JavaScript was used to implement all maps functions and is also used to manipula
 Bootstrap classes have been used to provide basic layout and responsive design and as with my previous projects I used SASS rather than vanilla CSS3.
 
 
-## Testing - Write more
+## Testing
 
 I have performed extensive testing to ensure the application operates as expected. I have also had quite a few people using the site and reporting bugs and inconsistencies. Testing was performed manually by using the sites features as different users. First as a visitor without and account, then as a registered user, and finally logged in as a practitioner.
 
@@ -174,7 +178,11 @@ gPMS uses PostgreSQL. Heroku provides a PostgreSQL plugin and I will detail how 
 
 ### Configuring Google Maps API
 
+For geocoding to function you will need to enable some Google Maps APIs in the Google Cloud Platform. Go to console.cloud.google.com and enable both the Maps JavaScript API and the Geocoding API. Take note of your key, you will need it for deployment.
+
 ### Configure stripe
+
+To enable practitioners to subscribe to the service, you need to create a stripe account and enter your API keys in the env.py file. If you are deploying to heroku, you will need to add these keys to your config vars, found under the application settings in the heroku dashboard. 
 
 
 ### Environment variables
@@ -243,6 +251,10 @@ DB_PASS "password"
 DB_USER "database owners username"
 
 DB_NAME "name of the database"
+
+STRIPE_PUBLISHABLE "your stripe pub key"
+
+STRIPE_SECRET "your stripe secret key"
 
 Now that you have entered your environment variables, you can either restart the app by clicking the "More" button in the top right and selecting "Restart all dynos" or you can just push the project again.
 

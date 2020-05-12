@@ -91,7 +91,6 @@ def search(request):
 
     def paginate(search_term):
         search_result_list = search(search_term)
-        print(search_result_list)
 
         for i in search_result_list:
             coords.append({
@@ -109,8 +108,6 @@ def search(request):
             results = paginator.page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
-        print(results)
-
         return list(results)
 
     if request.method == 'POST':

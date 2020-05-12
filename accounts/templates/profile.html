@@ -156,7 +156,11 @@
             <div class="profile-mods">
                 <div class="mod-list">
                     {% for mod in mods %}
+                    {% if mod.name %}
                     <i class="fa fa-star"></i><span class="mod-span">{{ mod.name }}</span><br/>
+                    {% else %}
+                    <p>You currently have no modalities registered to your clinic</p>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <div class="col-sm-12" id="mod-list-form">

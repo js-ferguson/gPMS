@@ -1,16 +1,18 @@
 
 GoannaPMS - Todo
 
-* TODO show visually which sub is selected by scaling the div and adding colour
 * TODO paginate search results
 * TODO Use more rows in my layouts...
 * TODO responsive design
-* TODO fix form layout on payments page and apply boarder/button colours. 
 * TODO Finish README
 * TODO remove unneeded files from repository
 * TODO comment and clean code
 * TODO run validations and linting
 
+* DONE show visually which sub is selected by scaling the div and adding colour
+  CLOSED: [2020-05-07 Thu 15:28]
+* DONE fix form layout on payments page and apply boarder/button colours. 
+  CLOSED: [2020-05-07 Thu 15:28]
 * DONE fix comments section weird indentation, disapearing titles, and more difinition between individual comments
   CLOSED: [2020-05-06 Wed 05:39]
 * DONE restrict search results to show only clinics with active sub
