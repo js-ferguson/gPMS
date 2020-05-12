@@ -2,8 +2,6 @@ from django.urls import path, re_path
 
 from . import views
 
-# from accounts import views as account_views
-
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
     re_path(
@@ -15,9 +13,6 @@ urlpatterns = [
     path('profile/update_user/<int:user_id>/',
          views.update_user,
          name='update_user'),
-    # path('profile/update_profile/<int:user_id>/',
-    #      views.update_profile,
-    #      name='update_profile'),
     path('profile/update_clinic/<int:user_id>/',
          views.update_clinic,
          name='update_clinic'),

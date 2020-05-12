@@ -56,6 +56,7 @@ def profile(request):
         return redirect(reverse('user_profile'))
 
     mods = user.profile.mods.all()
+
     latlng = {
         "lat": user.clinic.lat,
         "lng": user.clinic.lng,
@@ -116,6 +117,10 @@ def profile(request):
                 return "No Subscription"
 
     def allow_new_sub():
+        '''
+        Test if todays date has exceded the users subscription end date.
+        Determins whether a new subscription can be created.
+        '''
         today = datetime.now()
         end_date = subscription_end_date()
         if today >= end_date:
@@ -128,7 +133,6 @@ def profile(request):
             subscription = Subscription.objects.get(customer=customer)
             if subscription.active:
                 status = "Active"
-
         except Subscription.DoesNotExist:
             status = "No subscription"
 
@@ -241,7 +245,7 @@ def user_profile(request):
 @login_required
 def create_profile(request):
     """
-    Provides a profile creation form for the user to add personal i
+    Provides a profile creation form for the user to add personal
     details to their profile.
     """
     try:
@@ -286,10 +290,6 @@ def create_profile(request):
 
             add_modalities(mod_list)
 
-            # if user.is_practitioner:
-            # messages.success(request, f'Now register your clinic')
-            # return redirect(reverse('register_clinic'))
-
             if user.is_practitioner:
                 messages.success(request, f'Now set up your subscription')
                 return redirect(reverse('payments:subscription'))
@@ -306,6 +306,10 @@ def create_profile(request):
 
 @login_required
 def update_user(request, user_id):
+    '''
+    Provides a route to post updated user details and
+    saves them to the appropriate model
+    '''
     if request.method == 'POST':
         user = User.objects.get(pk=user_id)
 
@@ -325,6 +329,10 @@ def update_user(request, user_id):
 
 @login_required
 def update_city(request, user_id):
+    '''
+    Provides a route for a regular user to add a city to their profile
+    to provide a default list of clinics on the search page
+    '''
     profile = Profile.objects.get(user=user_id)
     profile.city = request.POST['city']
     profile.save()
@@ -333,15 +341,20 @@ def update_city(request, user_id):
 
 @login_required
 def update_mods(request, user_id):
+    '''
+    Provides a route to post an updated list of modalities from the
+    practitioners profile.
+    '''
     user = User.objects.get(pk=user_id)
     mod_list = []
     mod_string = request.POST['mods']
+
     for word in mod_string.split(", "):
         word.capitalize()
         mod_list.append(word)
 
     def save_modalities(mods):
-        # if the count of mod in mods does not equal count of count of user.profile.mods
+        # if the count of mod in mods does not equal count of user.profile.mods
         # create a list of mods to remove
         db_mods = list(user.profile.mods.all())
         list_of_db_mods = []
@@ -375,12 +388,18 @@ def update_mods(request, user_id):
 
 @login_required
 def update_clinic(request, user_id):
+    '''
+    Provides a route to post updated clinic details
+    from the practitioners profile. A change in the clinics address
+    results in the new address being geotagged.
+    '''
     locator = GoogleV3(api_key=api_key)
 
     try:
         clinic = Clinic.objects.get(practitioner=user_id)
     except Clinic.DoesNotExist:
         raise Http404("This clinic does not exist")
+
     clinic.name = request.POST['name']
     clinic.web = request.POST['web']
     clinic.phone = request.POST['phone']
@@ -394,6 +413,7 @@ def update_clinic(request, user_id):
 
     address = request.POST['street'] + " " + request.POST['city']
     coords = locator.geocode(address)
+
     clinic.lat = coords.latitude
     clinic.lng = coords.longitude
 
@@ -403,6 +423,9 @@ def update_clinic(request, user_id):
 
 @login_required
 def change_password(request):
+    '''
+    Provides a route to update password.
+    '''
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():

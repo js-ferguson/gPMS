@@ -11,7 +11,10 @@ stripe.api_key = settings.STRIPE_SECRET
 PLAN_CHOICES = (('monthly', 'Monthly'), ('yearly', 'Yearly'), ('free', 'Free'))
 
 
-class Plans(models.Model):  # Membership
+class Plans(models.Model):
+    '''
+    Model to save users stripe plan details.
+    '''
     slug = models.SlugField()
     stripe_plan_id = models.CharField(max_length=50)
     plan_type = models.CharField(choices=PLAN_CHOICES,
@@ -25,7 +28,10 @@ class Plans(models.Model):  # Membership
         return self.plan_type
 
 
-class Customer(models.Model):  # UserMembership
+class Customer(models.Model):
+    '''
+    Model to save users stripe customer details.
+    '''
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=100)
     sub = models.ForeignKey(Plans, on_delete=models.SET_NULL, null=True)
@@ -35,6 +41,10 @@ class Customer(models.Model):  # UserMembership
 
 
 def post_save_customer_create(sender, instance, created, *args, **kwargs):
+    '''
+    Use signals to automatically create a customer in
+    stripe when the Customer model is saved.
+    '''
     customer, created = Customer.objects.get_or_create(user=instance)
 
     if customer.stripe_customer_id is None or customer.stripe_customer_id == '':
@@ -48,7 +58,10 @@ def post_save_customer_create(sender, instance, created, *args, **kwargs):
 post_save.connect(post_save_customer_create, sender=User)
 
 
-class Subscription(models.Model):  # Subscription
+class Subscription(models.Model):
+    '''
+    Model to save the users stripe subscription details.
+    '''
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     stripe_subscription_id = models.CharField(max_length=50)
     active = models.BooleanField(default=False)
@@ -70,11 +83,3 @@ class Subscription(models.Model):  # Subscription
         subscription = stripe.Subscription.retrieve(
             self.stripe_subscription_id)
         return datetime.fromtimestamp(subscription.current_period_end)
-
-    # @property
-    # def is_searchable(self):
-    #     if self.end_billing_period >= datetime.today().date():
-    #         print(
-    #             f'{self.end_billing_period} is greater than {datetime.today().date()}'
-    #         )
-    #         return self

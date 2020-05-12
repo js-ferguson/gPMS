@@ -29,7 +29,6 @@ card.mount('#card-element');
 
 // Toggle the selected subscription
 function toggleSublist(sub) {
-    console.log(sub);
     const sublist = document.getElementById('sublist');
 
     sublist.setAttribute('value', sub);

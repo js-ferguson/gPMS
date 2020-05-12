@@ -10,6 +10,9 @@ User = get_user_model()
 
 
 class Clinic(models.Model):
+    '''
+    Model to save clinic details
+    '''
     practitioner = models.OneToOneField(User, on_delete=models.CASCADE)
     lat = models.FloatField(null=True, blank=True)
     lng = models.FloatField(null=True, blank=True)
@@ -31,6 +34,9 @@ class Clinic(models.Model):
         super().save()
 
     def is_searchable(self):
+        # Returns True if the users subscription is within the
+        # end_billing_period. Determins whether the clinic is
+        # displayed in search results.
         user = self.practitioner
         customer = Customer.objects.get(user=user)
         subscription = Subscription.objects.get(customer=customer)
@@ -38,8 +44,11 @@ class Clinic(models.Model):
             return True
 
     def get_clinic_details(self):
-        is_searchable = self.is_searchable()
+        # Returns a dict with all the clinics details including the modalities
+        # that are available.
         from accounts.models import Profile
+
+        is_searchable = self.is_searchable()
         phone = str(self.phone)
         name = self.practitioner.get_full_name()
         profile = Profile.objects.get(user=Clinic.objects.get(
@@ -63,6 +72,9 @@ class Clinic(models.Model):
 
 
 class Reviews(models.Model):
+    '''
+    Provides a model to save clinic reviews.
+    '''
     title = models.CharField(max_length=128)
     body = models.TextField(max_length=500)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
