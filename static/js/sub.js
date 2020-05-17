@@ -68,9 +68,9 @@ form.addEventListener('submit', function(event) {
 });
 
 var successElement = document.getElementById('display-selected-sub');
-document.querySelector('.wrapper').addEventListener('click', function() {
-    successElement.className = 'is-hidden';
-});
+//document.querySelector('.wrapper').addEventListener('click', function() {
+//    successElement.className = 'is-hidden';
+//});
 
 function stripeTokenHandler(token) {
     // Insert the token ID into the form so it gets submitted to the server
@@ -82,4 +82,16 @@ function stripeTokenHandler(token) {
     form.appendChild(hiddenInput);
     // Submit the form
     form.submit();
+}
+
+// Get all buttons with class="btn-lg" inside the container
+var btns = document.getElementsByClassName("btn-lg");
+
+// Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+    });
 }

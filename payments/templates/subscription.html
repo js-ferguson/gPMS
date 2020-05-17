@@ -2,12 +2,8 @@
 {% load static %}
 {% load bootstrap_tags %}
 {% block content %}
-{{ api_key|json_script:"api-key" }}
-{{ c_list|json_script:"latlng-data" }}
-{% block head_js %}
 
 
-{% endblock %}
 <div class="container">
     <div class="row subscription">
         <h1 class="col-sm-12" style="text-align: center">Choose your plan</h1>
@@ -47,7 +43,8 @@
                             <div id="card-errors" role="alert"></div>
                         </label>
                     </div>
-                    <div class="col-md-6">
+
+                    <div class="payment-details-wrapper">
                         <div>
                             <label>
                                 <span class="form-label">Name</span>
@@ -60,8 +57,6 @@
                                 <input id="address-line1" name="address_line1" class="field" placeholder="{{ user.profile.street }}" />
                             </label>
                         </div>
-                    </div>
-                    <div class="col-md-6"> 
                         <label>
                             <span class="form-label">City</span>
                             <input id="address-city" name="address_city" class="field" placeholder="{{ user.profile.city }}" />
@@ -74,8 +69,8 @@
                             <span class="form-label">Country</span>
                             <input id="address-country" name="address_country" class="field" placeholder="Sweden" />
                         </label>
+                        <button type="submit">Pay Now</button>
                     </div>
-                    <button type="submit">Pay Now</button>
                     <div class="outcome">
                         <div class="error"></div>
                         <div class="success"></div>

@@ -206,7 +206,7 @@ def clinic_profile(request, clinic_id):
         return redirect('index')
 
     form = ReviewForm()
-    clinic_reviews = Reviews.objects.filter(clinic=clinic_id)
+    clinic_reviews = Reviews.objects.filter(clinic=clinic_id).order_by('-id')
 
     # Test if clinic_id in session['initial'] matches the current clinic_id
     # if not, remove 'initial' from request.session
