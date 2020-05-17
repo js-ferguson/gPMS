@@ -14,27 +14,26 @@
     </div>
 </div>
 
-
 <div class="container">
-<div class="row landing-page align-items-center">
-    <div class="welcome col-sm-12 col-md-8">
-        <h1>Welcome to the gCLS clinic directory.</h1>
-        <p>Please register an account.</p>
-        <p>Registered users are able to leave reviews of clinics and browse the public listing of available clinics and services. It's Free!</p>
-        <p>If you own a clinic, please consider registering. Having your clinic listed costs just 10kr/month</p>
+    <div class="row landing-page align-items-center">
+        <div class="welcome col-sm-12 col-md-8">
+            <h1>Welcome to the gCLS clinic directory.</h1>
+            <p>Please register an account.</p>
+            <p>Registered users are able to leave reviews of clinics and browse the public listing of available clinics and services. It's Free!</p>
+            <p>If you own a clinic, please consider registering. Having your clinic listed costs just 10kr/month</p>
+        </div>
+        <div class="form col-sm-12 col-md-4">
+            <form method="POST" action="/index/">
+                <fieldset class="form-group">
+                    <legend>Sign up now!</legend>
+                    {% csrf_token %}
+                    {{ form | as_bootstrap }}
+                    <button type="submit" class="btn btn-primary">Create account</button>
+                    <p><small>Already have an account? <a href="{% url "login" %}">login here</a></small></p>
+                </fieldset>
+            </form>
+        </div>
     </div>
-    <div class="form col-sm-12 col-md-4">
-        <form method="POST" action="/index/">
-            <fieldset class="form-group">
-                <legend>Sign up now!</legend>
-                {% csrf_token %}
-                {{ form | as_bootstrap }}
-                <button type="submit" class="btn btn-primary">Create account</button>
-                <p><small>Already have an account? <a href="{% url "login" %}">login here</a></small></p>
-            </fieldset>
-        </form>
-    </div>
-</div>
 </div>
 {% endblock %}
 

@@ -38,11 +38,12 @@
     </div>
     {% endif %}
     <div class="row search"> 
-    {% for clinic in result %}
+        {% for clinic in result %}
+        {{ clinic }}
         <div class="listing-card {% if forloop.counter0|divisibleby:2 %}float-left{% else %}float-right{% endif %}">
             <div class="row">
                 <div class="col-sm-12">
-                    <p><span class="clinic-title"><a href="{% url 'clinic_profile' clinic_id=clinic.id %}">{{ clinic.name }}</a></span></p>
+                   <p><span class="clinic-title"><a href="#{#{% url 'clinic_profile' clinic_id=clinic.id %}#}">{{ clinic.name }}</a></span></p>
                 </div>
             </div>
             <div class="row card-content">
@@ -54,9 +55,6 @@
                     {% endfor %}
                 </div>
             </div>
-            <!-- <div row mt-3>
-                 <p>{{ clinic.prac_name }}</p> 
-                 </div> -->
             <div class="row mt-3">
                 <div class="col-sm-4 col-md-4" style="width: 80px">
                     Therapist:</br>
@@ -73,7 +71,6 @@
     {% endfor %}
     </div>
     <div class="pagination">
-        {% if result.has_next %}
         <span class="step-links">
             {% if result.has_previous %}
             <a href="?page=1">&laquo; first</a>
@@ -89,7 +86,6 @@
             <a href="?page={{ result.paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </span>
-        {% endif %}
     </div>
     <!-- <ul class="pagination">
          {% if result.has_previous %}
@@ -125,7 +121,7 @@
                 </div>
                 <div class="modal-body">
                     To provide better search results, please enter your city!
-                    <form method="post" action="{% url 'update_city' user_id=user.id %}" class="accountform">
+                    <!-- <form method="post" action="{% url 'update_city' user_id=user.id %}" class="accountform"> -->
                         <fieldset class="form-group">
                             {% csrf_token %}
                             {{  form | as_bootstrap }}

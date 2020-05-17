@@ -1,9 +1,14 @@
+import json
+from types import MethodType
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector
+from django.core import serializers
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import Http404
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from geopy.geocoders import GoogleV3
 
@@ -58,30 +63,46 @@ def search(request):
     Route for searching clinics
     '''
     is_search = False
+    page_info = None
 
     def search(search_term):
         # Takes a search term and uses PostgreSQL full-text search
         # to return a list of dicts containing clinic details.
         search_result = []
+        search_models = []  # A list of values in dicts, each
+        # representing a clinic
         search_vector = SearchVector('name', 'practitioner__first_name',
                                      'description', 'street', 'city')
+        mods_vector = SearchVector('mods__name')
+
         qs = Clinic.objects.annotate(search=search_vector).filter(
             search=search_term).values()
-        if qs:
-            for i in qs:
+        mqs = Profile.objects.annotate(search=mods_vector).filter(
+            search=search_term).values()
+
+        models = Clinic.objects.annotate(search=search_vector).filter(
+            search=search_term).order_by('name')
+
+        # print(models)
+
+        for i in qs:
+            try:
                 search_result.append(
                     Clinic.objects.get(practitioner=i['practitioner_id']).
                     get_clinic_details())
+            except Clinic.DoesNotExist:
+                return
 
-        mods_vector = SearchVector('mods__name')
-
-        mqs = Profile.objects.annotate(search=mods_vector).filter(
-            search=search_term).values()
-        if mqs:
-            for i in mqs:
+        for i in mqs:
+            try:
                 search_result.append(
                     Clinic.objects.get(
                         practitioner=i['user_id']).get_clinic_details())
+            except Clinic.DoesNotExist:
+                return
+
+        for i in models:
+            search_models.append(i)
 
         seen_names = set()
         set_results = []
@@ -90,31 +111,78 @@ def search(request):
                 if obj['name'] not in seen_names:
                     set_results.append(obj)
                     seen_names.add(obj['name'])
-        return set_results
+        print(set_results)
+        return [set_results, models, search_models]
+
+    # Try returning the search results without values to the paginator
+    # anything else needed, like coords can be extracted some other way
+    # perhaps in a function that specifically returns the values()
+
+    # Also... take the search funciton out of the route function.
 
     coords = []
 
     def paginate(search_term):
         # paginate the results of the search
-        search_result_list = search(search_term)
+        search_result_list = search(search_term)[0]
 
-        for i in search_result_list:
-            coords.append({
-                "lat": i['lat'],
-                "lng": i['lng'],
-                "url": f"clinic/{i['id']}",
-                "name": i['name']
-            })
+        #for i in search_result_list:
+        #    coords.append({
+        #        "lat": i['lat'],
+        #        "lng": i['lng'],
+        #        "url": f"clinic/{i['id']}",
+        #        "name": i['name']
+        #    })
 
-        page = request.GET.get('page', 1)
         paginator = Paginator(search_result_list, 6)
         try:
-            results = paginator.page(page)
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        try:
+            results = paginator.get_page(page)
         except PageNotAnInteger:
-            results = paginator.page(1)
+            results = paginator.get_page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
-        return list(results)
+
+        serializedpage = {}
+
+        def get_page_attr():
+
+            page_info = (
+                "end_index",
+                "has_next",
+                "has_other_pages",
+                "has_previous",
+                "next_page_number",
+                "number",
+                "start_index",
+            )
+
+            for attr in page_info:
+                v = getattr(results, attr)
+                if isinstance(v, MethodType):
+                    serializedpage[attr] = v()
+                elif isinstance(v, (str, int)):
+                    serializedpage[attr] = v
+                    print(serializedpage)
+                    return serializedpage
+
+        return [serializedpage, list(results)]
+
+    # python_serializer = serializers.get_serializer("python")()
+    # serializedpage["object_list"] = python_serializer.serialize(
+    #     results.object_list,
+    #     fields=("name", "description", "street", "city"))
+
+    # print(serializedpage)
+
+    # response = HttpResponse(mimetype="application/json")
+    # json.dumps(serializedpage, response, cls=DjangoJSONEncoder)
+    # print(response)
+    # return response
 
     if request.method == 'POST':
         is_search = True
@@ -124,7 +192,8 @@ def search(request):
             request, 'clinic_listing.html', {
                 'api_key': api_key,
                 'is_search': is_search,
-                'result': paginate(search_term),
+                'result': paginate(search_term)[1],
+                'page': paginate(search_term)[0],
                 'latlng': coords,
             })
     else:
