@@ -385,15 +385,28 @@ body {
         margin-top: 0;
     }
     margin: 0;
-    padding: 25px;
+    padding: 0 25px 25px 25px;
     // height: 500px;
-    margin-top: 20px;
     .no-result {
         p {
             margin-bottom: 50px;
         }
     }
+    .active {
+        background-color: $color-background;
+    }
 }
+
+.pagination {
+    li {
+        border: solid $color-primary 1px;
+        padding: 8px 15px 8px 15px;
+        &:hover {
+            background-color: $color-primary-light;
+        }
+    }
+}
+
 .listing-card {
     @include mobile {
         width: 100%;

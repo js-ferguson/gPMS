@@ -297,14 +297,21 @@ body {
 
 .search {
   margin: 0;
-  padding: 25px;
-  margin-top: 20px; }
+  padding: 0 25px 25px 25px; }
   @media (max-width: 576px) {
     .search {
       padding: 0;
       margin-top: 0; } }
   .search .no-result p {
     margin-bottom: 50px; }
+  .search .active {
+    background-color: #eee6f8; }
+
+.pagination li {
+  border: solid #173a60 1px;
+  padding: 8px 15px 8px 15px; }
+  .pagination li:hover {
+    background-color: #265f9e; }
 
 .listing-card {
   padding: 0 15px 15px 15px;

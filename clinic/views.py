@@ -1,3 +1,5 @@
+from types import MethodType
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -58,6 +60,8 @@ def search(request):
     Route for searching clinics
     '''
     is_search = False
+    coords = []
+    pagination_data = {}
 
     def search(search_term):
         # Takes a search term and uses PostgreSQL full-text search
@@ -67,21 +71,25 @@ def search(request):
                                      'description', 'street', 'city')
         qs = Clinic.objects.annotate(search=search_vector).filter(
             search=search_term).values()
-        if qs:
-            for i in qs:
+        for i in qs:
+            try:
                 search_result.append(
                     Clinic.objects.get(practitioner=i['practitioner_id']).
                     get_clinic_details())
+            except Clinic.DoesNotExist:
+                return
 
         mods_vector = SearchVector('mods__name')
 
         mqs = Profile.objects.annotate(search=mods_vector).filter(
             search=search_term).values()
-        if mqs:
-            for i in mqs:
+        for i in mqs:
+            try:
                 search_result.append(
                     Clinic.objects.get(
                         practitioner=i['user_id']).get_clinic_details())
+            except Clinic.DoesNotExist:
+                return
 
         seen_names = set()
         set_results = []
@@ -91,8 +99,6 @@ def search(request):
                     set_results.append(obj)
                     seen_names.add(obj['name'])
         return set_results
-
-    coords = []
 
     def paginate(search_term):
         # paginate the results of the search
@@ -107,24 +113,57 @@ def search(request):
             })
 
         page = request.GET.get('page', 1)
-        paginator = Paginator(search_result_list, 6)
+        paginator = Paginator(search_result_list, 2)
         try:
-            results = paginator.page(page)
+            results = paginator.get_page(page)
+            page_data(results, paginator)
         except PageNotAnInteger:
             results = paginator.page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
         return list(results)
 
+    def page_data(results, paginator):
+        pagination_data['num_pages'] = paginator.num_pages
+        pagination_data['page_range'] = paginator.page_range
+        if results.number > 1:
+            pagination_data['previous_page_num'] = (results.number - 1)
+        else:
+            pagination_data['previous_page_num'] = 1
+        print(pagination_data['previous_page_num'])
+
+        page_info = (
+            "end_index",
+            "has_next",
+            "has_other_pages",
+            "has_previous",
+            "next_page_number",
+            "number",
+            "start_index",
+        )
+
+        for attr in page_info:
+            v = getattr(results, attr)
+            if isinstance(v, MethodType):
+                pagination_data[attr] = v()
+            elif isinstance(v, (str, int)):
+                pagination_data[attr] = v
+                print(pagination_data)
+                return pagination_data
+
+        return
+
     if request.method == 'POST':
         is_search = True
         search_term = request.POST['search_term']
+        paginate(search_term)
 
         return render(
             request, 'clinic_listing.html', {
                 'api_key': api_key,
                 'is_search': is_search,
                 'result': paginate(search_term),
+                'page': pagination_data,
                 'latlng': coords,
             })
     else:
@@ -139,6 +178,7 @@ def search(request):
                     return redirect(reverse('create_profile'))
 
         form = UserProfileForm()
+
     return render(
         request, 'clinic_listing.html', {
             'api_key': api_key,
@@ -146,6 +186,7 @@ def search(request):
             'form': form,
             'is_search': is_search,
             'result': paginate(user.profile.city),
+            'page': pagination_data,
             'latlng': coords,
         })
 
