@@ -43,8 +43,6 @@
                 </button>
                 {% endif %}
 
-
-
                 <!-- Modal - Cancel subscription confirmation -->
                 <div class="modal fade" id="cancel-sub-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -137,18 +135,18 @@
             <div class="social">
                 <div class="col-sm-6" style="float: left">
                     {% if user.clinic.facebook %}
-                    <a href="{{ user.clinic.facebook }}"><i class="fa fa-facebook-square fa-2x"></i><div class="social-span">Facebook</div></a><br/>
+                    <a href="{{ user.clinic.facebook }}" target="_blank"><i class="fa fa-facebook-square fa-2x"></i><div class="social-span">Facebook</div></a><br/>
                     {% endif %}
                     {% if user.clinic.instagram %}
-                    <a href="{{ user.clinic.instagram }}"><i class="fa fa-instagram fa-2x"></i><div class="social-span">Instagram</div></a><br/>
+                    <a href="{{ user.clinic.instagram }}" target="_blank"><i class="fa fa-instagram fa-2x"></i><div class="social-span">Instagram</div></a><br/>
                     {% endif %}
                 </div>
                 <div class="col-sm-6" style="float: right">
                     {% if user.clinic.twitter %}
-                    <a href="{{ user.clinic.twitter }}"><i class="fa fa-twitter-square fa-2x"></i><div class="social-span">Twitter</div></a><br/>
+                    <a href="{{ user.clinic.twitter }}" target="_blank"><i class="fa fa-twitter-square fa-2x"></i><div class="social-span">Twitter</div></a><br/>
                     {% endif %}
                     {% if user.clinic.linkedin %}
-                    <a href="{{ user.clinic.linkedin }}"><i class="fa fa-linkedin-square fa-2x"></i><div class="social-span">Linkedin</div></a><br/>
+                    <a href="{{ user.clinic.linkedin }}" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i><div class="social-span">Linkedin</div></a><br/>
                     {% endif %}
                 </div>
             </div>
@@ -191,7 +189,6 @@
                     </fieldset>
                 </form>
             </div>
-        
         <form method="post" action="{% url 'create_profile' %}" class="accountform">
             <fieldset class="form-group">
             </fieldset>

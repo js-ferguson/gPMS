@@ -130,7 +130,6 @@ def search(request):
             pagination_data['previous_page_num'] = (results.number - 1)
         else:
             pagination_data['previous_page_num'] = 1
-        print(pagination_data['previous_page_num'])
 
         page_info = (
             "end_index",
@@ -148,9 +147,7 @@ def search(request):
                 pagination_data[attr] = v()
             elif isinstance(v, (str, int)):
                 pagination_data[attr] = v
-                print(pagination_data)
                 return pagination_data
-
         return
 
     if request.method == 'POST':
