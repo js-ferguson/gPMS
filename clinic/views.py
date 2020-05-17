@@ -113,7 +113,7 @@ def search(request):
             })
 
         page = request.GET.get('page', 1)
-        paginator = Paginator(search_result_list, 2)
+        paginator = Paginator(search_result_list, 6)
         try:
             results = paginator.get_page(page)
             page_data(results, paginator)
