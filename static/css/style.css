@@ -304,9 +304,9 @@ body {
       margin-top: 0; } }
   .search .no-result p {
     margin-bottom: 50px; }
-  .search .active {
-    background-color: #eee6f8; }
 
+.pagination .active {
+  background-color: #eee6f8; }
 .pagination li {
   border: solid #173a60 1px;
   padding: 8px 15px 8px 15px; }

@@ -73,25 +73,25 @@
         {% endfor %}
     </div>
     <div class="d-flex">
-            <ul class="pagination mx-auto">
-                {% if page.has_previous %}
-                <a href="?page={{ page.previous_page_number }}"><li>&laquo;</li></a>
-                {% else %}
-                <li class="disabled"><span>&laquo;</span></li>
-                {% endif %}
-                {% for i in page.page_range %}
-                {% if page.number == i %}
-                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                {% else %}
-                <a href="?page={{ i }}"><li>{{ i }}</li></a>
-                {% endif %}
-                {% endfor %}
-                {% if page.has_next %}
-                <a href="?page={{ page.next_page_number }}"><li>&raquo;</li></a>
-                {% else %}
-                <li class="disabled"><span>&raquo;</span></li>
-                {% endif %}
-            </ul>
+        <ul class="pagination mx-auto">
+            {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}"><li>&laquo;</li></a>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in page.page_range %}
+            {% if page.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+            <a href="?page={{ i }}"><li>{{ i }}</li></a>
+            {% endif %}
+            {% endfor %}
+            {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}"><li>&raquo;</li></a>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
     </div>
 </div> 
     {% if user.is_authenticated  %}

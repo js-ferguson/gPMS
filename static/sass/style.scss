@@ -392,12 +392,12 @@ body {
             margin-bottom: 50px;
         }
     }
-    .active {
-        background-color: $color-background;
-    }
 }
 
 .pagination {
+    .active {
+        background-color: $color-background;
+    }
     li {
         border: solid $color-primary 1px;
         padding: 8px 15px 8px 15px;
