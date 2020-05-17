@@ -416,10 +416,6 @@ body {
 .card-label {
   width: 30em; }
 
-.active {
-  color: #eee6f8;
-  background-color: #173a60; }
-
 .sub-row {
   display: inline-block;
   width: 100%;

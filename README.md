@@ -1,5 +1,9 @@
 # gCLS - Goanna Clinic Listing Service
 
+For assessment purposes
+admin@gpms.se
+M1lest0ne
+
 gCLS is a clinic listing service for small, ideally single practitioner health clinics.
 
 The application is intended to be used by a practitioner to register their clinic in a searchable format with good google maps integration to make it easier for prospective customers/patients to find their clinic. The project is designed to fit into a larger overall project named gPMS or Goanna Patient Management System. The scope of gPMS is overall too large for this assessment project, so some features have been left to be implemented in a future release.
