@@ -1,12 +1,17 @@
 
 function loadScript() {
-    const apiKey = JSON.parse(document.getElementById('api-key').textContent); 
-    var script = document.createElement('script');
-    latlng = JSON.parse(document.getElementById('latlng-data').textContent);
+    function isInPage(node) {
+        return (node === document.body) ? false : document.body.contains(node);
+    }
+    if (isInPage(document.getElementById("api-key"))) {
+        const apiKey = JSON.parse(document.getElementById('api-key').textContent); 
+        var script = document.createElement('script');
+        latlng = JSON.parse(document.getElementById('latlng-data').textContent);
 
-    script.type = 'text/javascript';
-    script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=mapSelector";
-    document.body.appendChild(script);
+        script.type = 'text/javascript';
+        script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=mapSelector";
+        document.body.appendChild(script);
+    }
 }
 
 var map;

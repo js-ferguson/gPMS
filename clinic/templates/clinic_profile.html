@@ -84,6 +84,32 @@
         <!-- Button trigger modal -->
 
         <div class="col-sm-12 col-md-6 review-frame">
+            <div class="review-form">
+                {% if edit %}
+                {% for r in reviews %}
+                {% if r.author == user %}
+                <form method="POST" action="{% url 'edit_review' review_id=r.id %}">
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <form method="POST" action="create_review/">
+                    {% endif %}
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {% for ob in clinic %}
+                        <h6>Leave a review</h6>
+                        {% endfor %}
+                        {{ form | as_bootstrap}}
+                        {% if edit %}
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        {% endif %}
+                    </fieldset>
+                </form>
+            </div>
+            {% endif %}
+
             <p><span class="section-heading">Reviews</span></p>
             {% if not reviews %}
             <p>There are no reviews yet.</p>
@@ -126,31 +152,6 @@
                 </div>
             </div>
             {% endfor %}
-            <div class="review-form">
-                {% if edit %}
-                {% for r in reviews %}
-                {% if r.author == user %}
-                <form method="POST" action="{% url 'edit_review' review_id=r.id %}">
-                {% endif %}
-                {% endfor %}
-                {% else %}
-                <form method="POST" action="create_review/">
-                    {% endif %}
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        {% for ob in clinic %}
-                        <h6>Leave a review</h6>
-                        {% endfor %}
-                        {{ form | as_bootstrap}}
-                        {% if edit %}
-                        <button type="submit" class="btn btn-primary">Update</button>
-                        {% else %}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        {% endif %}
-                    </fieldset>
-                </form>
-            </div>
-            {% endif %}
             {% endfor %}
         </div>
     </div>

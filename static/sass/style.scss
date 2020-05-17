@@ -445,7 +445,6 @@ body {
     }
 }
 
-
 #listing-map {
     height: 500px;
     width: 50%;
@@ -460,7 +459,6 @@ body {
         height: 500px;
         width: 100%;
     }
-    
 }
 
 .btn {
@@ -527,6 +525,10 @@ body {
 
 // ----------------- Subscriptions ------------------ //
 
+.active {
+    color: $color-background;
+    background-color: $color-primary;
+}
 .sub-row {
     display: inline-block;
     width: 100%;
@@ -558,6 +560,8 @@ body {
     }
 }
 
+// ------------------ Subscription Payments ---------------- //
+
 .payment {
     .form-wrapper {
         @include mobile {
@@ -578,6 +582,10 @@ body {
         border-radius: 5px;
     }
 }
+.payment-details-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
 
 .form-label {
     display: inline-block;
@@ -589,4 +597,16 @@ body {
     border: 1px solid $color-primary;
     padding: 10px;
     border-radius: 5px;
+}
+
+// ---------- Update Details --------------- //
+
+.create-profile {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.register-clinic {
+    width: 50%;
+    margin: 0 auto;
 }
