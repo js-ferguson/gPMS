@@ -39,7 +39,7 @@ snowballstemmer==2.0.0
 sqlparse==0.3.0
 stripe==2.44.0
 ujson==1.35
-urllib3==1.25.7
+urllib3==1.26.5
 whitenoise==5.0.1
 wrapt==1.11.2
 yapf==0.29.0
